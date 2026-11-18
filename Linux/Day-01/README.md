@@ -960,7 +960,7 @@ Perform the following tasks using the appropriate commands:
 <p align="right">
   <a href="./History.md">← History</a>
   &nbsp; | &nbsp;
-  <a href="../Day-02/">Day 02 →</a>
+  <a href="../Day-02/README.md">Day 02 →</a>
   &nbsp; | &nbsp;
   <a href="#top">Back to top ↑</a>
 </p>
