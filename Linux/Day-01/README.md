@@ -1,6 +1,12 @@
 
 <div id="top"></div>
 
+<p align="center">
+  <a href="https://github.com/mammaddrik/RootBound">
+    <img src="https://i.postimg.cc/qBxPZQM8/Root-Bound-Day-01.png" alt="RootBound-Day-01">
+  </a>
+</p>
+
 # Day 01 — Linux Fundamentals
 
 ## Table of Contents
