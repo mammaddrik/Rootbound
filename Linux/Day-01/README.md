@@ -102,6 +102,10 @@ pwd
 
 The command prints the absolute path of the directory in which the user is currently working.
 
+<p align="center">
+    <img src="https://i.postimg.cc/nz84vzjL/pwd.png" alt="pwd">
+</p>
+
 #### 2. `ls` — List Directory Contents
 
 The `ls` command lists files and directories within a specified directory. By default, it displays the contents of the current working directory.
