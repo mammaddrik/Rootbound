@@ -343,6 +343,10 @@ Wed Nov 18 12:30:00 UTC 2026
 
 The output depends on the system clock and configured timezone.
 
+<p align="center">
+    <img src="https://i.postimg.cc/zDHwX4Bx/date.png" alt="date">
+</p>
+
 Display the date in a custom format:
 
 ```bash
@@ -354,6 +358,10 @@ Example output:
 ```text
 2026-11-18
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/DzmJpb4g/fdate.png" alt="custom format date">
+</p>
 
 #### 7. `uname` — System Information
 
