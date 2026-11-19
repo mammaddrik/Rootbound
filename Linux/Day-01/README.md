@@ -313,6 +313,10 @@ user
 
 The output represents the username of the current effective user.
 
+<p align="center">
+    <img src="https://i.postimg.cc/VknXBtMb/whoami.png" alt="whoami">
+</p>
+
 #### 6. `date` — Display Date and Time
 
 The `date` command displays the current system date and time.
