@@ -205,6 +205,10 @@ cd Documents
 
 The command moves into the `Documents` directory, assuming it exists in the current location.
 
+<p align="center">
+    <img src="https://i.postimg.cc/h4NgWQzc/cd.png" alt="Change Directory">
+</p>
+
 **Additional Examples:**
 
 Move to the home directory:
@@ -213,11 +217,19 @@ Move to the home directory:
 cd
 ```
 
+<p align="center">
+    <img src="https://i.postimg.cc/7Ltd3jSC/hcd.png" alt="home directory">
+</p>
+
 Move to the parent directory:
 
 ```bash
 cd ..
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/qqs15F60/bcd.png" alt="parent directory">
+</p>
 
 Move to the root directory:
 
@@ -225,17 +237,29 @@ Move to the root directory:
 cd /
 ```
 
+<p align="center">
+    <img src="https://i.postimg.cc/zGBkCv7b/cdroot.png" alt="root directory">
+</p>
+
 Move to a specific absolute path:
 
 ```bash
 cd /home/user/Documents
 ```
 
+<p align="center">
+    <img src="https://i.postimg.cc/tJBxJdL2/cdpath.png" alt="specific absolute path">
+</p>
+
 Move to the previous working directory:
 
 ```bash
 cd -
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/vBqY6PZ3/cdpwd.png" alt="previous working directory">
+</p>
 
 #### 4. `clear` — Clear Terminal
 
