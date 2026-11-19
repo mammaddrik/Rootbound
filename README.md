@@ -1,20 +1,20 @@
 <div id="top"></div>
 
 <p align="center">
-  <a href="https://github.com/mammaddrik/RootBound">
-    <img src="https://i.postimg.cc/pTwW14cS/Logo.png" alt="RootBound logo">
+  <a href="https://github.com/mammaddrik/Rootbound">
+    <img src="https://i.postimg.cc/pTwW14cS/Logo.png" alt="Rootbound logo">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/mammaddrik/RootBound">
-    <img src="https://img.shields.io/github/stars/mammaddrik/RootBound?style=for-the-badge&color=181818&labelColor=000000&logo=github&logoColor=white" alt="GitHub Stars">
+  <a href="https://github.com/mammaddrik/Rootbound">
+    <img src="https://img.shields.io/github/stars/mammaddrik/Rootbound?style=for-the-badge&color=181818&labelColor=000000&logo=github&logoColor=white" alt="GitHub Stars">
   </a>
-  <a href="https://github.com/mammaddrik/RootBound/forks">
-    <img src="https://img.shields.io/github/forks/mammaddrik/RootBound?style=for-the-badge&color=181818&labelColor=000000&logo=github&logoColor=white" alt="GitHub Forks">
+  <a href="https://github.com/mammaddrik/Rootbound/forks">
+    <img src="https://img.shields.io/github/forks/mammaddrik/Rootbound?style=for-the-badge&color=181818&labelColor=000000&logo=github&logoColor=white" alt="GitHub Forks">
   </a>
-  <a href="https://hits.sh/github.com/mammaddrik/RootBound/">
-    <img src="https://hits.sh/github.com/mammaddrik/RootBound.svg?style=for-the-badge&label=Views&color=181818&labelColor=000000" alt="Repository Views">
+  <a href="https://hits.sh/github.com/mammaddrik/Rootbound/">
+    <img src="https://hits.sh/github.com/mammaddrik/Rootbound.svg?style=for-the-badge&label=Views&color=181818&labelColor=000000" alt="Repository Views">
   </a>
 </p>
 
@@ -36,13 +36,13 @@
     </a>
 </p>
 
-# RootBound
+# Rootbound
 
 A personal learning journal documenting daily studies, technical explorations, programming concepts, and the gradual development of practical knowledge.
 
 ## About
 
-RootBound is a growing collection of learning notes, technical explanations, and documented discoveries. It serves as a record of the subjects studied, the concepts explored, and the knowledge acquired along the way.
+Rootbound is a growing collection of learning notes, technical explanations, and documented discoveries. It serves as a record of the subjects studied, the concepts explored, and the knowledge acquired along the way.
 
 Each entry reflects a particular stage of learning, preserving both the details of individual topics and the connections between them.
 
@@ -54,7 +54,7 @@ Each entry reflects a particular stage of learning, preserving both the details 
 
 ## License
 
-RootBound is licensed under the [MIT License](https://github.com/mammaddrik/RootBound/blob/main/LICENSE).
+Rootbound is licensed under the [MIT License](https://github.com/mammaddrik/Rootbound/blob/main/LICENSE).
 
 <p align="right">
   <a href="#top">Back to top ↑</a>
