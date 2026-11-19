@@ -279,6 +279,14 @@ clear
 
 After execution, the terminal screen is cleared, providing a clean workspace for further commands.
 
+<p align="center">
+    <img src="https://i.postimg.cc/VNtZt5sd/clear.png" alt="Before clear">
+</p>
+
+<p align="center">
+    <img src="https://i.postimg.cc/B6chhyKj/clear-1.png" alt="After clear">
+</p>
+
 #### 5. `whoami` — Current User
 
 The `whoami` command displays the username associated with the current effective user ID.
