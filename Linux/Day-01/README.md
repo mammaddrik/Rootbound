@@ -979,6 +979,33 @@ Perform the following tasks using the appropriate commands:
 5. Determine whether `cd` is a shell builtin or an external executable.
 6. Clear the terminal screen.
 
+
+### Exercise 6 — Command-Line Challenge
+
+Complete the following tasks using only the commands introduced in this section:
+
+1. Navigate to your home directory.
+2. Create a directory named `RootBound`.
+3. Inside it, create a directory named `Linux`.
+4. Inside `Linux`, create a directory named `Day-01`.
+5. Navigate to the `Day-01` directory.
+6. Create three files:
+   - `commands.txt`
+   - `notes.txt`
+   - `summary.txt`
+7. Create a backup of `notes.txt` named `notes_backup.txt`.
+8. Rename `summary.txt` to `day01-summary.txt`.
+9. Display all files, including hidden files, using a detailed listing.
+10. Display your current working directory.
+11. Display your username, hostname, and kernel information.
+12. Remove `notes_backup.txt`.
+13. Navigate back to your home directory.
+14. Verify that the directory structure still exists.
+
+
+**Goal:** Understand the basic Linux filesystem structure and become comfortable navigating directories, managing files, and using essential command-line tools.
+
+
 ---
 
 <p align="right">

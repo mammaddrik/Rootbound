@@ -42,6 +42,15 @@
       - [Vim Configuration and Appearance](#vim-configuration-and-appearance)
       - [Vim Keyboard Shortcuts](#vim-keyboard-shortcuts)
       - [Practical Example](#practical-example-1)
+  - [Practical Exercises](#practical-exercises)
+    - [Exercise 1 — Working with Nano](#exercise-1--working-with-nano)
+    - [Exercise 2 — Nano Editing and Shortcuts](#exercise-2--nano-editing-and-shortcuts)
+    - [Exercise 3 — Nano Configuration](#exercise-3--nano-configuration)
+    - [Exercise 4 — Working with Vim](#exercise-4--working-with-vim)
+    - [Exercise 5 — Vim Editing and Shortcuts](#exercise-5--vim-editing-and-shortcuts)
+    - [Exercise 6 — Vim Configuration](#exercise-6--vim-configuration)
+    - [Exercise 7 — Nano vs. Vim](#exercise-7--nano-vs-vim)
+    - [Exercise 8 — Final Challenge](#exercise-8--final-challenge)
 
 ---
 
@@ -1111,6 +1120,148 @@ The contents of the file should be displayed in the terminal.
 - [Vim Documentation](https://www.vim.org/docs.php)
 - [Vim Online Help](https://vimhelp.org/)
 - [Vim Tutorial](https://vimdoc.sourceforge.net/htmldoc/usr_toc.html)
+
+
+## Practical Exercises
+
+The following exercises are designed to help reinforce the concepts and commands introduced in this section. They provide hands-on experience with Nano and Vim, from basic file operations to text editing and configuration.
+
+### Exercise 1 — Working with Nano
+
+1. Open the terminal.
+2. Create a new file named `nano-practice.txt` using Nano.
+3. Write a short paragraph about Linux.
+4. Save the file using `Ctrl + O`.
+5. Exit Nano using `Ctrl + X`.
+6. Reopen the file and add another paragraph.
+7. Save the changes and exit.
+
+### Exercise 2 — Nano Editing and Shortcuts
+
+1. Open `nano-practice.txt`.
+2. Navigate through the text using the arrow keys.
+3. Select a portion of text using `Ctrl + 6`.
+4. Copy the selected text using `Alt + 6`.
+5. Cut a line using `Ctrl + K`.
+6. Paste the copied or cut text using `Ctrl + U`.
+7. Search for a word using `Ctrl + F`.
+8. Replace a word using `Ctrl + \`.
+9. Undo and redo a change using `Alt + U` and `Alt + E`.
+10. Save the file and exit Nano.
+
+### Exercise 3 — Nano Configuration
+
+1. Open the Nano configuration file:
+
+   ```bash
+   nano ~/.nanorc
+   ```
+
+2. Enable line numbers.
+3. Enable automatic indentation.
+4. Set the tab width to four spaces.
+5. Enable mouse support.
+6. Save the configuration and restart Nano.
+7. Open a text file and verify that the settings are active.
+
+### Exercise 4 — Working with Vim
+
+1. Create a new file named `vim-practice.txt` using Vim.
+2. Enter Insert Mode.
+3. Write a short paragraph about Linux.
+4. Return to Normal Mode using `Esc`.
+5. Navigate through the text using `h`, `j`, `k`, and `l`.
+6. Save the file using `:w`.
+7. Exit Vim using `:q`.
+8. Reopen the file and verify its contents.
+
+### Exercise 5 — Vim Editing and Shortcuts
+
+1. Open `vim-practice.txt`.
+2. Enter Insert Mode and add another paragraph.
+3. Return to Normal Mode.
+4. Copy a line using `yy`.
+5. Paste the copied line using `p`.
+6. Delete a line using `dd`.
+7. Undo the last operation using `u`.
+8. Redo the operation using `Ctrl + R`.
+9. Search for a word using `/pattern`.
+10. Replace a word throughout the file using:
+
+    ```vim
+    :%s/old/new/g
+    ```
+
+11. Save the changes and exit Vim.
+
+### Exercise 6 — Vim Configuration
+
+1. Open the Vim configuration file:
+
+   ```bash
+   vim ~/.vimrc
+   ```
+
+2. Enable absolute line numbers.
+3. Enable relative line numbers.
+4. Enable syntax highlighting.
+5. Set automatic indentation.
+6. Set the tab width to four spaces.
+7. Enable search highlighting.
+8. Save the configuration.
+9. Reload the configuration using:
+
+   ```vim
+   :source ~/.vimrc
+   ```
+
+10. Open a programming file and verify the settings.
+
+### Exercise 7 — Nano vs. Vim
+
+Perform the following tasks using both Nano and Vim:
+
+1. Create a file named `editor-comparison.txt`.
+2. Write a short paragraph about your Linux learning journey.
+3. Save and exit the editor.
+4. Reopen the file.
+5. Add a new sentence.
+6. Search for a specific word.
+7. Replace that word with another word.
+8. Copy and paste a line.
+9. Delete a line.
+10. Save the final changes.
+
+After completing the exercise, compare both editors based on:
+
+- Ease of use.
+- Keyboard shortcuts.
+- Navigation.
+- Text editing capabilities.
+- Configuration options.
+- Overall user experience.
+
+### Exercise 8 — Final Challenge
+
+Complete the following tasks without referring to the previous examples:
+
+1. Create a file named `linux-summary.txt` using Nano.
+2. Write a short summary of what you learned on Day 01.
+3. Save the file and exit Nano.
+4. Open the same file using Vim.
+5. Add a new section titled `Day 02 — Text Editors`.
+6. Add a short explanation of Nano and Vim.
+7. Copy one paragraph and paste it at the end of the file.
+8. Replace one word throughout the document.
+9. Save the changes and exit Vim.
+10. Display the final contents using:
+
+    ```bash
+    cat linux-summary.txt
+    ```
+
+**Goal:** Complete the entire workflow using both text editors and become comfortable with their basic editing operations.
+
 
 ---
 
