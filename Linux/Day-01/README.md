@@ -103,7 +103,7 @@ pwd
 The command prints the absolute path of the directory in which the user is currently working.
 
 <p align="center">
-    <img src="https://i.postimg.cc/nz84vzjL/pwd.png" alt="pwd">
+    <img src="https://i.postimg.cc/43dQQqxs/pwd.png" alt="pwd">
 </p>
 
 #### 2. `ls` — List Directory Contents
@@ -130,6 +130,10 @@ Desktop  Documents  Downloads  Music  Pictures  Videos
 
 The `ls` command displays visible files and directories. Hidden files are not included by default.
 
+<p align="center">
+    <img src="https://i.postimg.cc/RZqWsBwM/ls.png" alt="ls">
+</p>
+
 **Common Options:**
 
 | Option | Description |
@@ -147,11 +151,19 @@ Display detailed information:
 ls -l
 ```
 
+<p align="center">
+    <img src="https://i.postimg.cc/MG2z72DQ/ls-l.png" alt="Display detailed information">
+</p>
+
 Display hidden files:
 
 ```bash
 ls -a
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/DZNjGFQ3/ls-a.png" alt="hidden files">
+</p>
 
 Combine multiple options:
 
@@ -159,11 +171,19 @@ Combine multiple options:
 ls -lah
 ```
 
+<p align="center">
+    <img src="https://i.postimg.cc/25KMQ4rR/ls-lah.png" alt="multiple options">
+</p>
+
 List the contents of a specific directory:
 
 ```bash
 ls /home/user/Documents
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/MKLB8H6S/sd.png" alt="specific directory">
+</p>
 
 #### 3. `cd` — Change Directory
 
