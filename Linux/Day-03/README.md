@@ -26,6 +26,17 @@
       - [Common Command Path Errors](#common-command-path-errors)
       - [Useful Tips](#useful-tips)
     - [Environment Variables](#environment-variables)
+      - [Introduction](#introduction-1)
+      - [Understanding Variables in the Shell](#understanding-variables-in-the-shell)
+      - [Creating and Assigning Variables](#creating-and-assigning-variables)
+      - [Exporting Variables](#exporting-variables)
+      - [Viewing Environment Variables](#viewing-environment-variables)
+      - [Common Environment Variables](#common-environment-variables)
+      - [Removing Variables](#removing-variables)
+      - [Temporary and Permanent Environment Variables](#temporary-and-permanent-environment-variables)
+      - [Variable Expansion and Quoting](#variable-expansion-and-quoting)
+      - [Special Parameter: $?](#special-parameter-)
+      - [Useful Tips](#useful-tips-1)
     - [Command Help](#command-help)
     - [Redirection](#redirection)
     - [Superuser](#superuser)
@@ -447,6 +458,479 @@ ls -l ./script.sh
 
 
 ### Environment Variables
+
+#### Introduction
+
+Environment variables are dynamic values used by the operating system and running processes to store configuration information.
+
+They help programs and shell environments share information without requiring configuration values to be hardcoded into applications.
+
+Environment variables are commonly used to define:
+
+- User information.
+- Home directory locations.
+- Command search paths.
+- Default text editors.
+- Language and locale settings.
+- Temporary file locations.
+- Application configuration.
+
+For example, the `HOME` environment variable stores the path to the current user's home directory.
+
+To display its value:
+
+```bash
+echo "$HOME"
+```
+
+Example output:
+
+```text
+/home/user
+```
+
+Environment variables are especially useful when configuring applications, writing shell scripts, and managing system environments.
+
+#### Understanding Variables in the Shell
+
+A variable is a named value that can be stored and accessed during a shell session.
+
+In Linux, shell variables are commonly divided into two categories:
+
+**1. Shell Variables**
+
+Shell variables exist within the current shell session and are not automatically passed to child processes.
+
+Example:
+
+```bash
+username="LinuxUser"
+```
+
+Display the variable:
+
+```bash
+echo "$username"
+```
+
+Output:
+
+```text
+LinuxUser
+```
+
+**2. Environment Variables**
+
+Environment variables are variables that are exported to the environment of the current shell and passed to its child processes.
+
+Example:
+
+```bash
+export username="LinuxUser"
+```
+
+Display the variable:
+
+```bash
+echo "$username"
+```
+
+Output:
+
+```text
+LinuxUser
+```
+
+The main difference is that exported variables are inherited by child processes, while ordinary shell variables are not.
+
+#### Creating and Assigning Variables
+
+To create a shell variable, use the following syntax:
+
+```bash
+variable_name=value
+```
+
+Example:
+
+```bash
+name="Alice"
+age=25
+language="Linux"
+```
+
+To access a variable, place `$` before its name:
+
+```bash
+echo "$name"
+echo "$age"
+echo "$language"
+```
+
+Output:
+
+```text
+Alice
+25
+Linux
+```
+
+**Important Rules:**
+
+- Variable names are case-sensitive.
+- Variable names can contain letters, numbers, and underscores.
+- Variable names cannot begin with a number.
+- Do not use spaces around the assignment operator (`=`).
+- Use quotes when assigning values containing spaces or special characters.
+
+Correct:
+
+```bash
+username="Linux User"
+```
+
+Incorrect:
+
+```bash
+username = "Linux User"
+```
+
+#### Exporting Variables
+
+The `export` command converts a shell variable into an environment variable.
+
+Syntax:
+
+```bash
+export variable_name
+```
+
+You can also create and export a variable in one command:
+
+```bash
+export APP_NAME="RootBound"
+```
+
+To verify its value:
+
+```bash
+echo "$APP_NAME"
+```
+
+To inspect exported variables:
+
+```bash
+export -p
+```
+
+Exported variables are available to child processes launched from the current shell.
+
+For example:
+
+```bash
+export PROJECT="RootBound"
+bash -c 'echo "$PROJECT"'
+```
+
+Output:
+
+```text
+RootBound
+```
+
+The child Bash process inherits the exported variable from its parent shell.
+
+#### Viewing Environment Variables
+
+Linux provides several commands for inspecting environment variables.
+
+**1. printenv**
+
+Displays environment variables.
+
+```bash
+printenv
+```
+
+To display a specific variable:
+
+```bash
+printenv HOME
+printenv PATH
+printenv USER
+```
+
+If the requested variable is not defined in the environment, `printenv` produces no value.
+
+**2. env**
+
+Displays the environment of the current command execution context.
+
+```bash
+env
+```
+
+You can also temporarily define an environment variable for a single command:
+
+```bash
+env APP_MODE=development bash -c 'echo "$APP_MODE"'
+```
+
+Output:
+
+```text
+development
+```
+
+The variable is available to that command and its child processes, but it does not permanently change the current shell environment.
+
+**3. set**
+
+Displays shell variables, environment variables, shell functions, and other shell settings.
+
+```bash
+set
+```
+
+The output can be extensive because it includes more than environment variables.
+
+**4. echo**
+
+Displays the value of a specific variable.
+
+```bash
+echo "$HOME"
+echo "$USER"
+echo "$SHELL"
+```
+
+#### Common Environment Variables
+
+Linux provides several commonly used environment variables.
+
+| Variable | Description |
+|---|---|
+| `HOME` | Path to the current user's home directory. |
+| `USER` | Name of the current user, when set. |
+| `LOGNAME` | Login name associated with the session, when set. |
+| `SHELL` | Path to the user's configured login shell. |
+| `PATH` | Directories searched for executable commands. |
+| `PWD` | Current working directory maintained by the shell. |
+| `OLDPWD` | Previous working directory maintained by the shell. |
+| `TERM` | Terminal type information. |
+| `LANG` | Default locale setting. |
+| `EDITOR` | Preferred text editor used by some applications. |
+| `TMPDIR` | Preferred directory for temporary files, when configured. |
+
+To inspect several common variables:
+
+```bash
+echo "$HOME"
+echo "$USER"
+echo "$SHELL"
+echo "$PATH"
+echo "$PWD"
+echo "$LANG"
+```
+
+Note that some variables may be unset or have different values depending on the Linux distribution and shell configuration.
+
+#### Removing Variables
+
+The `unset` command removes a shell variable from the current shell.
+
+Syntax:
+
+```bash
+unset variable_name
+```
+
+Example:
+
+```bash
+export TEMP_NAME="Test"
+echo "$TEMP_NAME"
+```
+
+Remove it:
+
+```bash
+unset TEMP_NAME
+```
+
+Verify that it has been removed:
+
+```bash
+echo "$TEMP_NAME"
+```
+
+The output will be empty if the variable is no longer defined.
+
+Removing a variable from the current shell does not automatically remove copies inherited by processes that were already running.
+
+#### Temporary and Permanent Environment Variables
+
+Environment variables can be configured temporarily or persistently.
+
+**1. Temporary Variables**
+
+Variables created in a terminal session remain available only within that shell and its child processes.
+
+Example:
+
+```bash
+export APP_MODE="development"
+```
+
+The variable will normally disappear when the shell session ends.
+
+**2. Permanent Variables for a User**
+
+To configure environment variables for future Bash sessions, add them to an appropriate shell configuration file.
+
+For example:
+
+```bash
+nano ~/.bashrc
+```
+
+Add:
+
+```bash
+export EDITOR="nano"
+export PROJECT_HOME="$HOME/Projects"
+```
+
+Save the file and reload the configuration:
+
+```bash
+source ~/.bashrc
+```
+
+Verify the variables:
+
+```bash
+echo "$EDITOR"
+echo "$PROJECT_HOME"
+```
+
+**3. System-Wide Environment Variables**
+
+System-wide environment variables can be configured using files such as:
+
+```text
+/etc/environment
+/etc/profile
+/etc/profile.d/
+```
+
+These files serve different purposes and are processed according to the login environment and shell configuration.
+
+For example, `/etc/environment` commonly stores system-wide environment variable assignments.
+
+A typical entry looks like:
+
+```text
+EDITOR=nano
+```
+
+Unlike shell scripts such as `/etc/profile`, `/etc/environment` is not generally interpreted as a shell script. Use its supported assignment format rather than shell commands such as `export`.
+
+Editing system-wide configuration files usually requires administrative privileges.
+
+#### Variable Expansion and Quoting
+
+The shell expands variables before executing a command.
+
+For example:
+
+```bash
+name="Linux"
+echo "Welcome to $name"
+```
+
+Output:
+
+```text
+Welcome to Linux
+```
+
+There are two important types of quoting.
+
+**1. Double Quotes**
+
+Double quotes allow variable expansion and command substitution.
+
+```bash
+name="RootBound"
+echo "Welcome to $name"
+```
+
+Output:
+
+```text
+Welcome to RootBound
+```
+
+**2. Single Quotes**
+
+Single quotes preserve the literal contents of the text.
+
+```bash
+name="RootBound"
+echo 'Welcome to $name'
+```
+
+Output:
+
+```text
+Welcome to $name
+```
+
+This distinction is important when working with variables and writing shell scripts.
+
+#### Special Parameter: $?
+
+The special parameter `$?` stores the exit status of the most recently executed command.
+
+An exit status of `0` usually indicates success, while a non-zero value generally indicates an error or another condition.
+
+Example:
+
+```bash
+ls
+echo $?
+```
+
+If the command succeeds, the output will normally be:
+
+```text
+0
+```
+
+Another example:
+
+```bash
+ls /directory-that-does-not-exist
+echo $?
+```
+
+The exit status will be non-zero.
+
+You can also use `$?` in conditional statements and shell scripts to check whether a command succeeded.
+
+#### Useful Tips
+
+- Use `printenv` to inspect environment variables.
+- Use `export` to make shell variables available to child processes.
+- Use `unset` to remove variables from the current shell.
+- Use `echo "$VARIABLE"` to display a variable's value.
+- Use double quotes to preserve spaces while allowing variable expansion.
+- Use single quotes when you want text to remain literal.
+- Avoid overwriting important variables such as `PATH` unintentionally.
+- Use shell configuration files to configure variables across future sessions.
+- Avoid storing passwords, API keys, or other sensitive information in ordinary shell configuration files without appropriate security precautions.
+
 
 ### Command Help
 
