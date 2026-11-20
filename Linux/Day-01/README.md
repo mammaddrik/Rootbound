@@ -820,6 +820,10 @@ mv file.txt Documents/
 
 This moves `file.txt` into the `Documents` directory.
 
+<p align="center">
+    <img src="https://i.postimg.cc/02KC32r2/mv.png" alt="mv">
+</p>
+
 **Example — Rename a File:**
 
 ```bash
@@ -827,6 +831,10 @@ mv old_name.txt new_name.txt
 ```
 
 This renames `old_name.txt` to `new_name.txt`.
+
+<p align="center">
+    <img src="https://i.postimg.cc/cJFkRxDG/mv-rename.png" alt="mv rename">
+</p>
 
 **Common Options:**
 
