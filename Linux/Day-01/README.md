@@ -491,13 +491,17 @@ man ls
 
 This opens the manual page for the `ls` command.
 
+<p align="center">
+    <img src="https://i.postimg.cc/KYpNwK7q/manls.png" alt="man ls">
+</p>
+
 **Common Navigation Keys:**
 
 | Key | Description |
 |---|---|
 | `Space` | Moves forward one page. |
 | `b` | Moves backward one page. |
-| `/pattern` | Searches for a specific pattern. |
+| `/<pattern>` | Searches for a specific pattern. |
 | `n` | Moves to the next search result. |
 | `q` | Exits the manual page. |
 
