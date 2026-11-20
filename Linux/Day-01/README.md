@@ -670,11 +670,19 @@ mkdir Projects
 
 This creates a directory named `Projects`.
 
+<p align="center">
+    <img src="https://i.postimg.cc/yx6ghjt1/mkdir.png" alt="mkdir">
+</p>
+
 **Create Multiple Directories:**
 
 ```bash
 mkdir Documents Images Videos
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/YS3tN7HH/mkdir-multiple.png" alt="mkdir Multiple Directories">
+</p>
 
 **Create Nested Directories:**
 
@@ -683,6 +691,10 @@ mkdir -p Projects/Linux/Day-01
 ```
 
 The `-p` option creates missing parent directories automatically.
+
+<p align="center">
+    <img src="https://i.postimg.cc/SRW4sbV3/mkdir-parent.png" alt="mkdir parent directories">
+</p>
 
 **Common Options:**
 
