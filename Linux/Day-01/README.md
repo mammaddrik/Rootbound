@@ -635,11 +635,20 @@ touch notes.txt
 
 This creates an empty file named `notes.txt` in the current working directory.
 
+<p align="center">
+    <img src="https://i.postimg.cc/2jqfyhV2/touch.png" alt="touch">
+</p>
+
+
 **Create Multiple Files:**
 
 ```bash
 touch file1.txt file2.txt file3.txt
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/W3g6Y556/touch-multiple.png" alt="touch Multiple Files">
+</p>
 
 This creates three empty files in the current directory.
 
