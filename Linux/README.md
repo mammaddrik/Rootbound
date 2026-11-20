@@ -18,7 +18,7 @@ The goal is to develop a solid understanding of Linux through structured study a
 
 | Day | Topics | Status |
 |:---:|:-------|:------:|
-| [Day 01](./Day-01/) | **Navigation Basics**<br>&nbsp;&nbsp;Basic Commands<br>&nbsp;&nbsp;Moving Files<br>&nbsp;&nbsp;Creating Files<br>&nbsp;&nbsp;Understanding Directory Hierarchy | Under Review |
+| [Day 01](./Day-01/) | **Navigation Basics**<br>&nbsp;&nbsp;Basic Commands<br>&nbsp;&nbsp;Moving Files<br>&nbsp;&nbsp;Creating Files<br>&nbsp;&nbsp;Understanding Directory Hierarchy | Completed |
 | [Day 02](./Day-02/) | **Editing Files**<br>&nbsp;&nbsp;Nano<br>&nbsp;&nbsp;Vim | Under Review |
 | [Day 03](./Day-03/) | **Shell and Other Basics**<br>&nbsp;&nbsp;Command Path<br>&nbsp;&nbsp;Environment Variables<br>&nbsp;&nbsp;Command Help<br>&nbsp;&nbsp;Redirection<br>&nbsp;&nbsp;Superuser | Under Review |
 | [Day 04](./Day-04/) | **Working with Files**<br>&nbsp;&nbsp;File Permissions<br>&nbsp;&nbsp;Archiving and Compressing<br>&nbsp;&nbsp;Copying and Renaming<br>&nbsp;&nbsp;Symbolic Links / Hard Links | Planned |

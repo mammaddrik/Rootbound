@@ -928,6 +928,10 @@ Example:
 └── var
 ```
 
+<p align="center">
+    <img src="https://i.postimg.cc/wTJ60Z8G/Linux-filesystem.png" alt="Linux Filesystem">
+</p>
+
 #### Home Directory
 
 The home directory contains personal files and settings belonging to regular users.
@@ -1027,11 +1031,19 @@ Move to the parent directory:
 cd ..
 ```
 
+<p align="center">
+    <img src="https://i.postimg.cc/4db66B4c/cd-back.png" alt="back">
+</p>
+
 Access a directory inside the current directory:
 
 ```bash
 cd ./Documents
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/Fs1Sz9St/cd-current.png" alt="current directory">
+</p>
 
 Move two levels upward:
 
@@ -1039,11 +1051,19 @@ Move two levels upward:
 cd ../../
 ```
 
+<p align="center">
+    <img src="https://i.postimg.cc/85K5g6tZ/cd-upward.png" alt="two levels upward">
+</p>
+
 Navigate to the user's home directory:
 
 ```bash
 cd ~
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/brxB2QWn/Home.png" alt="Home">
+</p>
 
 ---
 
@@ -1131,9 +1151,7 @@ Complete the following tasks using only the commands introduced in this section:
 13. Navigate back to your home directory.
 14. Verify that the directory structure still exists.
 
-
 **Goal:** Understand the basic Linux filesystem structure and become comfortable navigating directories, managing files, and using essential command-line tools.
-
 
 ---
 
