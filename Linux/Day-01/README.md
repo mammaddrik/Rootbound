@@ -435,6 +435,10 @@ linux-machine
 
 The output represents the configured hostname of the system.
 
+<p align="center">
+    <img src="https://i.postimg.cc/VsDVBTMs/hostname.png" alt="hostname">
+</p>
+
 #### 9. `history` — Command History
 
 The `history` command displays a list of commands previously entered in the current shell session and, depending on shell configuration, commands saved from previous sessions.
