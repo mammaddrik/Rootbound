@@ -385,6 +385,10 @@ uname
 Linux
 ```
 
+<p align="center">
+    <img src="https://i.postimg.cc/G2Nb42bV/uname.png" alt="uname">
+</p>
+
 **Common Options:**
 
 | Option | Description |
@@ -402,6 +406,10 @@ uname -a
 ```
 
 This command provides a more detailed overview of the running kernel and system architecture.
+
+<p align="center">
+    <img src="https://i.postimg.cc/26BSFv9p/uname-a.png" alt="uname -a">
+</p>
 
 #### 8. `hostname` — System Hostname
 
