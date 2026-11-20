@@ -723,6 +723,10 @@ rmdir EmptyFolder
 
 This removes the `EmptyFolder` directory if it is empty.
 
+<p align="center">
+    <img src="https://i.postimg.cc/Jz8Nt34G/rmdir.png" alt="rmdir">
+</p>
+
 **Remove Nested Empty Directories:**
 
 ```bash
@@ -730,6 +734,10 @@ rmdir -p Projects/Linux/Day-01
 ```
 
 The `-p` option attempts to remove the specified directory and its empty parent directories.
+
+<p align="center">
+    <img src="https://i.postimg.cc/ZqGKKH4s/rmdir-p.png" alt="rmdir -p">
+</p>
 
 ---
 
