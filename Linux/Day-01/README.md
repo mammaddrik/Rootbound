@@ -575,6 +575,10 @@ which ls
 
 The output indicates the location of the executable found through the current `PATH`.
 
+<p align="center">
+    <img src="https://i.postimg.cc/L4LWYT34/which.png" alt="which">
+</p>
+
 #### 13. `type` — Identify Commands
 
 The `type` command identifies how the current shell interprets a specified command.
