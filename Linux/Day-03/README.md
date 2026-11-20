@@ -65,6 +65,23 @@
       - [Practical Redirection Examples](#practical-redirection-examples)
       - [Useful Tips](#useful-tips-3)
     - [Superuser](#superuser)
+      - [Introduction](#introduction-4)
+      - [Understanding the Root User](#understanding-the-root-user)
+      - [Understanding the Difference Between Root and Regular Users](#understanding-the-difference-between-root-and-regular-users)
+      - [The sudo Command](#the-sudo-command)
+      - [Running Commands as Another User](#running-commands-as-another-user)
+      - [Switching to the Root User](#switching-to-the-root-user)
+      - [Difference Between sudo and su](#difference-between-sudo-and-su)
+      - [The sudoers File](#the-sudoers-file)
+      - [Understanding sudoers Entries](#understanding-sudoers-entries)
+      - [Checking sudo Permissions](#checking-sudo-permissions)
+      - [Common sudo Options](#common-sudo-options)
+      - [The Root Shell](#the-root-shell)
+      - [The root Account and Root Directory](#the-root-account-and-root-directory)
+      - [Running Graphical Applications with Administrative Privileges](#running-graphical-applications-with-administrative-privileges)
+      - [Security Best Practices](#security-best-practices)
+      - [Common Errors and Troubleshooting](#common-errors-and-troubleshooting)
+      - [Useful Tips](#useful-tips-4)
   - [Practical Exercises](#practical-exercises)
 
 ---
@@ -1867,6 +1884,500 @@ This displays disk usage and saves the same output to a file.
 
 
 ### Superuser
+
+#### Introduction
+
+Linux is a multi-user operating system that uses permissions and user privileges to control access to files, directories, and system resources.
+
+Some operations require administrative privileges because they can modify important system files, install software, manage users, or change system configurations.
+
+The **superuser** is a special account with extensive administrative privileges. In Linux, this account is traditionally named `root`.
+
+Understanding how administrative privileges work is essential for system administration, security, and managing a Linux environment.
+
+#### Understanding the Root User
+
+The `root` account is the default superuser account in Linux.
+
+Unlike ordinary users, root has permission to perform almost any operation on the system, including:
+
+- Installing and removing software.
+- Creating, modifying, and deleting system files.
+- Managing users and groups.
+- Changing file ownership and permissions.
+- Starting and stopping system services.
+- Managing disks and filesystems.
+- Modifying network configurations.
+- Accessing files belonging to other users.
+
+The root user has a User ID (UID) of `0`.
+
+To check the current user:
+
+```bash
+whoami
+```
+
+To display the current user's UID and group information:
+
+```bash
+id
+```
+
+Example output for a regular user:
+
+```text
+uid=1000(user) gid=1000(user) groups=1000(user),27(sudo)
+```
+
+Example output for the root user:
+
+```text
+uid=0(root) gid=0(root) groups=0(root)
+```
+
+The exact group information depends on the system configuration.
+
+#### Understanding the Difference Between Root and Regular Users
+
+Linux separates ordinary user accounts from administrative accounts to improve system security.
+
+| Feature | Regular User | Root User |
+|---|---|---|
+| UID | Usually starts from 1000 | 0 |
+| Administrative privileges | Limited | Extensive |
+| Modify system files | Usually restricted | Allowed |
+| Install system packages | Requires authorization | Allowed |
+| Manage other users | Usually restricted | Allowed |
+| Access protected resources | Limited | Extensive |
+
+Regular users should perform everyday activities using their normal accounts.
+
+Administrative privileges should only be used when necessary.
+
+#### The sudo Command
+
+The `sudo` command allows authorized users to execute commands with the privileges of another user, usually the root user.
+
+The name `sudo` stands for **superuser do**.
+
+Syntax:
+
+```bash
+sudo command
+```
+
+Example:
+
+```bash
+sudo apt update
+```
+
+This runs the package update command with administrative privileges on Debian-based distributions.
+
+Another example:
+
+```bash
+sudo systemctl restart ssh
+```
+
+This restarts the SSH service, assuming the service exists and the user has sufficient privileges.
+
+When using `sudo`, the system may ask for the current user's password.
+
+**Important:** The password requested by `sudo` is normally the password of the user executing the command, not the root password.
+
+#### Running Commands as Another User
+
+By default, `sudo` executes commands as root.
+
+However, you can specify another user with the `-u` option.
+
+Syntax:
+
+```bash
+sudo -u username command
+```
+
+Example:
+
+```bash
+sudo -u nobody whoami
+```
+
+This executes `whoami` as the user named `nobody`, provided the account exists and the current user is authorized.
+
+To execute a command with root privileges explicitly:
+
+```bash
+sudo -u root command
+```
+
+#### Switching to the Root User
+
+The `su` command allows users to switch to another user account.
+
+Syntax:
+
+```bash
+su username
+```
+
+To switch to the root account:
+
+```bash
+su -
+```
+
+The hyphen starts a login shell and loads the target user's login environment.
+
+On systems where the root account has an enabled password, `su -` normally asks for the root password.
+
+To verify the current user:
+
+```bash
+whoami
+```
+
+Example output:
+
+```text
+root
+```
+
+To leave the root shell and return to the previous user:
+
+```bash
+exit
+```
+
+**Difference Between `su` and `su -`**
+
+| Command | Description |
+|---|---|
+| `su` | Switches to another user while generally retaining much of the current environment. |
+| `su -` | Starts a login shell with the target user's login environment. |
+| `su - root` | Starts a login shell as root. |
+| `su - username` | Starts a login shell as the specified user. |
+
+#### Difference Between sudo and su
+
+Both commands allow users to work with another user's privileges, but they operate differently.
+
+| Feature | sudo | su |
+|---|---|---|
+| Main purpose | Execute commands with another user's privileges | Switch to another user |
+| Authentication | Usually the invoking user's password | Usually the target user's password |
+| Command execution | Can execute a single command | Opens another user's shell |
+| Default target | root | root when no username is specified |
+| Authorization | Controlled by sudo policy | Controlled by account authentication and system policy |
+
+Example using `sudo`:
+
+```bash
+sudo apt update
+```
+
+Example using `su`:
+
+```bash
+su -
+```
+
+For everyday administrative tasks, using `sudo` for individual commands is generally preferable because it limits the time spent with elevated privileges.
+
+#### The sudoers File
+
+The `sudoers` file controls which users and groups are allowed to execute commands using `sudo`.
+
+Its main configuration file is:
+
+```text
+/etc/sudoers
+```
+
+Additional configuration files may be stored in:
+
+```text
+/etc/sudoers.d/
+```
+
+The `sudoers` configuration determines:
+
+- Which users can use `sudo`.
+- Which commands they can execute.
+- Which users they can execute commands as.
+- Whether password authentication is required.
+- Other administrative access rules.
+
+**Important:** Never edit `/etc/sudoers` directly with a regular text editor.
+
+Use:
+
+```bash
+sudo visudo
+```
+
+The `visudo` command checks the configuration for syntax errors before saving it, helping prevent mistakes that could make sudo access unusable.
+
+#### Understanding sudoers Entries
+
+A common sudoers entry follows this structure:
+
+```text
+user host=(runas_user) commands
+```
+
+For example:
+
+```text
+alice ALL=(ALL:ALL) ALL
+```
+
+This entry allows the user `alice` to execute commands as any user or group on all hosts, subject to the configured sudo policy.
+
+Another common entry is:
+
+```text
+%sudo ALL=(ALL:ALL) ALL
+```
+
+The `%` symbol indicates a group.
+
+This rule allows members of the `sudo` group to execute commands with elevated privileges.
+
+On some Linux distributions, the administrative group may be named `wheel` instead.
+
+#### Checking sudo Permissions
+
+To check which commands the current user is allowed to execute through `sudo`:
+
+```bash
+sudo -l
+```
+
+This displays the user's sudo permissions according to the active policy.
+
+To display the current user's groups:
+
+```bash
+groups
+```
+
+Example output:
+
+```text
+user sudo
+```
+
+On Debian-based systems, users who belong to the `sudo` group are commonly granted administrative privileges through the default sudoers configuration.
+
+The exact group and permission rules depend on the Linux distribution.
+
+#### Common sudo Options
+
+The `sudo` command supports several useful options.
+
+| Option | Description |
+|---|---|
+| `-u username` | Execute a command as another user. |
+| `-i` | Start an interactive login shell as the target user. |
+| `-s` | Start a shell with elevated privileges. |
+| `-l` | List the commands the user is allowed to execute. |
+| `-k` | Invalidate cached authentication credentials. |
+| `-v` | Update the authentication timestamp without running a command. |
+| `-H` | Set the target user's home directory as the `HOME` environment variable. |
+
+Examples:
+
+```bash
+sudo -l
+sudo -u nobody whoami
+sudo -i
+sudo -k
+```
+
+To leave a shell started with `sudo -i`, use:
+
+```bash
+exit
+```
+
+#### The Root Shell
+
+Sometimes administrators need to execute several commands that require elevated privileges.
+
+Instead of writing `sudo` before every command, they can start a root shell.
+
+Using sudo:
+
+```bash
+sudo -i
+```
+
+Or, where root authentication is available:
+
+```bash
+su -
+```
+
+After entering the root shell, commands are executed with root privileges.
+
+Example:
+
+```bash
+whoami
+```
+
+Output:
+
+```text
+root
+```
+
+To return to the regular user account:
+
+```bash
+exit
+```
+
+**Important:** Always leave the root shell when administrative work is complete.
+
+#### The root Account and Root Directory
+
+The terms `root` and `root directory` are related but refer to different things.
+
+| Term | Description |
+|---|---|
+| `root` user | The administrative user account with UID 0. |
+| `/root` | The home directory of the root user. |
+| `/` | The top-level directory of the Linux filesystem. |
+
+For example:
+
+```bash
+cd /root
+```
+
+Navigates to the root user's home directory, provided you have permission to access it.
+
+However:
+
+```bash
+cd /
+```
+
+Navigates to the root of the filesystem.
+
+These paths should not be confused.
+
+#### Running Graphical Applications with Administrative Privileges
+
+Graphical applications sometimes require administrative privileges to modify system settings or protected files.
+
+However, running graphical applications directly with `sudo` is generally discouraged because it can cause permission problems and security risks.
+
+Prefer terminal-based administrative tools or desktop environments' supported authentication mechanisms.
+
+For example, use:
+
+```bash
+sudo nano /etc/hosts
+```
+
+when you need to edit a protected configuration file from the terminal.
+
+#### Security Best Practices
+
+Administrative privileges provide extensive control over a Linux system. Incorrect commands can damage the operating system or cause data loss.
+
+Follow these practices when working as root:
+
+- Use a regular user account for everyday activities.
+- Use `sudo` only when administrative privileges are required.
+- Avoid running unfamiliar commands with `sudo`.
+- Check command syntax before executing administrative operations.
+- Never share your root password.
+- Avoid using `chmod -R 777` as a general solution to permission problems.
+- Do not execute scripts from untrusted sources as root.
+- Avoid remaining in a root shell longer than necessary.
+- Review sudo permissions periodically.
+- Be especially careful when deleting files or modifying system directories.
+
+For example, the following command can permanently remove a large amount of data:
+
+```bash
+sudo rm -rf /some/directory
+```
+
+Always verify the target path before running destructive commands.
+
+#### Common Errors and Troubleshooting
+
+**1. User Is Not in the Sudoers File**
+
+Example:
+
+```text
+user is not in the sudoers file. This incident will be reported.
+```
+
+Possible cause:
+
+- The user does not have permission to execute commands through `sudo`.
+
+Possible solution:
+
+- Ask an authorized administrator to grant the appropriate permissions.
+- On distributions that use the `sudo` group, an administrator can add the user with:
+
+```bash
+sudo usermod -aG sudo username
+```
+
+The user may need to log out and log back in for the new group membership to take effect.
+
+**2. Authentication Failure**
+
+Example:
+
+```text
+Sorry, try again.
+```
+
+Possible causes:
+
+- An incorrect password was entered.
+- The account authentication configuration prevents access.
+
+Check the password and ensure that the correct user account is being authenticated.
+
+**3. Command Not Found**
+
+Example:
+
+```text
+sudo: command not found
+```
+
+Possible cause:
+
+- The `sudo` package is not installed or its executable is not available through the command search path.
+
+An administrator may need to install and configure it using the distribution's package management tools.
+
+#### Useful Tips
+
+- Use `whoami` to identify the current user.
+- Use `id` to inspect user and group IDs.
+- Use `sudo command` to execute individual administrative commands.
+- Use `sudo -l` to inspect your sudo permissions.
+- Use `sudo -i` to start a root login shell when necessary.
+- Use `su -` to switch to the root account when root authentication is configured.
+- Use `visudo` when modifying sudoers configuration.
+- Use `exit` to leave a root shell.
+- Remember that the root account has UID `0`.
+- Prefer the principle of least privilege: use only the permissions required to complete a task.
 
 ---
 
