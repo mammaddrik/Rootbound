@@ -83,6 +83,14 @@
       - [Common Errors and Troubleshooting](#common-errors-and-troubleshooting)
       - [Useful Tips](#useful-tips-4)
   - [Practical Exercises](#practical-exercises)
+    - [Exercise 1 — Working with Command Paths](#exercise-1--working-with-command-paths)
+    - [Exercise 2 — Environment Variables](#exercise-2--environment-variables)
+    - [Exercise 3 — Exploring Command Documentation](#exercise-3--exploring-command-documentation)
+    - [Exercise 4 — Input and Output Redirection](#exercise-4--input-and-output-redirection)
+    - [Exercise 5 — Pipes and the tee Command](#exercise-5--pipes-and-the-tee-command)
+    - [Exercise 6 — Working with Superuser Privileges](#exercise-6--working-with-superuser-privileges)
+    - [Exercise 7 — Command-Line Challenge](#exercise-7--command-line-challenge)
+    - [Exercise 8 — Knowledge Check](#exercise-8--knowledge-check)
 
 ---
 
@@ -2382,6 +2390,136 @@ An administrator may need to install and configure it using the distribution's p
 ---
 
 ## Practical Exercises
+
+The following exercises are designed to reinforce the concepts and commands introduced in this section. They provide hands-on experience with command lookup, environment variables, documentation tools, input and output redirection, and administrative privileges.
+
+### Exercise 1 — Working with Command Paths
+
+1. Display the current value of the `PATH` environment variable.
+2. Display each directory in `PATH` on a separate line.
+3. Locate the executable file associated with the `ls` command using `command -v`.
+4. Display all available definitions of `ls` using `type -a`.
+5. Check whether `cd` is a shell builtin or an external executable.
+6. Display the location of the `nano` executable using `whereis`.
+7. Create a directory named `MyCommands` inside your home directory.
+8. Temporarily add `MyCommands` to the beginning of `PATH`.
+9. Verify that the directory has been added successfully.
+10. Display the current command lookup cache using `hash -l`.
+
+### Exercise 2 — Environment Variables
+
+1. Display the values of the following environment variables:
+   - `HOME`
+   - `USER`
+   - `SHELL`
+   - `PATH`
+   - `PWD`
+2. Create a shell variable named `PROJECT` with the value `RootBound`.
+3. Display its value using `echo`.
+4. Export the variable to make it available to child processes.
+5. Start a new Bash process and display the value of `PROJECT`.
+6. Create another variable named `EDITOR` with the value `nano`.
+7. Display all exported environment variables using `printenv`.
+8. Temporarily assign a variable named `APP_MODE` the value `development` for a single command using `env`.
+9. Remove the `PROJECT` variable using `unset`.
+10. Verify that the variable is no longer available in the current shell.
+
+### Exercise 3 — Exploring Command Documentation
+
+1. Open the manual page for `ls`.
+2. Navigate through the manual page using the keyboard shortcuts.
+3. Display the help information for the `mkdir` command.
+4. Display the Bash help documentation for `cd`.
+5. Find a short description of the `grep` command using `whatis`.
+6. Search manual page descriptions related to networking using `apropos`.
+7. Locate the binary and manual page files associated with `bash` using `whereis`.
+8. Open the Info documentation for `coreutils`, if available.
+9. Identify the manual page section associated with the `passwd` command.
+10. Explain the difference between `man`, `help`, and `--help`.
+
+### Exercise 4 — Input and Output Redirection
+
+1. Create a file named `output.txt`.
+2. Write a message into the file using `echo` and `>`.
+3. Append another message using `>>`.
+4. Display the contents of the file using `cat`.
+5. Save the output of the `date` command into `date.txt`.
+6. Count the number of lines in `output.txt` using input redirection.
+7. Redirect the output of `ls` into `directory-list.txt`.
+8. Execute a command that produces an error and redirect the error message into `error.log`.
+9. Append another error message to `error.log` without overwriting its existing contents.
+10. Redirect both standard output and standard error into a single file.
+11. Discard command output using `/dev/null`.
+12. Use a here document to pass multiple lines of text to `cat`.
+13. Use a here string to provide input to `wc -w`.
+
+### Exercise 5 — Pipes and the tee Command
+
+1. List the contents of a directory and sort the output using a pipe.
+2. Display only lines containing the word `Linux` from a text file using `grep`.
+3. Count the number of lines in a file using a pipeline.
+4. Find all lines containing `ERROR` in a log file and save the results into `errors.txt`.
+5. Display the output of `df -h` and save it into `disk-usage.txt` using `tee`.
+6. Append additional output to the same file using `tee -a`.
+7. Connect three commands using multiple pipes.
+8. Explain the difference between output redirection and a pipe.
+
+### Exercise 6 — Working with Superuser Privileges
+
+1. Display your current username using `whoami`.
+2. Display your UID and group information using `id`.
+3. Check whether your account belongs to an administrative group.
+4. Display your sudo permissions using `sudo -l`.
+5. Update the package information using the appropriate command for your Linux distribution.
+6. Display the current username while executing a command through `sudo`.
+7. Start a root login shell using `sudo -i`, if permitted.
+8. Verify that the current user is `root`.
+9. Return to your regular user account using `exit`.
+10. Explain the difference between `sudo` and `su`.
+
+### Exercise 7 — Command-Line Challenge
+
+Complete the following tasks using the concepts introduced in Day 03:
+
+1. Create a directory named `Day-03-Practice` inside your home directory.
+2. Navigate into the directory.
+3. Create a file named `system-info.txt`.
+4. Save the output of `uname -a` into the file.
+5. Append the current date and time to the same file.
+6. Create an environment variable named `PROJECT_NAME` with the value `RootBound`.
+7. Export the variable and verify that a child Bash process can access it.
+8. Display the value of `PATH`.
+9. Search for the `grep` command using the appropriate documentation tool.
+10. Create a file named `errors.log` and redirect an error message into it.
+11. Use `grep` to search for a specific word in `system-info.txt`.
+12. Display the results and save them into `search-results.txt` using `tee`.
+13. Check your current user and group information.
+14. Inspect your sudo permissions, if available.
+15. Display the final contents of all created files.
+
+### Exercise 8 — Knowledge Check
+
+Answer the following questions without referring to the previous sections:
+
+1. What is the purpose of the `PATH` environment variable?
+2. What is the difference between an absolute path and a relative path?
+3. What is the difference between a shell variable and an environment variable?
+4. What does the `export` command do?
+5. What is the difference between `printenv` and `set`?
+6. What is the purpose of the `unset` command?
+7. What is the difference between `man` and `info`?
+8. When should you use `apropos` instead of `whatis`?
+9. What are the three standard Linux data streams?
+10. What is the difference between `>` and `>>`?
+11. What does `2>` redirect?
+12. What is the purpose of `/dev/null`?
+13. What is the difference between a pipe and output redirection?
+14. What is the purpose of the `tee` command?
+15. What is the difference between `sudo` and `su`?
+16. What is the UID of the root user?
+17. Why should administrative privileges be used carefully?
+
+**Goal:** Develop practical skills in managing command paths, configuring environment variables, accessing command documentation, controlling input and output streams, and performing administrative operations safely.
 
 
 <p align="right">
