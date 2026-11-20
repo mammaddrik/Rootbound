@@ -529,6 +529,10 @@ echo "Hello, Linux"
 Hello, Linux
 ```
 
+<p align="center">
+    <img src="https://i.postimg.cc/05BTDQLf/echo.png" alt="echo">
+</p>
+
 Display the value of an environment variable:
 
 ```bash
@@ -540,6 +544,10 @@ Example output:
 ```text
 /home/user
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/7LP4XRXD/echohome.png" alt="echo home">
+</p>
 
 #### 12. `which` — Locate Executables
 
