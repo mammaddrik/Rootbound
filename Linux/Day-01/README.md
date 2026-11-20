@@ -765,11 +765,19 @@ cp file.txt backup.txt
 
 This creates a copy of `file.txt` named `backup.txt` in the current directory.
 
+<p align="center">
+    <img src="https://i.postimg.cc/13TJXnT7/cp.png" alt="cp">
+</p>
+
 **Copy a file to another directory:**
 
 ```bash
 cp file.txt Documents/
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/fyGRkvx6/cpfile.png" alt="cp file">
+</p>
 
 **Copy a directory and its contents:**
 
@@ -778,6 +786,10 @@ cp -r source_directory destination_directory
 ```
 
 The `-r` option enables recursive copying, allowing the command to copy directories and their contents.
+
+<p align="center">
+    <img src="https://i.postimg.cc/mgX2HRNj/cp-directory.png" alt="cp directory">
+</p>
 
 **Common Options:**
 
