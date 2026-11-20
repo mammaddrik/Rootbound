@@ -467,6 +467,10 @@ history
 
 The displayed command numbers can be used to reference commands in the shell history.
 
+<p align="center">
+    <img src="https://i.postimg.cc/FKrSZP0H/history.png" alt="history">
+</p>
+
 #### 10. `man` — Manual Pages
 
 The `man` command displays the manual page for a specified command or system component.
