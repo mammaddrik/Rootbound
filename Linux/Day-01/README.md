@@ -609,6 +609,109 @@ cd is a shell builtin
 
 ---
 
+### Creating Files
+
+Linux provides commands for creating files and directories directly from the terminal.
+
+These commands are useful when organizing projects, creating documents, and preparing directory structures.
+
+#### 1. `touch` — Create Files
+
+The `touch` command creates an empty file if it does not already exist.
+
+If the file already exists, it updates its access and modification timestamps.
+
+**Syntax:**
+
+```bash
+touch [OPTIONS] FILE
+```
+
+**Example:**
+
+```bash
+touch notes.txt
+```
+
+This creates an empty file named `notes.txt` in the current working directory.
+
+**Create Multiple Files:**
+
+```bash
+touch file1.txt file2.txt file3.txt
+```
+
+This creates three empty files in the current directory.
+
+#### 2. `mkdir` — Create Directories
+
+The `mkdir` command creates new directories in the filesystem.
+
+**Syntax:**
+
+```bash
+mkdir [OPTIONS] DIRECTORY
+```
+
+**Example:**
+
+```bash
+mkdir Projects
+```
+
+This creates a directory named `Projects`.
+
+**Create Multiple Directories:**
+
+```bash
+mkdir Documents Images Videos
+```
+
+**Create Nested Directories:**
+
+```bash
+mkdir -p Projects/Linux/Day-01
+```
+
+The `-p` option creates missing parent directories automatically.
+
+**Common Options:**
+
+| Option | Description |
+|---|---|
+| `-p` | Creates parent directories when necessary. |
+| `-v` | Displays a message for each created directory. |
+
+#### 3. `rmdir` — Remove Empty Directories
+
+The `rmdir` command removes empty directories.
+
+It cannot remove directories that contain files or other directories.
+
+**Syntax:**
+
+```bash
+rmdir [OPTIONS] DIRECTORY
+```
+
+**Example:**
+
+```bash
+rmdir EmptyFolder
+```
+
+This removes the `EmptyFolder` directory if it is empty.
+
+**Remove Nested Empty Directories:**
+
+```bash
+rmdir -p Projects/Linux/Day-01
+```
+
+The `-p` option attempts to remove the specified directory and its empty parent directories.
+
+---
+
 ### Moving Files
 
 Linux provides several commands for copying, moving, renaming, and removing files and directories.
@@ -726,109 +829,6 @@ rm -r directory_name
 | `-v` | Displays information about removed files. |
 
 **Important:** Be careful when using `rm`, especially with `-r` and `-f`. Incorrect paths or options can cause permanent data loss.
-
----
-
-### Creating Files
-
-Linux provides commands for creating files and directories directly from the terminal.
-
-These commands are useful when organizing projects, creating documents, and preparing directory structures.
-
-#### 1. `touch` — Create Files
-
-The `touch` command creates an empty file if it does not already exist.
-
-If the file already exists, it updates its access and modification timestamps.
-
-**Syntax:**
-
-```bash
-touch [OPTIONS] FILE
-```
-
-**Example:**
-
-```bash
-touch notes.txt
-```
-
-This creates an empty file named `notes.txt` in the current working directory.
-
-**Create Multiple Files:**
-
-```bash
-touch file1.txt file2.txt file3.txt
-```
-
-This creates three empty files in the current directory.
-
-#### 2. `mkdir` — Create Directories
-
-The `mkdir` command creates new directories in the filesystem.
-
-**Syntax:**
-
-```bash
-mkdir [OPTIONS] DIRECTORY
-```
-
-**Example:**
-
-```bash
-mkdir Projects
-```
-
-This creates a directory named `Projects`.
-
-**Create Multiple Directories:**
-
-```bash
-mkdir Documents Images Videos
-```
-
-**Create Nested Directories:**
-
-```bash
-mkdir -p Projects/Linux/Day-01
-```
-
-The `-p` option creates missing parent directories automatically.
-
-**Common Options:**
-
-| Option | Description |
-|---|---|
-| `-p` | Creates parent directories when necessary. |
-| `-v` | Displays a message for each created directory. |
-
-#### 3. `rmdir` — Remove Empty Directories
-
-The `rmdir` command removes empty directories.
-
-It cannot remove directories that contain files or other directories.
-
-**Syntax:**
-
-```bash
-rmdir [OPTIONS] DIRECTORY
-```
-
-**Example:**
-
-```bash
-rmdir EmptyFolder
-```
-
-This removes the `EmptyFolder` directory if it is empty.
-
-**Remove Nested Empty Directories:**
-
-```bash
-rmdir -p Projects/Linux/Day-01
-```
-
-The `-p` option attempts to remove the specified directory and its empty parent directories.
 
 ---
 
