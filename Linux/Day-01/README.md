@@ -862,11 +862,19 @@ rm [OPTIONS] FILE
 rm file.txt
 ```
 
+<p align="center">
+    <img src="https://i.postimg.cc/WpwFXdGV/rm.png" alt="rm">
+</p>
+
 **Remove an Empty or Non-Empty Directory Recursively:**
 
 ```bash
 rm -r directory_name
 ```
+
+<p align="center">
+    <img src="https://i.postimg.cc/W4mTTkbq/rm-directory.png" alt="rm directory">
+</p>
 
 **Common Options:**
 
