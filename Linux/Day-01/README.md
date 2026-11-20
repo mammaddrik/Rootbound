@@ -603,13 +603,9 @@ type cd
 cd is a shell builtin
 ```
 
-Another example:
-
-```bash
-type ls
-```
-
-Depending on the shell configuration, the output may identify `ls` as an alias or an executable file.
+<p align="center">
+    <img src="https://i.postimg.cc/L4LWYT34/which.png" alt="which">
+</p>
 
 ---
 
