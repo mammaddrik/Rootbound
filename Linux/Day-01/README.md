@@ -604,7 +604,7 @@ cd is a shell builtin
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/L4LWYT34/which.png" alt="which">
+    <img src="https://i.postimg.cc/JnWb9bDQ/type.png" alt="type">
 </p>
 
 ---
