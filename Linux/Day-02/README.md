@@ -120,6 +120,10 @@ nano --version
 
 This command displays the installed Nano version and build information.
 
+<p align="center">
+    <img src="https://i.postimg.cc/xCV48rzG/nano-version.png" alt="nano version">
+</p>
+
 #### Understanding the Nano Interface
 
 When Nano starts, it displays a simple text-editing interface inside the terminal.
@@ -144,6 +148,10 @@ Therefore:
 - `M-U` means `Alt + U`.
 
 **Important:** The exact appearance of Nano may vary depending on its version, terminal settings, and configuration.
+
+<p align="center">
+    <img src="https://i.postimg.cc/8PfMK73V/nano.png" alt="nano">
+</p>
 
 #### Opening and Creating Files
 
