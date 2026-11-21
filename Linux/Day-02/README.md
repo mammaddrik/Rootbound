@@ -58,6 +58,10 @@
 
 ### Nano
 
+<p align="center">
+    <img src="https://i.postimg.cc/DfL7xF6F/Gnu-nano.png" alt="Gnu-nano">
+</p>
+
 #### Introduction to Nano
 
 **GNU Nano** is a lightweight, terminal-based text editor designed to make editing text files simple and accessible. It is commonly used in Linux systems for creating, viewing, and modifying configuration files, scripts, and documents.
