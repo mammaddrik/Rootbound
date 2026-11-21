@@ -99,8 +99,42 @@
       - [Summary](#summary-3)
   - [Copying and Renaming](#copying-and-renaming)
     - [Copying Files with cp](#copying-files-with-cp)
+      - [Basic Syntax](#basic-syntax-1)
+      - [Copying a File](#copying-a-file)
+      - [Copying a File into Another Directory](#copying-a-file-into-another-directory)
+      - [Copying Multiple Files](#copying-multiple-files)
+      - [Copying Directories](#copying-directories)
+      - [Preserving File Attributes](#preserving-file-attributes)
+      - [Common cp Options](#common-cp-options)
+      - [Interactive Copying](#interactive-copying)
+      - [Verbose Copying](#verbose-copying)
+      - [Copying Only Newer Files](#copying-only-newer-files)
+      - [Summary](#summary-4)
     - [Moving and Renaming Files with mv](#moving-and-renaming-files-with-mv)
+      - [Basic Syntax](#basic-syntax-2)
+      - [Renaming a File](#renaming-a-file)
+      - [Moving a File into Another Directory](#moving-a-file-into-another-directory)
+      - [Moving and Renaming a File](#moving-and-renaming-a-file)
+      - [Moving Multiple Files](#moving-multiple-files)
+      - [Moving Directories](#moving-directories)
+      - [Common mv Options](#common-mv-options)
+      - [Interactive Moving](#interactive-moving)
+      - [Verbose Moving](#verbose-moving)
+      - [Moving Without Overwriting](#moving-without-overwriting)
+      - [Understanding How mv Works](#understanding-how-mv-works)
+      - [Summary](#summary-5)
     - [Working with install](#working-with-install)
+      - [Basic Syntax](#basic-syntax-3)
+      - [Installing a File](#installing-a-file)
+      - [Setting File Permissions](#setting-file-permissions)
+      - [Setting Ownership](#setting-ownership)
+      - [Creating Directories](#creating-directories)
+      - [Creating Multiple Directories](#creating-multiple-directories)
+      - [Installing Files into a Directory](#installing-files-into-a-directory)
+      - [Common install Options](#common-install-options)
+      - [Comparing cp, mv, and install](#comparing-cp-mv-and-install)
+      - [Practical Example](#practical-example)
+      - [Summary](#summary-6)
   - [Symbolic Links and Hard Links](#symbolic-links-and-hard-links)
     - [Understanding Inodes](#understanding-inodes)
     - [Hard Links](#hard-links)
@@ -108,6 +142,16 @@
     - [Comparing Hard Links and Symbolic Links](#comparing-hard-links-and-symbolic-links)
     - [Managing and Removing Links](#managing-and-removing-links)
   - [Practical Exercises](#practical-exercises)
+    - [Exercise 1 — Understanding File Permissions](#exercise-1--understanding-file-permissions)
+    - [Exercise 2 — Ownership and Special Permissions](#exercise-2--ownership-and-special-permissions)
+    - [Exercise 3 — Understanding umask](#exercise-3--understanding-umask)
+    - [Exercise 4 — Creating and Managing Archives](#exercise-4--creating-and-managing-archives)
+    - [Exercise 5 — Working with Compression Tools](#exercise-5--working-with-compression-tools)
+    - [Exercise 6 — Copying and Moving Files](#exercise-6--copying-and-moving-files)
+    - [Exercise 7 — Installing Files with install](#exercise-7--installing-files-with-install)
+    - [Exercise 8 — Working with Hard Links](#exercise-8--working-with-hard-links)
+    - [Exercise 9 — Working with Symbolic Links](#exercise-9--working-with-symbolic-links)
+    - [Exercise 10 — Final Challenge: Linux File Management](#exercise-10--final-challenge-linux-file-management)
 
 ---
 
@@ -1724,33 +1768,1361 @@ Note that the meaning of `-d` depends on whether it is used with `zip` or `unzip
 
 ---
 
+
 ## Copying and Renaming
 
 ### Copying Files with cp
 
+The `cp` command is used to copy files and directories from one location to another in Linux.
+
+Copying creates a separate copy of the original file, allowing both files to exist independently. Changes made to one copy do not normally affect the other.
+
+The `cp` command is commonly used for creating backups, duplicating files, organizing directories, and transferring data between locations.
+
+#### Basic Syntax
+
+The general syntax of the `cp` command is:
+
+```bash
+cp [options] source destination
+```
+
+- `source`: The file or directory to be copied.
+- `destination`: The location or name of the new copy.
+- `options`: Additional arguments that control the copying process.
+
+#### Copying a File
+
+To copy a file in the current directory:
+
+```bash
+cp file.txt backup.txt
+```
+
+This creates a new file named `backup.txt` containing the same data as `file.txt`.
+
+If the destination file already exists, its contents are normally overwritten.
+
+#### Copying a File into Another Directory
+
+To copy a file into an existing directory:
+
+```bash
+cp file.txt /home/alice/documents/
+```
+
+The file is copied into the specified directory while keeping its original filename.
+
+You can also specify a new filename:
+
+```bash
+cp file.txt /home/alice/documents/notes.txt
+```
+
+#### Copying Multiple Files
+
+The `cp` command supports copying multiple files into a single destination directory.
+
+```bash
+cp file1.txt file2.txt file3.txt /home/alice/documents/
+```
+
+All three files are copied into the specified directory.
+
+When copying multiple files, the destination must be a directory.
+
+#### Copying Directories
+
+By default, `cp` does not copy directories recursively.
+
+Use the `-r` or `-R` option to copy a directory and its contents.
+
+```bash
+cp -r project/ project-backup/
+```
+
+This creates a copy of the `project` directory, including its files and subdirectories.
+
+The recursive option is especially useful when backing up directory structures.
+
+#### Preserving File Attributes
+
+The `-p` option preserves important file attributes, including permissions, ownership where permitted, and timestamps.
+
+```bash
+cp -p file.txt backup.txt
+```
+
+To preserve these attributes while copying a directory recursively:
+
+```bash
+cp -rp project/ project-backup/
+```
+
+The `-a` option enables archive mode, which is useful for creating more complete copies of directory structures.
+
+```bash
+cp -a project/ project-backup/
+```
+
+Archive mode preserves attributes and copies directories recursively. It also attempts to preserve symbolic links, hard links, and other relevant filesystem information.
+
+Some attributes may not be preserved if the user lacks the necessary privileges or the destination filesystem does not support them.
+
+#### Common cp Options
+
+| Option | Description |
+|---|---|
+| `-r`, `-R` | Copy directories recursively |
+| `-i` | Ask before overwriting an existing destination |
+| `-n` | Do not overwrite existing files |
+| `-v` | Display the files being copied |
+| `-p` | Preserve file mode, ownership where permitted, and timestamps |
+| `-a` | Archive mode; recursively copy and preserve relevant attributes |
+| `-u` | Copy only when the source is newer or the destination is missing |
+| `-f` | Remove an existing destination file if it cannot be opened for writing, then retry |
+
+#### Interactive Copying
+
+The `-i` option asks for confirmation before overwriting an existing file.
+
+```bash
+cp -i file.txt backup.txt
+```
+
+If `backup.txt` already exists, the command prompts before replacing it.
+
+This is useful when copying important files and avoiding accidental data loss.
+
+#### Verbose Copying
+
+The `-v` option displays information about the copying process.
+
+```bash
+cp -v file.txt backup.txt
+```
+
+For directories:
+
+```bash
+cp -rv project/ project-backup/
+```
+
+This displays the files and directories being copied.
+
+#### Copying Only Newer Files
+
+The `-u` option copies a source file only if the destination does not exist or the source is newer than the destination.
+
+```bash
+cp -u file.txt backup.txt
+```
+
+This can be useful when updating existing copies without unnecessarily replacing newer files.
+
+#### Summary
+
+- `cp` creates copies of files and directories.
+- `cp -r` copies directories recursively.
+- `cp -p` preserves important file attributes.
+- `cp -a` is useful for creating attribute-preserving directory copies.
+- `cp -i` helps prevent accidental overwriting.
+- `cp -v` displays copying operations.
+
+---
+
 ### Moving and Renaming Files with mv
+
+The `mv` command is used to move files and directories from one location to another or change their names.
+
+Unlike `cp`, which creates a separate copy, `mv` changes the location or name of the original filesystem entry.
+
+The command is commonly used for organizing files, restructuring directories, and renaming existing data.
+
+#### Basic Syntax
+
+The general syntax of the `mv` command is:
+
+```bash
+mv [options] source destination
+```
+
+- `source`: The file or directory to move or rename.
+- `destination`: The new name or destination location.
+- `options`: Additional arguments that control the operation.
+
+#### Renaming a File
+
+To rename a file in the current directory:
+
+```bash
+mv old-name.txt new-name.txt
+```
+
+This changes the filename from `old-name.txt` to `new-name.txt`.
+
+The file remains in the same directory.
+
+#### Moving a File into Another Directory
+
+To move a file into an existing directory:
+
+```bash
+mv file.txt /home/alice/documents/
+```
+
+The file is moved to the specified directory while keeping its original name.
+
+#### Moving and Renaming a File
+
+You can move a file and change its name in a single command:
+
+```bash
+mv file.txt /home/alice/documents/notes.txt
+```
+
+This moves `file.txt` into the `documents` directory and renames it to `notes.txt`.
+
+#### Moving Multiple Files
+
+The `mv` command can move multiple files into one destination directory.
+
+```bash
+mv file1.txt file2.txt file3.txt /home/alice/documents/
+```
+
+The destination must be an existing directory when multiple source files are specified.
+
+#### Moving Directories
+
+Directories can also be moved using `mv`.
+
+```bash
+mv project/ /home/alice/
+```
+
+This moves the entire `project` directory and its contents into `/home/alice/`.
+
+Unlike `cp`, the `mv` command does not require a recursive option to move directories.
+
+#### Common mv Options
+
+| Option | Description |
+|---|---|
+| `-i` | Ask before overwriting an existing destination |
+| `-n` | Do not overwrite existing files |
+| `-v` | Display the files being moved |
+| `-f` | Do not prompt before overwriting |
+| `-u` | Move only when the source is newer or the destination is missing |
+| `-T` | Treat the destination as a normal file rather than a directory |
+
+#### Interactive Moving
+
+The `-i` option asks for confirmation before overwriting an existing destination.
+
+```bash
+mv -i file.txt backup.txt
+```
+
+If `backup.txt` already exists, the command asks before replacing it.
+
+#### Verbose Moving
+
+The `-v` option displays information about the operation.
+
+```bash
+mv -v file.txt /home/alice/documents/
+```
+
+For directories:
+
+```bash
+mv -v project/ /home/alice/
+```
+
+#### Moving Without Overwriting
+
+The `-n` option prevents the command from replacing an existing destination.
+
+```bash
+mv -n file.txt backup.txt
+```
+
+If `backup.txt` already exists, the source file is not moved over it.
+
+#### Understanding How mv Works
+
+When moving a file within the same filesystem, `mv` normally performs a rename operation.
+
+This operation changes the directory entry without copying the file's contents.
+
+When moving a file across different filesystems, a direct rename is generally not possible. In that case, `mv` typically copies the file to the destination and then removes the original after a successful copy.
+
+This distinction explains why moving files within the same filesystem is usually very fast, while moving files between different filesystems can take longer.
+
+#### Summary
+
+- `mv` moves files and directories.
+- `mv` can also rename files and directories.
+- Moving a directory does not require a recursive option.
+- `mv -i` asks before overwriting.
+- `mv -n` prevents overwriting existing destinations.
+- Moving files across filesystems may involve copying and removing the original.
+
+---
 
 ### Working with install
 
+The `install` command is a utility used to copy files and set their permissions and ownership during the process.
+
+It is commonly used by system administrators and software installation scripts to place executable files, configuration files, and other resources in their appropriate system directories.
+
+Unlike `cp`, `install` provides convenient options for setting file permissions and ownership as part of the same operation.
+
+#### Basic Syntax
+
+The general syntax of the `install` command is:
+
+```bash
+install [options] source destination
+```
+
+It can also be used to create directories without copying a source file.
+
+#### Installing a File
+
+To copy a file into another location:
+
+```bash
+install script.sh /usr/local/bin/script.sh
+```
+
+This copies `script.sh` to `/usr/local/bin/`.
+
+By default, `install` sets the destination file permissions to `755`, unless a different mode is specified.
+
+Writing to system directories normally requires elevated privileges:
+
+```bash
+sudo install script.sh /usr/local/bin/script.sh
+```
+
+#### Setting File Permissions
+
+The `-m` option specifies the permissions of the destination file.
+
+```bash
+sudo install -m 755 script.sh /usr/local/bin/script.sh
+```
+
+This copies the file and assigns the following permissions:
+
+```text
+-rwxr-xr-x
+```
+
+Another example:
+
+```bash
+install -m 644 config.conf config-backup.conf
+```
+
+This creates a copy with read and write permissions for the owner and read-only permissions for the group and others.
+
+#### Setting Ownership
+
+The `-o` option specifies the owner, while the `-g` option specifies the group.
+
+For example:
+
+```bash
+sudo install -o alice -g developers script.sh /opt/myapp/script.sh
+```
+
+This copies the file and assigns `alice` as its owner and `developers` as its group.
+
+These options generally require sufficient privileges.
+
+#### Creating Directories
+
+The `-d` option creates directories instead of copying files.
+
+```bash
+sudo install -d /opt/myapp
+```
+
+You can also specify permissions and ownership:
+
+```bash
+sudo install -d -m 755 -o alice -g developers /opt/myapp
+```
+
+This creates the directory with the specified permissions and ownership.
+
+Parent directories are created when necessary.
+
+#### Creating Multiple Directories
+
+You can create multiple directories in one command:
+
+```bash
+install -d project/bin project/config project/logs
+```
+
+This creates the specified directory structure.
+
+#### Installing Files into a Directory
+
+The `-t` option specifies the target directory.
+
+```bash
+install -t /usr/local/bin script1.sh script2.sh
+```
+
+This copies both scripts into `/usr/local/bin/`.
+
+You can also set permissions:
+
+```bash
+sudo install -m 755 -t /usr/local/bin script1.sh script2.sh
+```
+
+#### Common install Options
+
+| Option | Description |
+|---|---|
+| `-m` | Set destination file permissions |
+| `-o` | Set destination owner |
+| `-g` | Set destination group |
+| `-d` | Create directories instead of copying files |
+| `-v` | Display created directories and installed files |
+| `-t` | Specify the target directory |
+| `-D` | Create necessary parent directories before copying |
+| `-p` | Preserve timestamps of the source file |
+
+#### Comparing cp, mv, and install
+
+These three commands can all be used to manage files, but they serve different purposes.
+
+| Command | Main Purpose | Creates a Copy | Moves or Renames | Sets Permissions During Operation |
+|---|---|---|---|---|
+| `cp` | Copying files and directories | Yes | No | No, except when preserving existing attributes |
+| `mv` | Moving and renaming files | No, normally | Yes | No |
+| `install` | Installing files and creating directories | Yes | No | Yes |
+
+#### Practical Example
+
+Imagine that you have developed a shell script named `backup.sh` and want to install it as a system command.
+
+First, create the destination directory if necessary:
+
+```bash
+sudo install -d /usr/local/bin
+```
+
+Then install the script with executable permissions:
+
+```bash
+sudo install -m 755 backup.sh /usr/local/bin/backup
+```
+
+You can now execute the script by using its command name:
+
+```bash
+backup
+```
+
+This works because `/usr/local/bin` is commonly included in the system's `PATH` environment variable.
+
+#### Summary
+
+- `install` copies files to a destination.
+- `install -m` sets file permissions.
+- `install -o` and `install -g` set ownership.
+- `install -d` creates directories.
+- `install -t` specifies a target directory.
+- It is commonly used when deploying executables and configuration files.
+
 ---
+
 
 ## Symbolic Links and Hard Links
 
+Linux provides two main types of links that allow multiple directory entries to reference files: hard links and symbolic links.
+
+Links are useful for sharing files between directories, creating shortcuts to frequently accessed files, organizing directory structures, and providing alternative paths to existing resources.
+
+To understand how links work, it is important to first understand inodes.
+
 ### Understanding Inodes
+
+An **inode** (index node) is a data structure used by Linux filesystems to store information about a file or directory.
+
+Every filesystem object has an inode that stores metadata about that object. The inode does not store the file's name or its directory path. Instead, directory entries associate filenames with inode numbers.
+
+An inode typically stores information such as:
+
+- File type (regular file, directory, symbolic link, and others).
+- File permissions.
+- Owner user ID (UID).
+- Owner group ID (GID).
+- File size.
+- Timestamps, such as access time, modification time, and metadata change time.
+- Number of hard links pointing to the inode.
+- Pointers or references to the file's data blocks.
+
+**Viewing Inode Information**
+
+The `ls -i` command displays the inode number associated with each directory entry.
+
+```bash
+ls -i
+```
+
+Example output:
+
+```text
+131073 notes.txt
+131074 script.sh
+131075 documents
+```
+
+The `-i` option displays the inode number before each filename.
+
+To display inode numbers in a detailed listing, use:
+
+```bash
+ls -li
+```
+
+The `stat` command provides more detailed information about a file, including its inode number and link count.
+
+```bash
+stat notes.txt
+```
+
+Example output:
+
+```text
+  File: notes.txt
+  Size: 120        Blocks: 8
+  IO Block: 4096   regular file
+Device: 8,1        Inode: 131073
+Links: 1
+Access: (0644/-rw-r--r--)  Uid: (1000/user)   Gid: (1000/user)
+```
+
+The `Inode` field shows the inode number, while `Links` indicates how many hard links refer to that inode.
+
+**Important Concepts**
+
+- A filename is a directory entry that points to an inode.
+- An inode stores file metadata and references to the file's data.
+- Multiple filenames can reference the same inode through hard links.
+- Symbolic links have their own inode and store a path to another file or directory.
+- Inode numbers are unique within a filesystem, but the same inode number may exist on different filesystems.
+
+Understanding inodes helps explain why hard links work differently from symbolic links.
 
 ### Hard Links
 
+A **hard link** is an additional directory entry that points directly to the same inode as an existing file.
+
+Unlike a symbolic link, a hard link does not point to a filename or path. It references the same underlying inode as the original directory entry.
+
+This means that both filenames refer to the same file data and share the same metadata, including permissions, ownership, and timestamps.
+
+**Creating a Hard Link**
+
+The `ln` command creates hard links.
+
+Syntax:
+
+```bash
+ln SOURCE LINK_NAME
+```
+
+Example:
+
+```bash
+echo "Learning Linux" > original.txt
+ln original.txt backup.txt
+```
+
+This creates `backup.txt` as a hard link to `original.txt`.
+
+To verify that both names reference the same inode, use:
+
+```bash
+ls -li original.txt backup.txt
+```
+
+Example output:
+
+```text
+131073 -rw-r--r-- 2 user user 14 Nov 21 10:00 original.txt
+131073 -rw-r--r-- 2 user user 14 Nov 21 10:00 backup.txt
+```
+
+Both files have the same inode number (`131073`).
+
+The link count is `2`, indicating that two directory entries reference the same inode.
+
+**Understanding Hard Link Behavior**
+
+Because hard links reference the same inode, changes made through one name are visible through the other.
+
+For example:
+
+```bash
+echo "New content" >> backup.txt
+cat original.txt
+```
+
+Output:
+
+```text
+Learning Linux
+New content
+```
+
+The content appears in both filenames because they refer to the same underlying file.
+
+Changing the file's permissions through one name also changes the permissions observed through the other:
+
+```bash
+chmod 600 backup.txt
+ls -l original.txt backup.txt
+```
+
+Both names display the updated permissions.
+
+**Removing a Hard Link**
+
+Removing one hard link does not remove the underlying file data as long as another hard link still exists.
+
+```bash
+rm original.txt
+```
+
+The remaining link can still access the file:
+
+```bash
+cat backup.txt
+```
+
+The file's data is released by the filesystem only after its link count reaches zero and no process is still holding it open.
+
+**Important Limitations of Hard Links**
+
+Hard links have some restrictions:
+
+- Hard links generally cannot be created for directories because doing so could introduce filesystem cycles and complicate directory traversal.
+- Hard links cannot cross filesystem boundaries. Both names must belong to the same filesystem.
+- A hard link does not depend on the original filename. Removing or renaming one directory entry does not invalidate the others.
+- Hard links share the same inode, so they are not independent copies of a file.
+
+To create a hard link, the source and destination must be on the same filesystem.
+
 ### Symbolic Links
+
+A **symbolic link**, also known as a symlink or soft link, is a special type of file that stores a path to another file or directory.
+
+Unlike a hard link, a symbolic link has its own inode. It does not directly reference the target's inode. Instead, the filesystem follows the stored path when the link is accessed.
+
+Symbolic links are commonly used to create shortcuts, provide alternative paths, and organize files and directories.
+
+**Creating a Symbolic Link**
+
+The `ln -s` command creates a symbolic link.
+
+Syntax:
+
+```bash
+ln -s TARGET LINK_NAME
+```
+
+Example:
+
+```bash
+echo "Learning Linux" > original.txt
+ln -s original.txt shortcut.txt
+```
+
+This creates `shortcut.txt` as a symbolic link to `original.txt`.
+
+To verify the link, use:
+
+```bash
+ls -l
+```
+
+Example output:
+
+```text
+-rw-r--r-- 1 user user 14 Nov 21 10:00 original.txt
+lrwxrwxrwx 1 user user 11 Nov 21 10:01 shortcut.txt -> original.txt
+```
+
+The `l` at the beginning of the symbolic link's permissions indicates that it is a symbolic link.
+
+The `->` symbol shows the path stored in the link.
+
+You can also use `readlink` to display the target path:
+
+```bash
+readlink shortcut.txt
+```
+
+Output:
+
+```text
+original.txt
+```
+
+**Using Symbolic Links with Directories**
+
+Symbolic links can point to directories, making them useful for accessing directories through alternative paths.
+
+Example:
+
+```bash
+mkdir projects
+ln -s projects workspace
+```
+
+Now `workspace` provides another path to the `projects` directory.
+
+You can access its contents through either path:
+
+```bash
+ls projects
+ls workspace
+```
+
+You can also change into the directory through the symbolic link:
+
+```bash
+cd workspace
+pwd
+```
+
+Depending on the shell and its configuration, `pwd` may display the logical path containing the symbolic link rather than the physical target path.
+
+To display the physical directory path, use:
+
+```bash
+pwd -P
+```
+
+**Absolute and Relative Symbolic Links**
+
+Symbolic links can store either absolute or relative paths.
+
+An **absolute symbolic link** stores a complete path starting from the root directory.
+
+Example:
+
+```bash
+ln -s /home/user/projects project-link
+```
+
+An absolute link points to the same location regardless of the current working directory.
+
+A **relative symbolic link** stores a path relative to the directory containing the symbolic link.
+
+Example:
+
+```bash
+ln -s ../projects project-link
+```
+
+Relative links can be useful when moving an entire directory structure because the relationship between the link and its target can remain unchanged.
+
+However, their validity depends on the relative directory structure remaining intact.
+
+**Broken Symbolic Links**
+
+A symbolic link becomes broken, or dangling, when its target no longer exists or cannot be resolved.
+
+For example:
+
+```bash
+ln -s missing.txt broken-link
+```
+
+Because `missing.txt` does not exist, accessing the link fails:
+
+```bash
+cat broken-link
+```
+
+Output:
+
+```text
+cat: broken-link: No such file or directory
+```
+
+The symbolic link itself still exists, even though its target is unavailable.
+
+You can identify symbolic links with:
+
+```bash
+ls -l
+```
+
+A broken link is typically displayed with its target path, just like a normal symbolic link.
+
+The `readlink` command can still display the stored target:
+
+```bash
+readlink broken-link
+```
+
+Output:
+
+```text
+missing.txt
+```
+
+To test whether a symbolic link points to an existing target, use:
+
+```bash
+test -e broken-link && echo "Target exists" || echo "Target is missing"
+```
+
+**Important Characteristics of Symbolic Links**
+
+- Symbolic links have their own inode.
+- They can point to files or directories.
+- They can reference targets on different filesystems.
+- They can reference targets using absolute or relative paths.
+- Removing the target does not automatically remove the symbolic link.
+- Accessing a broken symbolic link usually results in a file-not-found error.
+- Symbolic links can point to other symbolic links, creating chains of links.
 
 ### Comparing Hard Links and Symbolic Links
 
+Hard links and symbolic links both provide alternative names or paths for accessing files, but they work differently internally.
+
+The following table summarizes their main differences.
+
+| Feature | Hard Link | Symbolic Link |
+|---|---|---|
+| Inode | Shares the target's inode | Has its own inode |
+| Target reference | Direct inode reference | Stores a pathname |
+| Filesystem boundaries | Cannot cross filesystems | Can cross filesystems |
+| Directory links | Generally not allowed | Allowed |
+| Target removal | Other hard links remain valid | Link usually becomes broken |
+| Target renaming | Other hard links remain valid | May become broken if the stored path no longer resolves |
+| File permissions | Shared with other hard links | Link permissions are generally not used for access control; target permissions apply |
+| Link count | Increases the target inode's link count | Does not increase the target's hard link count |
+| Relative paths | Not applicable | Supported |
+| Typical use | Multiple names for the same file | Shortcuts and alternative paths |
+
+**Practical Comparison**
+
+Consider the following commands:
+
+```bash
+echo "Linux Filesystem" > original.txt
+
+ln original.txt hardlink.txt
+ln -s original.txt symlink.txt
+```
+
+Now inspect their inode numbers:
+
+```bash
+ls -li original.txt hardlink.txt symlink.txt
+```
+
+Example output:
+
+```text
+131073 -rw-r--r-- 2 user user 17 Nov 21 10:00 original.txt
+131073 -rw-r--r-- 2 user user 17 Nov 21 10:00 hardlink.txt
+131074 lrwxrwxrwx 1 user user 11 Nov 21 10:01 symlink.txt -> original.txt
+```
+
+Notice that:
+
+- `original.txt` and `hardlink.txt` share the same inode number.
+- `symlink.txt` has a different inode number.
+- The hard link count is `2`.
+- The symbolic link has its own inode and does not increase the target's hard link count.
+
+Now remove the original filename:
+
+```bash
+rm original.txt
+```
+
+Check the remaining files:
+
+```bash
+cat hardlink.txt
+cat symlink.txt
+```
+
+The hard link still works because it directly references the inode.
+
+The symbolic link fails because it still points to `original.txt`, which no longer exists.
+
+This example demonstrates the most important difference between hard links and symbolic links.
+
 ### Managing and Removing Links
 
+Linux provides several commands for inspecting, creating, updating, and removing links.
+
+**Identifying Links**
+
+Use `ls -l` to identify symbolic links:
+
+```bash
+ls -l
+```
+
+Symbolic links are displayed with an `l` file-type indicator and an arrow pointing to their target.
+
+Use `ls -i` to compare inode numbers:
+
+```bash
+ls -i
+```
+
+Files with the same inode number on the same filesystem are hard links to the same inode.
+
+Use `stat` to inspect link information:
+
+```bash
+stat filename
+```
+
+For symbolic links, use:
+
+```bash
+stat -L symlink
+```
+
+The `-L` option follows the symbolic link and displays information about its target.
+
+To inspect the symbolic link itself rather than its target, use:
+
+```bash
+stat symlink
+```
+
+**Creating Links**
+
+Create a hard link:
+
+```bash
+ln original.txt hardlink.txt
+```
+
+Create a symbolic link:
+
+```bash
+ln -s original.txt symlink.txt
+```
+
+Create a symbolic link to a directory:
+
+```bash
+ln -s /var/log log-link
+```
+
+**Updating Symbolic Links**
+
+If a symbolic link already exists, creating another link with the same name normally fails.
+
+The `-f` option can force replacement of an existing destination:
+
+```bash
+ln -sf new-target.txt shortcut.txt
+```
+
+This replaces the existing `shortcut.txt` entry with a symbolic link to `new-target.txt`.
+
+Use this option carefully because it can replace an existing file or link at the destination.
+
+**Removing Links**
+
+Use `rm` to remove a symbolic link:
+
+```bash
+rm symlink.txt
+```
+
+This removes the link itself, not the target.
+
+Use `unlink` as another way to remove a single link:
+
+```bash
+unlink hardlink.txt
+```
+
+This removes one hard link to the file.
+
+If other hard links still exist, the underlying file remains accessible through them.
+
+**Removing Symbolic Links to Directories**
+
+A symbolic link to a directory can also be removed with `rm`:
+
+```bash
+rm directory-link
+```
+
+This removes the symbolic link, not the directory it points to.
+
+Do not add a trailing slash to a symbolic link when removing it. A trailing slash can cause the path to be interpreted as a directory path rather than the link itself.
+
+**Finding Symbolic Links**
+
+The `find` command can locate symbolic links.
+
+Find symbolic links in the current directory and its subdirectories:
+
+```bash
+find . -type l
+```
+
+Display their target paths:
+
+```bash
+find . -type l -exec readlink {} \;
+```
+
+Find symbolic links that point to missing targets:
+
+```bash
+find . -xtype l
+```
+
+On GNU `find`, `-xtype l` identifies symbolic links whose targets cannot be resolved.
+
+**Important Safety Notes**
+
+- Removing a symbolic link does not remove its target.
+- Removing one hard link does not necessarily remove the file's data.
+- Avoid using recursive deletion commands on paths you have not inspected.
+- Be careful when using symbolic links in scripts, especially when the target may change.
+- Always verify a link's target before replacing or deleting it.
+
+**Summary**
+
+- An inode stores file metadata and references to file data.
+- A hard link is another directory entry referencing the same inode.
+- A symbolic link is a separate filesystem object that stores a path to another file or directory.
+- Hard links generally cannot cross filesystem boundaries or reference directories.
+- Symbolic links can cross filesystem boundaries and reference directories.
+- Removing a hard link removes only that directory entry.
+- Removing a symbolic link removes the link itself, not its target.
+- A symbolic link can become broken when its target is moved or deleted.
+- Commands such as `ln`, `ln -s`, `ls -i`, `readlink`, `stat`, `find`, `rm`, and `unlink` are useful for working with links.
+
+**Useful Resources**
+
+- [Linux `ln` Manual](https://man7.org/linux/man-pages/man1/ln.1.html)
+- [Linux `link` Manual](https://man7.org/linux/man-pages/man2/link.2.html)
+- [Linux `symlink` Manual](https://man7.org/linux/man-pages/man7/symlink.7.html)
+- [Linux `inode` Manual](https://man7.org/linux/man-pages/man7/inode.7.html)
+- [Linux `stat` Manual](https://man7.org/linux/man-pages/man1/stat.1.html)
+
 ---
+
 
 ## Practical Exercises
 
----
+The following exercises are designed to reinforce the concepts and commands introduced throughout Day 04.
+
+Each exercise focuses on a specific topic and gradually increases in difficulty. Complete the tasks using a Linux terminal and verify your results with the appropriate commands.
+
+### Exercise 1 — Understanding File Permissions
+
+**Objective:** Practice viewing and understanding file permissions.
+
+1. Create a directory named `permissions-lab`.
+2. Navigate into the directory.
+3. Create three files:
+   - `public.txt`
+   - `private.txt`
+   - `script.sh`
+4. Display their permissions using `ls -l`.
+5. Display detailed information about `public.txt` using `stat`.
+6. Change the permissions of `public.txt` to `644`.
+7. Change the permissions of `private.txt` to `600`.
+8. Change the permissions of `script.sh` to `755`.
+9. Verify the updated permissions using `ls -l`.
+10. Use symbolic notation to remove write permission from others on `script.sh`.
+11. Explain the difference between permissions `644`, `600`, and `755`.
+
+**Expected Knowledge:**
+- Reading permission strings.
+- Using `ls -l` and `stat`.
+- Changing permissions with `chmod`.
+- Understanding numeric and symbolic permission notation.
+
+### Exercise 2 — Ownership and Special Permissions
+
+**Objective:** Practice managing file ownership and understanding special permissions.
+
+1. Create a directory named `ownership-lab`.
+2. Create a file named `shared.txt` inside it.
+3. Display the file's owner and group using `ls -l`.
+4. Change the file's group using `chgrp` (if you have access to another group).
+5. Use `chown` to change the file's owner (requires appropriate privileges).
+6. Create a directory named `shared-directory`.
+7. Enable the SGID permission on that directory.
+8. Verify the permission using `ls -ld`.
+9. Enable the sticky bit on another directory named `temporary`.
+10. Verify the sticky bit using `ls -ld`.
+11. Explain the purpose of SUID, SGID, and the sticky bit.
+
+**Expected Knowledge:**
+- Managing ownership with `chown` and `chgrp`.
+- Understanding user and group ownership.
+- Recognizing special permission bits.
+- Using `chmod` with special permissions.
+
+### Exercise 3 — Understanding umask
+
+**Objective:** Understand how default permissions are calculated.
+
+1. Display your current umask using:
+
+   ```bash
+   umask
+   ```
+
+2. Display the symbolic representation of your umask:
+
+   ```bash
+   umask -S
+   ```
+
+3. Set your umask to `022`.
+4. Create a file named `file-022.txt`.
+5. Create a directory named `directory-022`.
+6. Check their permissions using `ls -l`.
+7. Change your umask to `077`.
+8. Create another file named `file-077.txt`.
+9. Create another directory named `directory-077`.
+10. Compare the permissions of all four objects.
+11. Explain why files and directories have different default permission bases.
+
+**Expected Knowledge:**
+- Viewing and changing umask.
+- Understanding default permission calculation.
+- Comparing file and directory permissions.
+
+### Exercise 4 — Creating and Managing Archives
+
+**Objective:** Practice creating and inspecting compressed archives using `tar`.
+
+1. Create a directory named `archive-lab`.
+2. Inside it, create three files:
+   - `file1.txt`
+   - `file2.txt`
+   - `file3.txt`
+3. Add some sample content to each file.
+4. Create an uncompressed TAR archive named `files.tar`.
+5. List the contents of the archive without extracting it.
+6. Create a gzip-compressed archive named `files.tar.gz`.
+7. Create a bzip2-compressed archive named `files.tar.bz2`.
+8. Create an xz-compressed archive named `files.tar.xz`.
+9. Compare the sizes of the four archives using `ls -lh`.
+10. Extract `files.tar.gz` into a directory named `extracted`.
+11. Verify that all files were extracted successfully.
+
+**Expected Knowledge:**
+- Creating archives with `tar`.
+- Using gzip, bzip2, and xz compression.
+- Listing archive contents.
+- Extracting archives into specific directories.
+- Comparing archive sizes.
+
+### Exercise 5 — Working with Compression Tools
+
+**Objective:** Practice using individual compression utilities.
+
+1. Create a file named `data.txt` containing several lines of text.
+2. Compress it using `gzip`.
+3. List the resulting files.
+4. Decompress it using `gunzip`.
+5. Repeat the process using `bzip2`.
+6. Repeat the process using `xz`.
+7. Use the `-k` option to keep the original file while compressing another copy.
+8. Compare the compressed file sizes.
+9. Create a ZIP archive containing multiple files.
+10. List its contents using `unzip -l`.
+11. Extract the ZIP archive into a directory named `zip-extracted`.
+12. Test the integrity of the ZIP archive using `unzip -t`.
+
+**Expected Knowledge:**
+- Using gzip, bzip2, and xz.
+- Understanding compression and decompression.
+- Preserving original files.
+- Creating and extracting ZIP archives.
+
+### Exercise 6 — Copying and Moving Files
+
+**Objective:** Practice copying, moving, and renaming files and directories.
+
+1. Create a directory named `file-management-lab`.
+2. Inside it, create two directories:
+   - `source`
+   - `destination`
+3. Create three files inside `source`:
+   - `notes.txt`
+   - `script.sh`
+   - `config.conf`
+4. Copy `notes.txt` into `destination` using `cp`.
+5. Copy all files from `source` into `destination`.
+6. Create a directory named `backup`.
+7. Copy the entire `source` directory into `backup` using `cp -r`.
+8. Rename `notes.txt` to `linux-notes.txt` using `mv`.
+9. Move `config.conf` into `destination`.
+10. Use `mv -i` to observe how interactive overwrite confirmation works.
+11. Display the directory structure using `ls -R`.
+12. Explain the difference between copying, moving, and renaming files.
+
+**Expected Knowledge:**
+- Copying files and directories with `cp`.
+- Moving and renaming with `mv`.
+- Understanding recursive operations.
+- Using interactive options.
+
+### Exercise 7 — Installing Files with install
+
+**Objective:** Practice using `install` to copy files and set permissions.
+
+1. Create a shell script named `hello.sh`.
+2. Add a simple command that displays `Hello from RootBound!`.
+3. Create a directory named `install-lab`.
+4. Use `install -d` to create a directory named `bin` inside `install-lab`.
+5. Copy `hello.sh` into `install-lab/bin` with permissions `755`.
+6. Verify the file permissions using `ls -l`.
+7. Create another copy with permissions `644`.
+8. Compare the permissions of both copies.
+9. Use `install -D` to copy a file into a nested directory structure that does not yet exist.
+10. Explain how `install` differs from `cp`.
+
+**Expected Knowledge:**
+- Copying files with `install`.
+- Setting permissions during installation.
+- Creating directories with `install -d`.
+- Using `install -D`.
+
+### Exercise 8 — Working with Hard Links
+
+**Objective:** Understand how hard links share the same inode.
+
+1. Create a directory named `hardlink-lab`.
+2. Navigate into the directory.
+3. Create a file named `original.txt`.
+4. Add some text to the file.
+5. Create a hard link named `hardlink.txt`.
+6. Display the inode numbers using `ls -li`.
+7. Verify that both filenames have the same inode number.
+8. Display the link count using `stat`.
+9. Append new content to `hardlink.txt`.
+10. Read the content through `original.txt`.
+11. Remove `original.txt`.
+12. Verify that `hardlink.txt` still exists and can be accessed.
+13. Explain why removing one filename does not necessarily delete the underlying file.
+
+**Expected Knowledge:**
+- Understanding inodes.
+- Creating hard links with `ln`.
+- Checking inode numbers and link counts.
+- Understanding hard link behavior.
+
+### Exercise 9 — Working with Symbolic Links
+
+**Objective:** Practice creating, inspecting, and managing symbolic links.
+
+1. Create a directory named `symlink-lab`.
+2. Navigate into the directory.
+3. Create a file named `target.txt`.
+4. Add some content to the file.
+5. Create a symbolic link named `shortcut.txt`.
+6. Display the directory contents using `ls -l`.
+7. Inspect the link target using `readlink`.
+8. Compare the inode numbers of the target and symbolic link using `ls -li`.
+9. Create a directory named `documents`.
+10. Create a symbolic link named `documents-link` pointing to it.
+11. Access the directory through the symbolic link.
+12. Remove `target.txt`.
+13. Verify that `shortcut.txt` still exists but no longer points to an available target.
+14. Use `test -e` to check whether the target exists.
+15. Remove the broken symbolic link without deleting any other files.
+
+**Expected Knowledge:**
+- Creating symbolic links with `ln -s`.
+- Using `readlink`.
+- Understanding absolute and relative paths.
+- Identifying broken symbolic links.
+- Removing symbolic links safely.
+
+### Exercise 10 — Final Challenge: Linux File Management
+
+**Objective:** Combine permissions, ownership, archiving, copying, installation, and links in a practical scenario.
+
+Imagine you are preparing a small project directory that contains scripts, configuration files, and documentation.
+
+Complete the following tasks:
+
+1. Create a directory named `rootbound-project`.
+2. Inside it, create the following directory structure:
+
+   ```text
+   rootbound-project/
+   ├── bin/
+   ├── config/
+   ├── docs/
+   └── backup/
+   ```
+
+3. Create the following files:
+   - `bin/backup.sh`
+   - `config/app.conf`
+   - `docs/README.txt`
+4. Add sample content to each file.
+5. Set the permissions of `backup.sh` to `755`.
+6. Set the permissions of `app.conf` to `600`.
+7. Set the permissions of `README.txt` to `644`.
+8. Display the permissions of all files and directories.
+9. Create a symbolic link named `backup-script` pointing to `bin/backup.sh`.
+10. Create a hard link named `README-backup.txt` pointing to `docs/README.txt`.
+11. Verify the inode numbers of the hard link and its original file.
+12. Create a compressed archive of the entire project using `tar` and gzip.
+13. List the archive contents without extracting them.
+14. Copy the archive into the `backup` directory using `cp`.
+15. Use `install` to create a copy of `backup.sh` with executable permissions inside a new directory named `installed/bin`.
+16. Verify the permissions of the installed script.
+17. Remove the symbolic link and verify that the original script still exists.
+18. Remove one of the hard links and verify that the other filename still works.
+19. Extract the backup archive into a new directory named `restored`.
+20. Verify that the restored project contains the expected files and directories.
+
+**Final Review Questions**
+
+1. What is an inode, and what information does it store?
+2. What is the difference between a hard link and a symbolic link?
+3. Why can hard links not normally reference directories?
+4. What happens when the target of a symbolic link is deleted?
+5. What is the difference between `chmod` and `chown`?
+6. What is the purpose of SUID, SGID, and the sticky bit?
+7. How does `umask` affect the default permissions of newly created files and directories?
+8. What is the difference between archiving and compression?
+9. What is the difference between `tar -czf` and `tar -cjf`?
+10. What is the difference between `cp`, `mv`, and `install`?
+
+
+**Goal:** Develop practical skills in managing file permissions and ownership, archiving and compressing files, copying and moving files, installing files, and creating and managing hard links and symbolic links in Linux.
 
 <p align="right">
   <a href="../Day-03/README.md">← Day 03</a>
