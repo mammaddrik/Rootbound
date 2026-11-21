@@ -150,7 +150,7 @@ Therefore:
 **Important:** The exact appearance of Nano may vary depending on its version, terminal settings, and configuration.
 
 <p align="center">
-    <img src="https://i.postimg.cc/8PfMK73V/nano.png" alt="nano">
+    <img src="https://i.postimg.cc/8PfMK73V/nano.png" alt="nano" width="300">
 </p>
 
 #### Opening and Creating Files
