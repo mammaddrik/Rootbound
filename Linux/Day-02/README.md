@@ -171,6 +171,10 @@ nano notes.txt
 
 If `notes.txt` exists, Nano opens it for editing.
 
+<p align="center">
+    <img src="https://i.postimg.cc/Wzvhb7j3/open-file.png" alt="nano open">
+</p>
+
 **Example — Create a New File:**
 
 ```bash
@@ -178,6 +182,10 @@ nano newfile.txt
 ```
 
 If the specified file does not exist, Nano opens a new editing buffer. The file is created when the changes are saved.
+
+<p align="center">
+    <img src="https://i.postimg.cc/XJ0Vw7h7/nano-Create.png" alt="nano create">
+</p>
 
 **Open a File Using an Absolute Path:**
 
@@ -192,6 +200,10 @@ nano +10 notes.txt
 ```
 
 This opens `notes.txt` with the cursor positioned at line 10.
+
+<p align="center">
+    <img src="https://i.postimg.cc/MTG931gY/nano-10.png" alt="nano Specific Line">
+</p>
 
 #### Editing Text
 
