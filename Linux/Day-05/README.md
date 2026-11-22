@@ -75,6 +75,14 @@
     - [Summary](#summary)
     - [Additional Resources](#additional-resources)
   - [Practical Exercises](#practical-exercises)
+    - [Exercise 1 — Understanding Standard Streams](#exercise-1--understanding-standard-streams)
+    - [Exercise 2 — Working with Text Processing Commands](#exercise-2--working-with-text-processing-commands)
+    - [Exercise 3 — Working with Pipes and tee](#exercise-3--working-with-pipes-and-tee)
+    - [Exercise 4 — Searching Text with grep](#exercise-4--searching-text-with-grep)
+    - [Exercise 5 — Processing Text with awk](#exercise-5--processing-text-with-awk)
+    - [Exercise 6 — Working with System Files](#exercise-6--working-with-system-files)
+    - [Exercise 7 — Advanced Text Processing Pipeline](#exercise-7--advanced-text-processing-pipeline)
+    - [Exercise 8 — Final Challenge: Linux Log Analyzer](#exercise-8--final-challenge-linux-log-analyzer)
 
 ---
 
@@ -5989,9 +5997,247 @@ Understanding these tools makes it easier to investigate system logs, inspect co
 
 ---
 
+
 ## Practical Exercises
 
+The following exercises are designed to reinforce the concepts and commands introduced throughout Day 05. They focus on standard streams, input and output redirection, text-processing utilities, pipelines, text searching, and data analysis using `grep` and `awk`.
+
+### Exercise 1 — Understanding Standard Streams
+
+**Objective:** Understand standard input, standard output, and standard error.
+
+1. Display a simple message using `echo`.
+2. Display the contents of `/etc/passwd`.
+3. Run a command that produces an error by attempting to list a nonexistent directory.
+4. Redirect standard output to a file named `output.txt`.
+5. Redirect standard error to a file named `errors.txt`.
+6. Redirect both standard output and standard error to a single file.
+7. Append command output to an existing file without overwriting its contents.
+8. Redirect standard output to `/dev/null` while allowing error messages to remain visible.
+9. Use input redirection to provide the contents of a file to a command.
+10. Create a small text file using a here-document.
+
+**Challenge:**
+
+Run a command that produces both normal output and error messages. Save standard output and standard error into two separate files.
+
+### Exercise 2 — Working with Text Processing Commands
+
+**Objective:** Practice extracting, sorting, combining, and modifying text.
+
+1. Create a file named `employees.txt` containing the following data:
+
+   ```text
+   Alice Developer 5000
+   Bob Administrator 4500
+   Charlie Engineer 6000
+   David Designer 4000
+   Emma Developer 5500
+   ```
+
+2. Use `cut` to extract the first field from a colon-separated file.
+3. Use `paste` to combine two text files side by side.
+4. Use `sort` to sort employee names alphabetically.
+5. Use `sort -n` to sort a file containing numeric values.
+6. Use `sort -r` to reverse the sorting order.
+7. Use `tr` to convert lowercase letters to uppercase.
+8. Use `tr` to remove all numeric characters from a text file.
+9. Use `head` to display the first three lines of `employees.txt`.
+10. Use `tail` to display the last two lines.
+11. Use `tail -f` to monitor a log file while another terminal appends new entries.
+12. Use `join` to combine two sorted files using a common field.
+13. Use `split` to divide a large text file into smaller files.
+14. Use `uniq` to identify repeated adjacent lines.
+15. Use `uniq -c` to count consecutive duplicate lines after sorting.
+16. Use `wc -l` to count the number of lines in a file.
+17. Use `wc -w` to count the number of words.
+18. Use `nl` to display a file with numbered lines.
+19. Use `expand` to convert tabs into spaces.
+20. Use `unexpand` to convert appropriate leading spaces back into tabs.
+
+**Challenge:**
+
+Create a pipeline that sorts a list of names, removes consecutive duplicates, and displays the total number of unique names.
+
+### Exercise 3 — Working with Pipes and tee
+
+**Objective:** Combine commands and save intermediate results.
+
+1. Display the contents of a text file using `cat` and pipe the output to `grep`.
+2. Use a pipeline to search for lines containing `error` in a log file.
+3. Combine `grep`, `sort`, and `uniq` to identify frequently occurring error messages.
+4. Use `wc -l` to count matching records in a pipeline.
+5. Use `head` to display only the first five results of a command.
+6. Use `tee` to display command output while saving it to a file.
+7. Use `tee -a` to append output to an existing file.
+8. Use `tee` to save the output of an intermediate command in a pipeline.
+9. Redirect the output of `tee` to `/dev/null` when only the saved file is needed.
+10. Explain why `sudo echo "text" > /etc/example.conf` may fail and use `sudo tee` to write to a protected file.
+
+**Challenge:**
+
+Create a pipeline that searches a log file for lines containing `error`, displays the matching lines, and saves the same results into `errors.txt`.
+
+### Exercise 4 — Searching Text with grep
+
+**Objective:** Develop practical text-searching skills using `grep`.
+
+1. Create a file named `application.log` containing several informational messages, warnings, and errors.
+2. Search for all lines containing the word `error`.
+3. Perform a case-insensitive search for `warning`.
+4. Display matching lines with their line numbers.
+5. Search for a complete word using `-w`.
+6. Search for an exact line using `-x`.
+7. Display lines that do not contain `error`.
+8. Count the number of lines containing `warning`.
+9. Display only the matching portions of lines using `-o`.
+10. Search for multiple patterns using `-E`.
+11. Use `-A` to display lines after a match.
+12. Use `-B` to display lines before a match.
+13. Use `-C` to display context around a match.
+14. Search recursively for a configuration setting inside `/etc/`.
+15. Search only files ending in `.conf`.
+16. Exclude files ending in `.log` from a recursive search.
+17. Use `-f` to search for multiple patterns stored in a separate file.
+18. Use `-F` to search for a literal string containing special characters.
+19. Use `-q` inside an `if` statement to check whether a pattern exists.
+
+**Challenge:**
+
+Search an application log for lines containing `error`, regardless of capitalization. Display their line numbers and three surrounding lines of context.
+
+### Exercise 5 — Processing Text with awk
+
+**Objective:** Learn how to extract fields, filter records, and perform calculations.
+
+1. Create an `employees.txt` file using the employee data from Exercise 2.
+2. Use `awk` to display the entire contents of the file.
+3. Display only the first field of each record.
+4. Display the first and third fields.
+5. Display the last field using `$NF`.
+6. Display the number of fields in each record using `NF`.
+7. Display record numbers using `NR`.
+8. Display employees whose salaries are greater than `5000`.
+9. Display employees whose roles are `Developer`.
+10. Use logical operators to find employees whose salaries are between `4000` and `5500`.
+11. Use regular expressions to find employee names beginning with an uppercase letter.
+12. Use `BEGIN` to display a report title.
+13. Use `END` to display a completion message.
+14. Calculate the total salary of all employees.
+15. Calculate the average salary.
+16. Find the employee with the highest salary.
+17. Find the employee with the lowest salary.
+18. Use `toupper()` to display employee names in uppercase.
+19. Use `length()` to display the length of each employee name.
+20. Use `printf` to create a formatted employee table.
+
+**Challenge:**
+
+Create an employee salary report that includes:
+
+- Employee name.
+- Employee role.
+- Individual salary.
+- Total number of employees.
+- Total salary.
+- Average salary.
+- Highest salary.
+- Lowest salary.
+
+Use `BEGIN`, regular processing blocks, and `END` to organize your program.
+
+### Exercise 6 — Working with System Files
+
+**Objective:** Apply text-processing commands to real Linux system files.
+
+1. Display all usernames from `/etc/passwd` using `awk`.
+2. Display usernames and their home directories.
+3. Display usernames and their configured login shells.
+4. Find accounts configured with `/bin/bash` as their login shell.
+5. Count the number of account entries in `/etc/passwd`.
+6. Search `/var/log/` for lines containing `error`.
+7. Perform a case-insensitive search for `failed` in available authentication logs.
+8. Use `grep -n` to display matching line numbers.
+9. Use `awk` to extract filesystem names and usage percentages from `df -h`.
+10. Use `ps` and `awk` to display process names and memory usage.
+11. Count processes belonging to each user.
+12. Use `grep -v` to exclude unwanted log entries.
+
+**Note:** System log filenames, permissions, and available commands may differ between Linux distributions. Some exercises may require `sudo` privileges.
+
+### Exercise 7 — Advanced Text Processing Pipeline
+
+**Objective:** Combine multiple commands to solve practical text-processing problems.
+
+1. Create a file named `access.log` containing sample web server log entries.
+2. Use `grep` to identify lines containing HTTP status code `404`.
+3. Use `awk` to extract the IP address from each matching entry.
+4. Use `sort` to organize the extracted IP addresses.
+5. Use `uniq -c` to count requests from each IP address.
+6. Sort the results numerically in descending order.
+7. Display the five IP addresses with the highest number of failed requests.
+8. Use `tee` to save the results into `top_ips.txt`.
+9. Use `wc -l` to count the number of unique IP addresses in the report.
+10. Use `awk` to calculate the total number of matching requests.
+
+**Challenge:**
+
+Build a complete pipeline that identifies the most active IP addresses generating HTTP 404 responses and produces a sorted report.
+
+### Exercise 8 — Final Challenge: Linux Log Analyzer
+
+**Objective:** Build a practical log-analysis workflow using the commands introduced throughout Day 05.
+
+Create a sample file named `system.log` containing entries similar to the following:
+
+```text
+2026-11-22 08:15:10 INFO System started
+2026-11-22 08:17:22 WARNING High memory usage
+2026-11-22 08:20:15 ERROR Database connection failed
+2026-11-22 08:22:40 INFO User logged in
+2026-11-22 08:25:10 ERROR Disk operation failed
+2026-11-22 08:27:55 WARNING CPU usage is high
+2026-11-22 08:30:12 INFO Backup completed
+2026-11-22 08:35:40 ERROR Application crashed
+2026-11-22 08:40:15 INFO Service restarted
+2026-11-22 08:45:20 WARNING Network latency detected
+```
+
+Complete the following tasks:
+
+1. Display the first five entries using `head`.
+2. Display the last three entries using `tail`.
+3. Search for all `ERROR` entries using `grep`.
+4. Perform a case-insensitive search for `warning`.
+5. Display matching entries with their line numbers.
+6. Count the total number of error entries.
+7. Count the total number of warning entries.
+8. Use `awk` to extract the date, time, and severity level.
+9. Use `awk` to count how many entries belong to each severity level.
+10. Calculate the total number of log entries.
+11. Use `awk` to display only `ERROR` entries.
+12. Use `sort` and `uniq` to identify repeated severity levels.
+13. Create a report containing all error messages.
+14. Use `tee` to display the report and save it into `error-report.txt`.
+15. Redirect standard output and standard error separately when running a command that may encounter errors.
+
+**Final Challenge:**
+
+Create a complete log-analysis report with the following information:
+
+- Total number of log entries.
+- Number of informational messages.
+- Number of warning messages.
+- Number of error messages.
+- All error messages with their timestamps.
+- The most frequently occurring severity level.
+- A summary file containing the extracted results.
+
+Your solution should combine `grep`, `awk`, `sort`, `uniq`, `wc`, pipes, redirection, and `tee`.
+
 ---
+
+**Goal:** Develop practical skills in managing standard input, output, and error streams, processing and filtering text, building command pipelines, searching with regular expressions, and analyzing structured data using grep and awk in Linux.
 
 <p align="right">
   <a href="../Day-04/README.md">← Day 04</a>
