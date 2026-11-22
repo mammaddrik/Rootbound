@@ -753,29 +753,2655 @@ These concepts are also essential for understanding pipes, which allow the outpu
 
 ---
 
+
 ## Text Processing Commands
+
+Linux provides a collection of command-line utilities for extracting, transforming, sorting, comparing, and analyzing text.
+
+These utilities are particularly useful when working with configuration files, log files, CSV data, command output, and large text documents.
+
+Most text-processing commands read data from standard input or one or more files and write their results to standard output. This makes them especially useful when combined with input/output redirection and pipes.
+
+The following commands are commonly used for text processing:
+
+- `cut` — Extract specific fields or character positions from lines.
+- `paste` — Merge lines from multiple files.
+- `sort` — Sort lines of text.
+- `tr` — Translate, delete, or squeeze characters.
+- `head` and `tail` — Display the beginning or end of files.
+- `join` — Combine lines from two files using a common field.
+- `split` — Divide large files into smaller files.
+- `uniq` — Identify or remove adjacent duplicate lines.
+- `wc` — Count lines, words, characters, and bytes.
+- `nl` — Number lines in a file.
+- `expand` and `unexpand` — Convert between tabs and spaces.
 
 ### Working with cut
 
+The `cut` command extracts specific sections from each line of a file or standard input.
+
+It is commonly used to extract columns, fields, or individual character positions from structured text.
+
+**Syntax**
+
+```bash
+cut OPTION... [FILE...]
+```
+
+The `cut` command supports three main selection methods:
+
+- Bytes (`-b`)
+- Characters (`-c`)
+- Fields (`-f`)
+
+**Extracting Characters by Position**
+
+The `-c` option extracts characters based on their positions in each line.
+
+Example:
+
+```bash
+echo "Linux System" | cut -c 1-5
+```
+
+Output:
+
+```text
+Linux
+```
+
+Extract characters from position 7 to the end:
+
+```bash
+echo "Linux System" | cut -c 7-
+```
+
+Output:
+
+```text
+System
+```
+
+Extract specific character positions:
+
+```bash
+echo "Linux System" | cut -c 1,3,5
+```
+
+Output:
+
+```text
+Lnx
+```
+
+You can use the following position formats:
+
+| Format | Description |
+|---|---|
+| `-c 1-5` | Characters from position 1 to 5 |
+| `-c 3-` | Characters from position 3 to the end |
+| `-c -5` | First 5 characters |
+| `-c 1,3,5` | Characters at positions 1, 3, and 5 |
+
+**Note:** Character positions and byte positions are not always equivalent. In UTF-8 text, a single character may occupy multiple bytes. Use `-c` when selecting character positions rather than assuming that `-b` behaves the same way.
+
+**Extracting Bytes**
+
+The `-b` option extracts specific byte positions from each line.
+
+Example:
+
+```bash
+echo "Linux System" | cut -b 1-5
+```
+
+Output:
+
+```text
+Linux
+```
+
+Extract the first three bytes:
+
+```bash
+echo "Linux System" | cut -b 1-3
+```
+
+Output:
+
+```text
+Lin
+```
+
+This option is particularly useful when working with ASCII text or data formats where byte positions are important.
+
+**Extracting Fields**
+
+The `-f` option extracts fields separated by a delimiter.
+
+By default, `cut` uses the TAB character as its field delimiter.
+
+Consider a file named `users.txt`:
+
+```text
+alice:developer:25
+bob:administrator:30
+charlie:analyst:28
+```
+
+Extract the first field:
+
+```bash
+cut -d ':' -f 1 users.txt
+```
+
+Output:
+
+```text
+alice
+bob
+charlie
+```
+
+Extract the second field:
+
+```bash
+cut -d ':' -f 2 users.txt
+```
+
+Output:
+
+```text
+developer
+administrator
+analyst
+```
+
+Extract multiple fields:
+
+```bash
+cut -d ':' -f 1,3 users.txt
+```
+
+Output:
+
+```text
+alice:25
+bob:30
+charlie:28
+```
+
+Extract a range of fields:
+
+```bash
+cut -d ':' -f 1-2 users.txt
+```
+
+Output:
+
+```text
+alice:developer
+bob:administrator
+charlie:analyst
+```
+
+**Changing the Output Delimiter**
+
+The `--output-delimiter` option changes the separator between extracted fields.
+
+Example:
+
+```bash
+cut -d ':' -f 1,3 --output-delimiter=' | ' users.txt
+```
+
+Output:
+
+```text
+alice | 25
+bob | 30
+charlie | 28
+```
+
+**Selecting Lines Without the Delimiter**
+
+By default, when using `-f`, lines that do not contain the specified delimiter are printed unchanged.
+
+The `-s` option suppresses these lines.
+
+Example:
+
+```bash
+echo -e "alice:admin\nunknown\nbob:user" | cut -d ':' -f 1 -s
+```
+
+Output:
+
+```text
+alice
+bob
+```
+
+**Complementing a Selection**
+
+The `--complement` option selects everything except the specified positions or fields.
+
+Example:
+
+```bash
+echo "alice:developer:25" | cut -d ':' -f 2 --complement
+```
+
+Output:
+
+```text
+alice:25
+```
+
+This removes the second field from the output.
+
+**Practical Examples**
+
+Extract usernames from a colon-separated file:
+
+```bash
+cut -d ':' -f 1 /etc/passwd
+```
+
+Extract usernames and login shells:
+
+```bash
+cut -d ':' -f 1,7 /etc/passwd
+```
+
+Extract the first column of a CSV file:
+
+```bash
+cut -d ',' -f 1 data.csv
+```
+
+**Important Notes**
+
+- `-d` specifies the field delimiter.
+- `-f` selects fields.
+- `-c` selects character positions.
+- `-b` selects byte positions.
+- `-s` suppresses lines without the delimiter when using field selection.
+- `--complement` selects everything except the specified fields or positions.
+- `cut` is designed for simple delimiter-separated data, not complex CSV files containing quoted fields or delimiters inside quoted values.
+
 ### Working with paste
+
+The `paste` command combines corresponding lines from multiple files.
+
+It is useful when you want to merge columns of data or combine separate text files side by side.
+
+Unlike `cat`, which joins file contents sequentially, `paste` combines corresponding lines horizontally by default.
+
+**Syntax**
+
+```bash
+paste [OPTION...] [FILE...]
+```
+
+**Combining Files Side by Side**
+
+Create two files:
+
+`names.txt`:
+
+```text
+Alice
+Bob
+Charlie
+```
+
+`ages.txt`:
+
+```text
+25
+30
+28
+```
+
+Combine them:
+
+```bash
+paste names.txt ages.txt
+```
+
+Output:
+
+```text
+Alice   25
+Bob     30
+Charlie 28
+```
+
+By default, `paste` uses a TAB character to separate the columns.
+
+**Changing the Delimiter**
+
+The `-d` option allows you to specify a different delimiter.
+
+Example:
+
+```bash
+paste -d ':' names.txt ages.txt
+```
+
+Output:
+
+```text
+Alice:25
+Bob:30
+Charlie:28
+```
+
+You can also use multiple delimiters:
+
+```bash
+paste -d ':,' names.txt ages.txt cities.txt
+```
+
+The delimiters are applied cyclically between input files.
+
+**Combining Multiple Files**
+
+Create another file named `cities.txt`:
+
+```text
+London
+Paris
+Berlin
+```
+
+Combine all three files:
+
+```bash
+paste names.txt ages.txt cities.txt
+```
+
+Output:
+
+```text
+Alice   25      London
+Bob     30      Paris
+Charlie 28      Berlin
+```
+
+**Serial Combination**
+
+The `-s` option combines lines from each input file serially rather than combining corresponding lines horizontally.
+
+Example:
+
+```bash
+paste -s names.txt
+```
+
+Output:
+
+```text
+Alice   Bob     Charlie
+```
+
+Use a comma as the delimiter:
+
+```bash
+paste -s -d ',' names.txt
+```
+
+Output:
+
+```text
+Alice,Bob,Charlie
+```
+
+When multiple files are provided with `-s`, each file is processed separately.
+
+**Using Standard Input**
+
+The `paste` command can also read data from standard input.
+
+The `-` symbol represents standard input.
+
+Example:
+
+```bash
+echo -e "Alice\nBob" | paste - -
+```
+
+Output:
+
+```text
+Alice   Bob
+```
+
+Here, the same standard input stream is used for both input positions, allowing `paste` to combine consecutive lines into columns.
+
+**Handling Files with Different Numbers of Lines**
+
+If input files contain different numbers of lines, `paste` continues until all input files reach the end.
+
+Missing fields are represented by empty values.
+
+For example:
+
+`names.txt`:
+
+```text
+Alice
+Bob
+Charlie
+```
+
+`ages.txt`:
+
+```text
+25
+30
+```
+
+Command:
+
+```bash
+paste names.txt ages.txt
+```
+
+Output:
+
+```text
+Alice   25
+Bob     30
+Charlie
+```
+
+**Important Options**
+
+| Option | Description |
+|---|---|
+| `-d` | Specify one or more delimiters |
+| `-s` | Combine lines serially instead of horizontally |
+| `-` | Read from standard input |
+
+**Practical Example**
+
+Combine usernames and their login shells from `/etc/passwd`:
+
+```bash
+cut -d ':' -f 1 /etc/passwd > usernames.txt
+cut -d ':' -f 7 /etc/passwd > shells.txt
+
+paste -d ' | ' usernames.txt shells.txt
+```
+
+This produces a two-column result containing usernames and their corresponding shells.
 
 ### Working with sort
 
+The `sort` command arranges lines of text in a specific order.
+
+It is commonly used to organize lists, sort numerical values, process structured data, and prepare files for other text-processing commands.
+
+By default, `sort` arranges lines in ascending lexicographical order according to the current locale.
+
+**Syntax**
+
+```bash
+sort [OPTION...] [FILE...]
+```
+
+**Basic Sorting**
+
+Create a file named `names.txt`:
+
+```text
+Charlie
+Alice
+Bob
+David
+```
+
+Sort the file:
+
+```bash
+sort names.txt
+```
+
+Output:
+
+```text
+Alice
+Bob
+Charlie
+David
+```
+
+The original file remains unchanged.
+
+**Reverse Sorting**
+
+The `-r` option reverses the sorting order.
+
+Example:
+
+```bash
+sort -r names.txt
+```
+
+Output:
+
+```text
+David
+Charlie
+Bob
+Alice
+```
+
+**Numeric Sorting**
+
+By default, `sort` compares lines lexicographically rather than numerically.
+
+Consider a file named `numbers.txt`:
+
+```text
+10
+2
+30
+1
+20
+```
+
+Default sorting:
+
+```bash
+sort numbers.txt
+```
+
+Output:
+
+```text
+1
+10
+2
+20
+30
+```
+
+To sort numbers according to their numerical values, use `-n`:
+
+```bash
+sort -n numbers.txt
+```
+
+Output:
+
+```text
+1
+2
+10
+20
+30
+```
+
+For reverse numerical sorting:
+
+```bash
+sort -nr numbers.txt
+```
+
+Output:
+
+```text
+30
+20
+10
+2
+1
+```
+
+**Sorting in Human-Readable Format**
+
+The `-h` option sorts human-readable numerical values containing suffixes such as K, M, and G.
+
+Example:
+
+```text
+1K
+20M
+500K
+2G
+```
+
+Command:
+
+```bash
+sort -h sizes.txt
+```
+
+This sorts the values according to their approximate numerical sizes.
+
+**Removing Duplicate Lines**
+
+The `-u` option sorts the input and removes duplicate lines.
+
+Example:
+
+```bash
+sort -u names.txt
+```
+
+This is useful when you want a sorted list containing only unique lines.
+
+Unlike `uniq`, which normally removes only adjacent duplicates, `sort -u` can eliminate duplicates that were originally separated in the input.
+
+**Sorting by a Specific Field**
+
+The `-k` option specifies a field or key used for sorting.
+
+Consider a file named `users.txt`:
+
+```text
+alice 25 developer
+bob 30 administrator
+charlie 22 analyst
+```
+
+Sort by the second field numerically:
+
+```bash
+sort -k2,2n users.txt
+```
+
+Output:
+
+```text
+charlie 22 analyst
+alice 25 developer
+bob 30 administrator
+```
+
+The `-k2,2n` option means:
+
+- `-k2,2` selects the second field as the sorting key.
+- `n` enables numerical sorting.
+
+Sort by the third field:
+
+```bash
+sort -k3,3 users.txt
+```
+
+**Changing the Field Separator**
+
+By default, `sort` uses whitespace to identify fields.
+
+The `-t` option allows you to specify a different field separator.
+
+Consider a colon-separated file:
+
+```text
+alice:developer:25
+bob:administrator:30
+charlie:analyst:22
+```
+
+Sort by the third field numerically:
+
+```bash
+sort -t ':' -k3,3n users.txt
+```
+
+Output:
+
+```text
+charlie:analyst:22
+alice:developer:25
+bob:administrator:30
+```
+
+**Sorting by Multiple Fields**
+
+You can provide multiple sorting keys.
+
+Example:
+
+```bash
+sort -k2,2n -k1,1 users.txt
+```
+
+This sorts records primarily by the second field numerically and then by the first field alphabetically when the primary keys are equal.
+
+**Case-Insensitive Sorting**
+
+The `-f` option ignores case differences during sorting.
+
+Example:
+
+```bash
+sort -f names.txt
+```
+
+**Checking Whether a File Is Already Sorted**
+
+The `-c` option checks whether a file is sorted.
+
+Example:
+
+```bash
+sort -c names.txt
+```
+
+If the file is sorted, no output is produced and the command exits successfully.
+
+If it is not sorted, `sort` reports the first disorder it encounters and returns a non-zero exit status.
+
+**Saving Sorted Output**
+
+Use redirection to save the sorted result:
+
+```bash
+sort names.txt > sorted-names.txt
+```
+
+You can also sort a file and replace its contents using:
+
+```bash
+sort -o names.txt names.txt
+```
+
+The `-o` option specifies the output file.
+
+**Important Options**
+
+| Option | Description |
+|---|---|
+| `-r` | Reverse the sorting order |
+| `-n` | Sort numerically |
+| `-h` | Sort human-readable numbers |
+| `-u` | Remove duplicate lines |
+| `-k` | Sort by a specific field or key |
+| `-t` | Specify the field separator |
+| `-f` | Ignore case differences |
+| `-c` | Check whether input is sorted |
+| `-o` | Write output to a specified file |
+| `-M` | Sort by month names |
+| `-V` | Perform version sorting |
+
+**Practical Examples**
+
+Sort a list alphabetically:
+
+```bash
+sort names.txt
+```
+
+Sort numbers in descending order:
+
+```bash
+sort -nr numbers.txt
+```
+
+Sort a CSV file by its second column:
+
+```bash
+sort -t ',' -k2,2 data.csv
+```
+
+Sort and remove duplicates:
+
+```bash
+sort -u names.txt
+```
+
+Sort file sizes:
+
+```bash
+du -h /var/log/* | sort -h
+```
+
+**Important Notes**
+
+- Sorting order can depend on the current locale.
+- Use `LC_ALL=C sort` when you need predictable byte-oriented ordering across different environments.
+- `sort` does not normally modify the original file unless you explicitly write the result back to it.
+- For reliable field-based sorting, specify both the beginning and ending positions of the key when appropriate.
+
 ### Working with tr
+
+The `tr` command translates, deletes, or squeezes characters from standard input.
+
+It is particularly useful for changing letter case, replacing characters, removing unwanted characters, and normalizing text.
+
+Unlike many other text-processing commands, `tr` does not normally accept filenames as positional input arguments. It reads from standard input and writes the result to standard output.
+
+**Syntax**
+
+```bash
+tr [OPTION...] SET1 [SET2]
+```
+
+The command supports three main operations:
+
+- Translating characters.
+- Deleting characters.
+- Squeezing repeated characters.
+
+**Translating Characters**
+
+The `tr` command replaces characters from `SET1` with corresponding characters from `SET2`.
+
+Example:
+
+```bash
+echo "hello linux" | tr 'a-z' 'A-Z'
+```
+
+Output:
+
+```text
+HELLO LINUX
+```
+
+The lowercase letters are converted to uppercase.
+
+Convert uppercase letters to lowercase:
+
+```bash
+echo "HELLO LINUX" | tr 'A-Z' 'a-z'
+```
+
+Output:
+
+```text
+hello linux
+```
+
+Replace spaces with underscores:
+
+```bash
+echo "Linux Text Processing" | tr ' ' '_'
+```
+
+Output:
+
+```text
+Linux_Text_Processing
+```
+
+**Translating Specific Characters**
+
+You can specify individual characters instead of character ranges.
+
+Example:
+
+```bash
+echo "Linux System" | tr 'iu' '12'
+```
+
+Output:
+
+```text
+L1n2x System
+```
+
+Each occurrence of `i` is replaced with `1`, and each occurrence of `u` is replaced with `2`.
+
+**Deleting Characters**
+
+The `-d` option deletes all characters belonging to the specified set.
+
+Example:
+
+```bash
+echo "Linux 123 System 456" | tr -d '0-9'
+```
+
+Output:
+
+```text
+Linux  System
+```
+
+All digits are removed.
+
+Remove spaces:
+
+```bash
+echo "Linux Text Processing" | tr -d ' '
+```
+
+Output:
+
+```text
+LinuxTextProcessing
+```
+
+Remove punctuation:
+
+```bash
+echo "Hello, Linux!" | tr -d '[:punct:]'
+```
+
+Output:
+
+```text
+Hello Linux
+```
+
+**Using Character Classes**
+
+`tr` supports several predefined character classes.
+
+| Character Class | Description |
+|---|---|
+| `[:alnum:]` | Letters and digits |
+| `[:alpha:]` | Alphabetic characters |
+| `[:blank:]` | Space and TAB characters |
+| `[:cntrl:]` | Control characters |
+| `[:digit:]` | Numeric digits |
+| `[:lower:]` | Lowercase letters |
+| `[:upper:]` | Uppercase letters |
+| `[:space:]` | Whitespace characters |
+| `[:punct:]` | Punctuation characters |
+| `[:print:]` | Printable characters |
+| `[:graph:]` | Printable non-space characters |
+| `[:xdigit:]` | Hexadecimal digits |
+
+Example:
+
+Remove all digits:
+
+```bash
+echo "User123Linux456" | tr -d '[:digit:]'
+```
+
+Output:
+
+```text
+UserLinux
+```
+
+Keep only alphabetic characters:
+
+```bash
+echo "Linux123 System!" | tr -cd '[:alpha:]'
+```
+
+Output:
+
+```text
+LinuxSystem
+```
+
+The `-c` option complements the specified character set, while `-d` deletes the selected characters.
+
+**Squeezing Repeated Characters**
+
+The `-s` option replaces consecutive repeated characters with a single occurrence.
+
+Example:
+
+```bash
+echo "Helloooo    Linux" | tr -s 'o '
+```
+
+Output:
+
+```text
+Helo Linux
+```
+
+Repeated `o` characters and consecutive spaces are squeezed.
+
+You can also normalize multiple spaces:
+
+```bash
+echo "Linux     Text       Processing" | tr -s ' '
+```
+
+Output:
+
+```text
+Linux Text Processing
+```
+
+**Combining Options**
+
+The `tr` command allows you to combine operations.
+
+For example, convert text to uppercase and remove digits:
+
+```bash
+echo "linux123 system456" | tr -d '0-9' | tr 'a-z' 'A-Z'
+```
+
+Output:
+
+```text
+LINUX SYSTEM
+```
+
+Another example: remove all characters except letters and spaces:
+
+```bash
+echo "Linux123, Text! Processing." | tr -cd '[:alpha:][:space:]'
+```
+
+Output:
+
+```text
+Linux Text Processing
+```
+
+**Translating Characters into New Lines**
+
+You can replace delimiters with newline characters.
+
+Example:
+
+```bash
+echo "apple,banana,orange" | tr ',' '\n'
+```
+
+Output:
+
+```text
+apple
+banana
+orange
+```
+
+This is useful for converting simple delimiter-separated values into separate lines.
+
+**Using tr with Files**
+
+Because `tr` reads from standard input, use input redirection to process files.
+
+Example:
+
+```bash
+tr 'a-z' 'A-Z' < input.txt
+```
+
+Save the result:
+
+```bash
+tr 'a-z' 'A-Z' < input.txt > output.txt
+```
+
+**Important Options**
+
+| Option | Description |
+|---|---|
+| `-d` | Delete characters from the specified set |
+| `-s` | Squeeze repeated characters |
+| `-c` | Complement the character set |
+| `-t` | Truncate `SET1` to the length of `SET2` |
+
+**Important Notes**
+
+- `tr` processes characters from standard input.
+- It does not understand regular expressions like `grep` or `sed`.
+- Character classes must use the special `[:class:]` notation inside a character set.
+- `-c` complements the character set; it does not mean case conversion.
+- Use pipes or redirection when processing files.
 
 ### Working with head and tail
 
+The `head` and `tail` commands display specific portions of a file.
+
+- `head` displays the beginning of a file.
+- `tail` displays the end of a file.
+
+These commands are useful for inspecting large files, reviewing logs, checking configuration files, and monitoring continuously updated data.
+
+**Working with head**
+
+The `head` command displays the first lines of a file.
+
+Syntax:
+
+```bash
+head [OPTION...] [FILE...]
+```
+
+By default, it displays the first 10 lines.
+
+Example:
+
+```bash
+head file.txt
+```
+
+Display the first 5 lines:
+
+```bash
+head -n 5 file.txt
+```
+
+The same operation can be written as:
+
+```bash
+head -5 file.txt
+```
+
+Display the first 20 lines:
+
+```bash
+head -n 20 file.txt
+```
+
+**Displaying a Specific Number of Bytes**
+
+The `-c` option displays a specified number of bytes instead of lines.
+
+Example:
+
+```bash
+head -c 15 file.txt
+```
+
+This displays the first 15 bytes of the file.
+
+To display all but the last 10 lines:
+
+```bash
+head -n -10 file.txt
+```
+
+This is a GNU extension and may not be available in every implementation.
+
+**Working with tail**
+
+The `tail` command displays the last lines of a file.
+
+Syntax:
+
+```bash
+tail [OPTION...] [FILE...]
+```
+
+By default, it displays the last 10 lines.
+
+Example:
+
+```bash
+tail file.txt
+```
+
+Display the last 5 lines:
+
+```bash
+tail -n 5 file.txt
+```
+
+Display the last 20 lines:
+
+```bash
+tail -n 20 file.txt
+```
+
+**Displaying Bytes from the End**
+
+The `-c` option displays a specified number of bytes from the end of a file.
+
+Example:
+
+```bash
+tail -c 20 file.txt
+```
+
+This displays the final 20 bytes.
+
+**Displaying Everything After a Specific Line**
+
+The `-n +N` syntax starts displaying output from line N.
+
+Example:
+
+```bash
+tail -n +5 file.txt
+```
+
+This displays the file starting from line 5 through the end.
+
+**Monitoring Files in Real Time**
+
+One of the most useful features of `tail` is the `-f` option.
+
+It continuously monitors a file and displays new data as it is appended.
+
+Example:
+
+```bash
+tail -f /var/log/syslog
+```
+
+This is useful for monitoring system logs while applications or services are running.
+
+Press `Ctrl + C` to stop monitoring.
+
+On systems using systemd, a different log file may be used, and `journalctl -f` is often more appropriate for monitoring the system journal.
+
+**Following Files by Name**
+
+The `-F` option is available in GNU `tail`.
+
+Example:
+
+```bash
+tail -F /var/log/syslog
+```
+
+Unlike `-f`, which normally follows the opened file descriptor, `-F` follows the filename and retries if the file is replaced or temporarily unavailable.
+
+This is useful when log rotation replaces an existing log file.
+
+**Displaying Multiple Files**
+
+Both commands can process multiple files.
+
+Example:
+
+```bash
+head -n 3 file1.txt file2.txt
+```
+
+Display the last five lines of multiple files:
+
+```bash
+tail -n 5 file1.txt file2.txt
+```
+
+The output includes headers identifying each file.
+
+**Using head and tail Together**
+
+Display lines 5 through 10 of a file:
+
+```bash
+head -n 10 file.txt | tail -n 6
+```
+
+Explanation:
+
+1. `head -n 10` extracts the first 10 lines.
+2. `tail -n 6` displays the last 6 lines of that result.
+
+Another approach is to use `sed`:
+
+```bash
+sed -n '5,10p' file.txt
+```
+
+**Important Options**
+
+| Command | Option | Description |
+|---|---|---|
+| `head` | `-n N` | Display the first N lines |
+| `head` | `-c N` | Display the first N bytes |
+| `head` | `-n -N` | Display all but the last N lines (GNU) |
+| `tail` | `-n N` | Display the last N lines |
+| `tail` | `-c N` | Display the last N bytes |
+| `tail` | `-n +N` | Display from line N onward |
+| `tail` | `-f` | Follow a file as it grows |
+| `tail` | `-F` | Follow a filename and retry (GNU) |
+
+**Practical Examples**
+
+Display the first 10 lines of a system log:
+
+```bash
+head -n 10 /var/log/syslog
+```
+
+Display the last 20 lines:
+
+```bash
+tail -n 20 /var/log/syslog
+```
+
+Monitor a log file continuously:
+
+```bash
+tail -f application.log
+```
+
+Display lines 11 through 20:
+
+```bash
+head -n 20 file.txt | tail -n 10
+```
+
 ### Working with join
+
+The `join` command combines lines from two files based on a common field.
+
+It is similar to a database join operation because it matches records using a shared key.
+
+Unlike `paste`, which combines lines based on their positions, `join` combines lines based on matching field values.
+
+**Syntax**
+
+```bash
+join [OPTION...] FILE1 FILE2
+```
+
+By default:
+
+- Both files must be sorted according to the join field.
+- The first field is used as the matching key.
+- Fields are separated by whitespace.
+- Matching records are combined into a single output line.
+
+**Basic Joining**
+
+Create two files:
+
+`users.txt`:
+
+```text
+1 Alice
+2 Bob
+3 Charlie
+```
+
+`departments.txt`:
+
+```text
+1 Development
+2 Administration
+3 Security
+```
+
+Join the files:
+
+```bash
+join users.txt departments.txt
+```
+
+Output:
+
+```text
+1 Alice Development
+2 Bob Administration
+3 Charlie Security
+```
+
+The first field in each file is used as the matching key.
+
+**Joining by Specific Fields**
+
+The `-1` and `-2` options specify which fields should be used as join keys.
+
+- `-1` selects the join field in the first file.
+- `-2` selects the join field in the second file.
+
+Example:
+
+`users.txt`:
+
+```text
+Alice 101
+Bob 102
+Charlie 103
+```
+
+`departments.txt`:
+
+```text
+101 Development
+102 Administration
+103 Security
+```
+
+Join using the second field of the first file and the first field of the second file:
+
+```bash
+join -1 2 -2 1 users.txt departments.txt
+```
+
+Output:
+
+```text
+101 Alice Development
+102 Bob Administration
+103 Charlie Security
+```
+
+**Changing the Field Separator**
+
+The `-t` option specifies the input field separator.
+
+Example:
+
+`users.csv`:
+
+```text
+1,Alice
+2,Bob
+3,Charlie
+```
+
+`departments.csv`:
+
+```text
+1,Development
+2,Administration
+3,Security
+```
+
+Join the files using commas:
+
+```bash
+join -t ',' users.csv departments.csv
+```
+
+Output:
+
+```text
+1,Alice,Development
+2,Bob,Administration
+3,Charlie,Security
+```
+
+**Including Unmatched Records**
+
+By default, `join` only displays records with matching keys.
+
+The `-a` option includes unpaired lines from a specified file.
+
+Include unmatched records from the first file:
+
+```bash
+join -a 1 users.txt departments.txt
+```
+
+Include unmatched records from both files:
+
+```bash
+join -a 1 -a 2 users.txt departments.txt
+```
+
+This is useful when you need to identify records that do not have corresponding entries in another file.
+
+**Replacing Missing Fields**
+
+The `-e` option specifies a replacement string for empty output fields.
+
+It is commonly used together with `-a` and `-o`.
+
+Example:
+
+```bash
+join -a 1 -a 2 -e "N/A" -o auto users.txt departments.txt
+```
+
+Unmatched records can be displayed with `N/A` in missing fields.
+
+**Selecting Output Fields**
+
+The `-o` option specifies which fields should appear in the output.
+
+Example:
+
+```bash
+join -o 1.2,2.2 users.txt departments.txt
+```
+
+This selects:
+
+- Field 2 from the first file.
+- Field 2 from the second file.
+
+The join key is not included unless you explicitly request it.
+
+**Understanding Sorted Input**
+
+The `join` command expects both input files to be sorted according to their respective join fields.
+
+For example:
+
+```bash
+sort -k1,1 users.txt -o users.txt
+sort -k1,1 departments.txt -o departments.txt
+
+join users.txt departments.txt
+```
+
+When using a custom delimiter, make sure the sorting operation uses the same field structure.
+
+For example:
+
+```bash
+sort -t ',' -k1,1 users.csv -o users.csv
+sort -t ',' -k1,1 departments.csv -o departments.csv
+
+join -t ',' users.csv departments.csv
+```
+
+**Important Options**
+
+| Option | Description |
+|---|---|
+| `-1 N` | Use field N from the first file as the join key |
+| `-2 N` | Use field N from the second file as the join key |
+| `-t CHAR` | Specify the field separator |
+| `-a N` | Include unpaired lines from file N |
+| `-v N` | Display only unpaired lines from file N |
+| `-e STRING` | Replace empty output fields |
+| `-o FORMAT` | Specify output fields |
+| `-i` | Ignore case when comparing fields |
+
+**Practical Examples**
+
+Find records that exist in the first file but not the second:
+
+```bash
+join -v 1 users.txt departments.txt
+```
+
+Find records that exist in the second file but not the first:
+
+```bash
+join -v 2 users.txt departments.txt
+```
+
+Display all matching records and unmatched records:
+
+```bash
+join -a 1 -a 2 users.txt departments.txt
+```
+
+**Important Notes**
+
+- `join` is designed for structured text with identifiable fields.
+- Input files should be sorted by the join key.
+- The join keys must use compatible formats and separators.
+- For complex CSV files containing quoted fields, use a CSV-aware tool instead of relying on `join`.
 
 ### Working with split
 
+The `split` command divides a large file into smaller files.
+
+It is useful when working with large logs, datasets, backups, and files that need to be transferred or processed in smaller parts.
+
+**Syntax**
+
+```bash
+split [OPTION...] [INPUT [PREFIX]]
+```
+
+If no input file is specified, `split` reads from standard input.
+
+If no prefix is specified, the default prefix is `x`.
+
+**Splitting by Number of Lines**
+
+By default, `split` divides a file into smaller files containing 1000 lines each.
+
+The `-l` option specifies the number of lines per output file.
+
+Example:
+
+```bash
+split -l 100 file.txt
+```
+
+This creates multiple files, each containing up to 100 lines.
+
+The output files are named:
+
+```text
+xaa
+xab
+xac
+...
+```
+
+**Specifying an Output Prefix**
+
+You can specify a custom prefix.
+
+Example:
+
+```bash
+split -l 100 file.txt part_
+```
+
+Output files:
+
+```text
+part_aa
+part_ab
+part_ac
+...
+```
+
+**Splitting by File Size**
+
+The `-b` option splits a file into smaller files based on size.
+
+Example:
+
+```bash
+split -b 1M large-file.txt part_
+```
+
+This creates output files of approximately 1 MB each.
+
+Common size suffixes include:
+
+| Suffix | Meaning |
+|---|---|
+| `K` | Kilobytes (1024 bytes) |
+| `M` | Megabytes |
+| `G` | Gigabytes |
+| `T` | Terabytes |
+
+For example:
+
+```bash
+split -b 500K large-file.txt part_
+```
+
+**Splitting by Maximum Line Length**
+
+The `-C` option creates output files that do not exceed a specified size while keeping complete lines together.
+
+Example:
+
+```bash
+split -C 1M large-file.txt part_
+```
+
+Unlike `-b`, which can split data at arbitrary byte boundaries, `-C` attempts to keep lines intact.
+
+A single line larger than the specified size may still be placed in its own output file.
+
+**Using Numeric Suffixes**
+
+By default, `split` uses alphabetic suffixes.
+
+The `-d` option uses numeric suffixes instead.
+
+Example:
+
+```bash
+split -d -l 100 file.txt part_
+```
+
+Output:
+
+```text
+part_00
+part_01
+part_02
+...
+```
+
+**Changing the Suffix Length**
+
+The `-a` option specifies the number of characters used for output suffixes.
+
+Example:
+
+```bash
+split -a 3 -l 100 file.txt part_
+```
+
+Output:
+
+```text
+part_aaa
+part_aab
+part_aac
+...
+```
+
+You can combine it with numeric suffixes:
+
+```bash
+split -d -a 4 -l 100 file.txt part_
+```
+
+Output:
+
+```text
+part_0000
+part_0001
+part_0002
+...
+```
+
+**Creating Output Files with a Custom Suffix**
+
+The `--additional-suffix` option appends an additional suffix to generated filenames.
+
+Example:
+
+```bash
+split -l 100 --additional-suffix=.txt file.txt part_
+```
+
+Output:
+
+```text
+part_aa.txt
+part_ab.txt
+part_ac.txt
+...
+```
+
+**Reassembling Split Files**
+
+Files created by `split` can be combined again using `cat`.
+
+Example:
+
+```bash
+cat part_* > restored.txt
+```
+
+If the original file was split into multiple parts using the same prefix, concatenating them in their original order reconstructs the original content.
+
+For numeric suffixes, lexical sorting generally preserves the correct order when all suffixes have the same width.
+
+**Important Options**
+
+| Option | Description |
+|---|---|
+| `-l N` | Split into files containing N lines |
+| `-b SIZE` | Split according to file size |
+| `-C SIZE` | Split while keeping complete lines together |
+| `-d` | Use numeric suffixes |
+| `-a N` | Set suffix length |
+| `--additional-suffix` | Append an extra suffix to output filenames |
+| `-n N` | Split input into N chunks |
+
+**Practical Examples**
+
+Split a file into groups of 500 lines:
+
+```bash
+split -l 500 access.log logs_
+```
+
+Split a file into approximately 10 MB parts:
+
+```bash
+split -b 10M backup.tar backup_
+```
+
+Reassemble the parts:
+
+```bash
+cat backup_* > restored-backup.tar
+```
+
+**Important Notes**
+
+- The final output file may contain fewer lines or bytes than the specified limit.
+- `-b` may split a line across two output files.
+- `-C` attempts to preserve complete lines.
+- When reassembling files, use the correct original order.
+- The original input file is not modified.
+
 ### Working with uniq
+
+The `uniq` command identifies, reports, or removes repeated adjacent lines in a text file.
+
+It is commonly used to remove duplicate entries, count occurrences, and analyze repeated data.
+
+An important characteristic of `uniq` is that it normally compares only adjacent lines.
+
+**Syntax**
+
+```bash
+uniq [OPTION...] [INPUT [OUTPUT]]
+```
+
+If no input file is specified, `uniq` reads from standard input.
+
+**Removing Duplicate Lines**
+
+Create a file named `names.txt`:
+
+```text
+Alice
+Bob
+Alice
+Charlie
+Bob
+```
+
+Run:
+
+```bash
+uniq names.txt
+```
+
+Output:
+
+```text
+Alice
+Bob
+Alice
+Charlie
+Bob
+```
+
+Notice that repeated lines remain because they are not adjacent.
+
+Now sort the file first:
+
+```bash
+sort names.txt | uniq
+```
+
+Output:
+
+```text
+Alice
+Bob
+Charlie
+```
+
+Sorting groups identical lines together, allowing `uniq` to remove adjacent duplicates.
+
+**Counting Repeated Lines**
+
+The `-c` option displays the number of occurrences of each adjacent line.
+
+Example:
+
+```bash
+sort names.txt | uniq -c
+```
+
+Output:
+
+```text
+2 Alice
+2 Bob
+1 Charlie
+```
+
+This is useful for counting repeated values in logs and datasets.
+
+**Displaying Only Duplicate Lines**
+
+The `-d` option displays only lines that appear more than once in adjacent groups.
+
+Example:
+
+```bash
+sort names.txt | uniq -d
+```
+
+Output:
+
+```text
+Alice
+Bob
+```
+
+**Displaying Only Unique Lines**
+
+The `-u` option displays only lines that occur exactly once.
+
+Example:
+
+```bash
+sort names.txt | uniq -u
+```
+
+Output:
+
+```text
+Charlie
+```
+
+**Ignoring Case Differences**
+
+The `-i` option performs case-insensitive comparisons.
+
+Example:
+
+```bash
+printf "Linux\nlinux\nLINUX\nWindows\n" | sort -f | uniq -i
+```
+
+Output:
+
+```text
+Linux
+Windows
+```
+
+**Skipping Fields**
+
+The `-f` option skips a specified number of leading fields before comparing lines.
+
+Example:
+
+```text
+user1 alice
+user2 alice
+user3 bob
+```
+
+Command:
+
+```bash
+uniq -f 1 users.txt
+```
+
+The first field is ignored during comparison, so the first two lines are considered equivalent.
+
+**Skipping Characters**
+
+The `-s` option skips a specified number of leading characters before comparing lines.
+
+Example:
+
+```bash
+uniq -s 3 file.txt
+```
+
+This compares lines starting after their first three characters.
+
+**Comparing a Limited Number of Characters**
+
+The `-w` option limits comparisons to a specified number of characters.
+
+Example:
+
+```bash
+uniq -w 5 file.txt
+```
+
+Only the first five characters of each line are considered when determining whether adjacent lines are duplicates.
+
+**Writing Output to Another File**
+
+You can specify an output file:
+
+```bash
+sort names.txt | uniq > unique-names.txt
+```
+
+Alternatively:
+
+```bash
+uniq sorted-names.txt unique-names.txt
+```
+
+The input file must already have adjacent duplicate lines for `uniq` to remove them effectively.
+
+**Important Options**
+
+| Option | Description |
+|---|---|
+| `-c` | Count occurrences of adjacent lines |
+| `-d` | Display only duplicate lines |
+| `-u` | Display only lines that occur once |
+| `-i` | Ignore case differences |
+| `-f N` | Skip the first N fields |
+| `-s N` | Skip the first N characters |
+| `-w N` | Compare only the first N characters |
+
+**Practical Examples**
+
+Count unique IP addresses in a log file:
+
+```bash
+cut -d ' ' -f 1 access.log | sort | uniq -c
+```
+
+Find the most frequently occurring IP addresses:
+
+```bash
+cut -d ' ' -f 1 access.log | sort | uniq -c | sort -nr
+```
+
+Display only duplicate lines:
+
+```bash
+sort file.txt | uniq -d
+```
+
+**Important Notes**
+
+- `uniq` compares adjacent lines only.
+- Use `sort` before `uniq` when you want to remove duplicates regardless of their original positions.
+- `uniq -u` means lines occurring exactly once, not all lines that are different from their neighbors.
+- `sort -u` can be a shorter alternative when you need sorted unique lines.
 
 ### Working with wc
 
+The `wc` command counts lines, words, bytes, and characters in files or standard input.
+
+It is useful for analyzing text files, measuring content size, checking the number of records, and obtaining basic statistics.
+
+**Syntax**
+
+```bash
+wc [OPTION...] [FILE...]
+```
+
+**Basic Usage**
+
+Create a file named `sample.txt`:
+
+```text
+Linux is powerful.
+Text processing is useful.
+Learning commands takes practice.
+```
+
+Run:
+
+```bash
+wc sample.txt
+```
+
+Example output:
+
+```text
+3 11 79 sample.txt
+```
+
+The output contains:
+
+1. Number of lines.
+2. Number of words.
+3. Number of bytes.
+4. Filename.
+
+**Counting Lines**
+
+The `-l` option counts newline characters.
+
+Example:
+
+```bash
+wc -l sample.txt
+```
+
+Output:
+
+```text
+3 sample.txt
+```
+
+This is commonly used to count records or lines in log files.
+
+**Counting Words**
+
+The `-w` option counts words.
+
+Example:
+
+```bash
+wc -w sample.txt
+```
+
+Output:
+
+```text
+11 sample.txt
+```
+
+Words are generally defined as sequences of non-whitespace characters separated by whitespace.
+
+**Counting Bytes**
+
+The `-c` option counts bytes.
+
+Example:
+
+```bash
+wc -c sample.txt
+```
+
+This is useful for measuring the actual byte size of text data.
+
+**Counting Characters**
+
+The `-m` option counts characters instead of bytes.
+
+Example:
+
+```bash
+wc -m sample.txt
+```
+
+This distinction is important when working with UTF-8 text.
+
+For example, a non-ASCII character may occupy multiple bytes but still count as one character.
+
+**Finding the Maximum Line Length**
+
+The `-L` option displays the length of the longest line.
+
+Example:
+
+```bash
+wc -L sample.txt
+```
+
+This can help identify unusually long lines in configuration files or logs.
+
+**Counting Multiple Files**
+
+You can pass multiple files to `wc`.
+
+Example:
+
+```bash
+wc file1.txt file2.txt file3.txt
+```
+
+The output displays statistics for each file and a final total.
+
+**Reading from Standard Input**
+
+The `wc` command can also read data through a pipe.
+
+Example:
+
+```bash
+echo "Linux is powerful" | wc -w
+```
+
+Output:
+
+```text
+3
+```
+
+Count files in the current directory:
+
+```bash
+ls -1 | wc -l
+```
+
+This counts the lines produced by `ls -1`, which normally correspond to directory entries.
+
+**Combining Options**
+
+You can combine multiple options:
+
+```bash
+wc -lwm sample.txt
+```
+
+This displays the line, word, and character counts.
+
+**Important Options**
+
+| Option | Description |
+|---|---|
+| `-l` | Count lines |
+| `-w` | Count words |
+| `-c` | Count bytes |
+| `-m` | Count characters |
+| `-L` | Display maximum line length |
+
+**Practical Examples**
+
+Count the number of users listed in `/etc/passwd`:
+
+```bash
+wc -l /etc/passwd
+```
+
+Count the number of words in a document:
+
+```bash
+wc -w document.txt
+```
+
+Count the total number of bytes:
+
+```bash
+wc -c document.txt
+```
+
+Count lines containing a specific word:
+
+```bash
+grep -i "error" application.log | wc -l
+```
+
+**Important Notes**
+
+- `-c` counts bytes, while `-m` counts characters.
+- `-l` counts newline characters, so a final line without a terminating newline may not be counted as an additional line.
+- `-L` reports the maximum line length, not the number of lines.
+- When using pipes, `wc` receives data through standard input.
+
 ### Working with nl
 
+The `nl` command numbers lines in a text file.
+
+It is useful for adding line numbers to source code, configuration files, documentation, and command output.
+
+Unlike simply adding numbers to every line, `nl` provides options for controlling which lines receive numbers and how those numbers are formatted.
+
+**Syntax**
+
+```bash
+nl [OPTION...] [FILE...]
+```
+
+**Basic Line Numbering**
+
+Create a file named `sample.txt`:
+
+```text
+Linux
+Shell
+Text Processing
+Commands
+```
+
+Run:
+
+```bash
+nl sample.txt
+```
+
+Output:
+
+```text
+     1  Linux
+     2  Shell
+     3  Text Processing
+     4  Commands
+```
+
+By default, non-empty lines are numbered.
+
+**Numbering All Lines**
+
+The `-b a` option numbers all lines, including empty lines.
+
+Example:
+
+```bash
+nl -b a sample.txt
+```
+
+**Numbering Non-Empty Lines**
+
+The `-b t` option numbers only non-empty lines.
+
+Example:
+
+```bash
+nl -b t sample.txt
+```
+
+This is the default behavior.
+
+**Customizing the Starting Number**
+
+The `-v` option specifies the initial line number.
+
+Example:
+
+```bash
+nl -v 10 sample.txt
+```
+
+Output:
+
+```text
+    10  Linux
+    11  Shell
+    12  Text Processing
+    13  Commands
+```
+
+**Changing the Numbering Increment**
+
+The `-i` option specifies how much the line number increases each time.
+
+Example:
+
+```bash
+nl -i 5 sample.txt
+```
+
+Output:
+
+```text
+     1  Linux
+     6  Shell
+    11  Text Processing
+    16  Commands
+```
+
+**Changing the Number Width**
+
+The `-w` option specifies the width reserved for line numbers.
+
+Example:
+
+```bash
+nl -w 3 sample.txt
+```
+
+This reserves three character positions for each line number.
+
+**Changing the Number Separator**
+
+The `-s` option specifies the string placed between the line number and the line content.
+
+Example:
+
+```bash
+nl -s '. ' sample.txt
+```
+
+Output:
+
+```text
+     1. Linux
+     2. Shell
+     3. Text Processing
+     4. Commands
+```
+
+**Changing Number Alignment**
+
+The `-n` option controls how line numbers are aligned.
+
+Available values include:
+
+| Option | Description |
+|---|---|
+| `-n ln` | Left-align line numbers |
+| `-n rn` | Right-align line numbers |
+| `-n rz` | Right-align line numbers with leading zeros |
+
+Example:
+
+```bash
+nl -n rz -w 3 sample.txt
+```
+
+Output:
+
+```text
+001  Linux
+002  Shell
+003  Text Processing
+004  Commands
+```
+
+**Using Custom Numbering Rules**
+
+The `-b` option controls which lines receive numbers.
+
+Common numbering styles include:
+
+| Option | Description |
+|---|---|
+| `-b a` | Number all lines |
+| `-b t` | Number non-empty lines |
+| `-b pREGEXP` | Number only lines matching a regular expression |
+
+Example:
+
+```bash
+nl -b pLinux sample.txt
+```
+
+This numbers only lines containing the pattern `Linux`.
+
+**Important Options**
+
+| Option | Description |
+|---|---|
+| `-b a` | Number all lines |
+| `-b t` | Number non-empty lines |
+| `-b pREGEXP` | Number lines matching a regular expression |
+| `-v N` | Set the starting number |
+| `-i N` | Set the numbering increment |
+| `-w N` | Set the number field width |
+| `-s STRING` | Set the separator |
+| `-n FORMAT` | Set number alignment and formatting |
+
+**Practical Examples**
+
+Number all lines in a file:
+
+```bash
+nl -b a configuration.conf
+```
+
+Start numbering from 100:
+
+```bash
+nl -v 100 file.txt
+```
+
+Number lines with leading zeros:
+
+```bash
+nl -n rz -w 4 file.txt
+```
+
+Number only non-empty lines:
+
+```bash
+nl -b t document.txt
+```
+
+**Important Notes**
+
+- `nl` does not modify the original file.
+- By default, empty lines are not numbered.
+- Use `-b a` when every line needs a number.
+- The numbering format can be customized without changing the original text.
+
 ### Working with expand and unexpand
+
+The `expand` and `unexpand` commands convert between TAB characters and spaces.
+
+They are useful when formatting text files, normalizing indentation, and preparing files for environments where consistent spacing is important.
+
+**Working with expand**
+
+The `expand` command converts TAB characters into spaces.
+
+Syntax:
+
+```bash
+expand [OPTION...] [FILE...]
+```
+
+Create a file containing TAB characters:
+
+```bash
+printf 'Linux\tShell\nText\tProcessing\n' > tabs.txt
+```
+
+Convert tabs to spaces:
+
+```bash
+expand tabs.txt
+```
+
+The output contains spaces instead of TAB characters.
+
+**Understanding Tab Stops**
+
+By default, tab stops occur every eight character positions.
+
+The `-t` option allows you to specify a different tab width.
+
+Example:
+
+```bash
+expand -t 4 tabs.txt
+```
+
+This uses tab stops every four character positions.
+
+You can also specify multiple tab-stop positions:
+
+```bash
+expand -t 4,8,12 tabs.txt
+```
+
+This defines explicit tab stops at columns 4, 8, and 12. After the last specified position, the final interval is repeated.
+
+**Converting Only Initial Tabs**
+
+The `-i` option converts only TAB characters at the beginning of lines.
+
+Example:
+
+```bash
+expand -i tabs.txt
+```
+
+This is useful when you want to normalize indentation without changing tabs inside the rest of the text.
+
+**Working with unexpand**
+
+The `unexpand` command performs the opposite operation.
+
+It converts sequences of spaces into TAB characters where possible.
+
+Syntax:
+
+```bash
+unexpand [OPTION...] [FILE...]
+```
+
+Example:
+
+```bash
+unexpand spaces.txt
+```
+
+This replaces eligible groups of spaces with TAB characters.
+
+**Using Custom Tab Stops**
+
+The `-t` option specifies tab-stop positions.
+
+Example:
+
+```bash
+unexpand -t 4 spaces.txt
+```
+
+This uses tab stops every four character positions.
+
+**Converting Only Initial Spaces**
+
+By default, `unexpand` converts only sequences of spaces at the beginning of lines.
+
+This behavior is useful for converting indentation while leaving spaces inside sentences unchanged.
+
+The `-a` option allows it to convert spaces throughout lines, not just at their beginnings.
+
+Example:
+
+```bash
+unexpand -a spaces.txt
+```
+
+**Using Both Commands Together**
+
+You can convert tabs to spaces and then convert eligible spaces back to tabs.
+
+Example:
+
+```bash
+expand -t 4 tabs.txt > spaces.txt
+unexpand -t 4 spaces.txt > restored.txt
+```
+
+The resulting file may use TAB characters again for eligible sequences.
+
+**Important Options**
+
+| Command | Option | Description |
+|---|---|---|
+| `expand` | `-t N` | Set tab stops every N columns |
+| `expand` | `-t LIST` | Specify explicit tab-stop positions |
+| `expand` | `-i` | Convert only initial tabs |
+| `unexpand` | `-t N` | Set tab stops every N columns |
+| `unexpand` | `-a` | Convert spaces throughout lines |
+| `unexpand` | `--first-only` | Convert only initial spaces |
+
+**Practical Examples**
+
+Convert all tabs to spaces:
+
+```bash
+expand -t 4 source.txt > formatted.txt
+```
+
+Convert initial indentation spaces to tabs:
+
+```bash
+unexpand -t 4 formatted.txt > indented.txt
+```
+
+Convert only initial TAB characters:
+
+```bash
+expand -i -t 4 source.txt
+```
+
+**Important Notes**
+
+- `expand` converts TAB characters into spaces.
+- `unexpand` converts eligible spaces into TAB characters.
+- Tab-stop positions determine how many spaces are required for each conversion.
+- `unexpand` normally focuses on leading indentation; use `-a` to process spaces throughout lines.
+- The appearance of text may remain similar even though the underlying TAB and space characters are different.
+- Use these commands when consistent indentation or whitespace formatting is required.
+
+**Summary**
+
+Text-processing commands provide powerful ways to manipulate and analyze text directly from the Linux terminal.
+
+| Command | Main Purpose |
+|---|---|
+| `cut` | Extract fields, characters, or bytes |
+| `paste` | Merge corresponding lines from files |
+| `sort` | Sort lines of text |
+| `tr` | Translate, delete, or squeeze characters |
+| `head` | Display the beginning of a file |
+| `tail` | Display the end of a file |
+| `join` | Combine records using a common field |
+| `split` | Divide a file into smaller files |
+| `uniq` | Identify or remove adjacent duplicates |
+| `wc` | Count lines, words, bytes, and characters |
+| `nl` | Number lines |
+| `expand` | Convert tabs into spaces |
+| `unexpand` | Convert eligible spaces into tabs |
+
+**Useful Resources**
+
+- [GNU Coreutils Manual](https://www.gnu.org/software/coreutils/manual/coreutils.html)
+- [GNU Coreutils — cut](https://www.gnu.org/software/coreutils/manual/html_node/cut-invocation.html)
+- [GNU Coreutils — sort](https://www.gnu.org/software/coreutils/manual/html_node/sort-invocation.html)
+- [GNU Coreutils — tr](https://www.gnu.org/software/coreutils/manual/html_node/tr-invocation.html)
+- [GNU Coreutils — head and tail](https://www.gnu.org/software/coreutils/manual/html_node/head-invocation.html)
+- [GNU Coreutils — split](https://www.gnu.org/software/coreutils/manual/html_node/split-invocation.html)
+- [GNU Coreutils — wc](https://www.gnu.org/software/coreutils/manual/html_node/wc-invocation.html)
 
 ---
 
