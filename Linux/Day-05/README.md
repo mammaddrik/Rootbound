@@ -3407,9 +3407,629 @@ Text-processing commands provide powerful ways to manipulate and analyze text di
 
 ## Pipes and Command Chaining
 
+Linux provides powerful mechanisms for connecting commands and controlling how data flows between them.
+
+Instead of executing every command separately and manually transferring its output to another command, you can combine multiple commands into a single pipeline.
+
+Two important concepts used for this purpose are:
+
+- **Pipes (`|`)** — Transfer the standard output of one command to the standard input of another command.
+- **tee** — Read data from standard input, write it to standard output, and save a copy to one or more files.
+
+These features are fundamental to shell scripting, log analysis, automation, and everyday Linux administration.
+
 ### Understanding Pipes
 
+A pipe is a mechanism that connects the standard output (`stdout`) of one command to the standard input (`stdin`) of another command.
+
+The pipe operator is represented by the vertical bar:
+
+```bash
+|
+```
+
+When commands are connected using pipes, the output of one command becomes the input of the next command.
+
+**Basic Syntax**
+
+```bash
+command1 | command2
+```
+
+In this example:
+
+1. `command1` executes.
+2. Its standard output is sent through the pipe.
+3. `command2` receives that data through standard input.
+4. `command2` processes the data and produces its own output.
+
+You can connect multiple commands:
+
+```bash
+command1 | command2 | command3 | command4
+```
+
+Each command processes the data received from the previous command.
+
+**A Simple Example**
+
+Display the contents of a file:
+
+```bash
+cat names.txt
+```
+
+Output:
+
+```text
+Charlie
+Alice
+Bob
+David
+```
+
+Now sort the contents using a pipe:
+
+```bash
+cat names.txt | sort
+```
+
+Output:
+
+```text
+Alice
+Bob
+Charlie
+David
+```
+
+The `cat` command sends the file contents to standard output, and `sort` receives that output through standard input.
+
+**Using Pipes with Text Processing Commands**
+
+Pipes become particularly useful when combining multiple text-processing utilities.
+
+For example, remove duplicate lines from a file:
+
+```bash
+cat names.txt | sort | uniq
+```
+
+The commands work as follows:
+
+1. `cat` reads the file.
+2. `sort` arranges the lines alphabetically.
+3. `uniq` removes adjacent duplicate lines.
+
+Another example: count the number of lines in a file:
+
+```bash
+cat names.txt | wc -l
+```
+
+However, when a command accepts a filename directly, using it without `cat` is usually simpler:
+
+```bash
+wc -l names.txt
+```
+
+**Combining Multiple Commands**
+
+You can build longer pipelines by connecting several commands.
+
+Example: Find the most frequently occurring IP addresses in a log file.
+
+```bash
+cut -d ' ' -f 1 access.log | sort | uniq -c | sort -nr | head -n 10
+```
+
+Explanation:
+
+1. `cut -d ' ' -f 1` extracts the first field from each line.
+2. `sort` groups identical IP addresses together.
+3. `uniq -c` counts the occurrences of each address.
+4. `sort -nr` sorts the results by numerical frequency in descending order.
+5. `head -n 10` displays the ten most frequent results.
+
+This example assumes that the first whitespace-separated field in the log contains the IP address.
+
+**Using Pipes with grep**
+
+The `grep` command searches for lines matching a specified pattern.
+
+Example:
+
+```bash
+cat /var/log/syslog | grep "error"
+```
+
+This displays lines containing the word `error`.
+
+A simpler approach is:
+
+```bash
+grep "error" /var/log/syslog
+```
+
+You can also combine `grep` with other commands.
+
+Find all running processes containing the word `ssh`:
+
+```bash
+ps aux | grep ssh
+```
+
+This searches the output of `ps aux` for matching lines.
+
+**Using Pipes with head and tail**
+
+You can use pipes to extract specific portions of command output.
+
+Display the first five processes:
+
+```bash
+ps aux | head -n 5
+```
+
+Display the last five lines of a file:
+
+```bash
+cat file.txt | tail -n 5
+```
+
+A shorter alternative is:
+
+```bash
+tail -n 5 file.txt
+```
+
+Display lines 11 through 20:
+
+```bash
+cat file.txt | head -n 20 | tail -n 10
+```
+
+**Understanding Standard Error and Pipes**
+
+By default, a pipe transfers only standard output (`stdout`).
+
+Standard error (`stderr`) is not automatically sent through the pipe.
+
+Consider:
+
+```bash
+find / -name "config.txt" | grep "/etc"
+```
+
+The `find` command searches the filesystem, but permission errors are written to standard error and do not pass through the pipe.
+
+To redirect standard error into standard output before piping:
+
+```bash
+find / -name "config.txt" 2>&1 | grep "/etc"
+```
+
+Now both standard output and standard error are sent through the pipe.
+
+However, this also means that error messages may be processed by `grep` as ordinary input.
+
+**Piping Only Standard Error**
+
+You can redirect standard output away and send standard error through a pipe.
+
+Example:
+
+```bash
+find /root -name "config.txt" 2>&1 1>/dev/null | grep "Permission denied"
+```
+
+Explanation:
+
+- `2>&1` initially redirects standard error to the current standard output.
+- `1>/dev/null` then redirects standard output to `/dev/null`.
+- Standard error continues to point to the original standard output, which is the pipe.
+
+This allows the error messages to reach `grep` while normal output is discarded.
+
+**Using Pipes with Redirection**
+
+You can combine pipes and output redirection.
+
+Example:
+
+```bash
+sort names.txt | uniq > unique-names.txt
+```
+
+This sorts the file, removes adjacent duplicate lines, and saves the result in `unique-names.txt`.
+
+You can also append the output:
+
+```bash
+sort names.txt | uniq >> unique-names.txt
+```
+
+The `>` operator overwrites the destination file, while `>>` appends to it.
+
+**Understanding Pipeline Exit Status**
+
+Normally, the exit status of a pipeline is the exit status of its last command.
+
+Example:
+
+```bash
+false | true
+echo $?
+```
+
+Output:
+
+```text
+0
+```
+
+Although `false` failed, the final command, `true`, succeeded.
+
+In Bash, the `pipefail` option changes this behavior.
+
+Enable it:
+
+```bash
+set -o pipefail
+```
+
+Now a pipeline returns a non-zero status if at least one command fails. The returned status is generally that of the rightmost command that failed.
+
+Example:
+
+```bash
+false | true
+echo $?
+```
+
+Output:
+
+```text
+1
+```
+
+Disable the option:
+
+```bash
+set +o pipefail
+```
+
+You can also inspect the exit status of every command in the most recent pipeline using the Bash array `PIPESTATUS`:
+
+```bash
+false | true
+echo "${PIPESTATUS[@]}"
+```
+
+Output:
+
+```text
+1 0
+```
+
+The first value belongs to `false`, and the second belongs to `true`.
+
+**Using Pipes in Bash Scripts**
+
+Pipes are frequently used in shell scripts to process data efficiently.
+
+Example:
+
+```bash
+#!/bin/bash
+
+LOG_FILE="application.log"
+
+grep -i "error" "$LOG_FILE" | sort | uniq -c
+```
+
+This script:
+
+1. Searches for lines containing `error`, ignoring case.
+2. Sorts the matching lines.
+3. Counts repeated adjacent lines.
+
+For safer pipeline error handling in Bash scripts, you can enable:
+
+```bash
+set -o pipefail
+```
+
+**Important Notes**
+
+- A pipe connects the standard output of one command to the standard input of another.
+- Standard error is not included in a normal pipe.
+- You can connect multiple commands using several pipe operators.
+- Pipes allow commands to process data without creating intermediate files.
+- The output of one command can be redirected to a file after the final pipeline stage.
+- By default, a pipeline's exit status is determined by its last command.
+- Use `set -o pipefail` when pipeline failures must be detected.
+- Shell pipelines normally run connected commands concurrently, allowing data to flow between them as it becomes available.
+
 ### Working with tee
+
+The `tee` command reads data from standard input, writes it to standard output, and saves a copy to one or more files.
+
+It is especially useful when you want to view command output in the terminal while also saving it for later use.
+
+The name `tee` comes from the T-shaped pipe fitting, which divides one input stream into two outputs.
+
+**Syntax**
+
+```bash
+tee [OPTION...] [FILE...]
+```
+
+The command performs three operations:
+
+1. Reads data from standard input.
+2. Writes the data to standard output.
+3. Saves the data to the specified file or files.
+
+**Basic Usage**
+
+Consider the following command:
+
+```bash
+ls -l | tee output.txt
+```
+
+This command:
+
+- Executes `ls -l`.
+- Sends its output to `tee`.
+- Displays the output in the terminal.
+- Saves the same output in `output.txt`.
+
+You can verify the saved content:
+
+```bash
+cat output.txt
+```
+
+Unlike ordinary output redirection, the `tee` command allows you to see the output while saving it.
+
+**Comparing tee with Output Redirection**
+
+Consider these two commands:
+
+Using redirection:
+
+```bash
+ls -l > output.txt
+```
+
+Using `tee`:
+
+```bash
+ls -l | tee output.txt
+```
+
+The difference is:
+
+| Method | Displays Output | Saves to File |
+|---|---|---|
+| `>` | No | Yes |
+| `tee` | Yes | Yes |
+
+The `>` operator redirects standard output directly to a file, while `tee` duplicates the input stream to both standard output and the specified file.
+
+**Appending Instead of Overwriting**
+
+By default, `tee` overwrites the destination file if it already exists.
+
+The `-a` option appends new data instead.
+
+Example:
+
+```bash
+date | tee -a output.txt
+```
+
+This adds the current date and time to the end of `output.txt` without deleting its existing contents.
+
+You can append multiple command outputs:
+
+```bash
+whoami | tee -a output.txt
+hostname | tee -a output.txt
+date | tee -a output.txt
+```
+
+**Writing to Multiple Files**
+
+You can provide multiple filenames to `tee`.
+
+Example:
+
+```bash
+ls -l | tee output1.txt output2.txt
+```
+
+The output is displayed in the terminal and saved to both files.
+
+Verify the files:
+
+```bash
+cat output1.txt
+cat output2.txt
+```
+
+**Using tee in a Pipeline**
+
+The `tee` command is particularly useful when placed in the middle of a pipeline.
+
+Example:
+
+```bash
+cat names.txt | tee original.txt | sort
+```
+
+The data flow is:
+
+1. `cat` reads `names.txt`.
+2. `tee` displays the original content and saves it to `original.txt`.
+3. `sort` receives the same content and sorts it.
+
+The final output is sorted, while `original.txt` contains the original input order.
+
+You can also save intermediate results:
+
+```bash
+cat access.log | grep "error" | tee errors.txt | sort | uniq
+```
+
+This command:
+
+1. Reads the log file.
+2. Filters lines containing `error`.
+3. Saves the matching lines in `errors.txt`.
+4. Sorts the matching lines.
+5. Removes adjacent duplicate lines.
+
+This approach is useful when debugging complex pipelines because you can inspect intermediate results.
+
+**Discarding Standard Output**
+
+The `-` filename represents standard output in GNU `tee`.
+
+You can use `/dev/null` to discard standard output while still saving the data to a file.
+
+Example:
+
+```bash
+ls -l | tee output.txt > /dev/null
+```
+
+The output is saved in `output.txt` but is not displayed in the terminal.
+
+**Ignoring Interrupt Signals**
+
+The `-i` option tells `tee` to ignore interrupt signals.
+
+Example:
+
+```bash
+long-running-command | tee output.txt
+```
+
+You can use:
+
+```bash
+long-running-command | tee -i output.txt
+```
+
+This option is useful in certain situations where the pipeline should continue writing data despite an interrupt signal being received.
+
+**Using tee with sudo**
+
+A common Linux problem occurs when trying to write to a protected file using `sudo` with output redirection.
+
+For example:
+
+```bash
+sudo echo "Example configuration" > /etc/example.conf
+```
+
+This may fail with a permission error.
+
+The reason is that the shell performs the redirection before executing `sudo`. The shell itself does not have permission to write to the protected file.
+
+The `tee` command provides a solution:
+
+```bash
+echo "Example configuration" | sudo tee /etc/example.conf
+```
+
+Here:
+
+1. `echo` sends the text to standard output.
+2. The shell pipes the text to `tee`.
+3. `sudo` executes `tee` with elevated privileges.
+4. `tee` writes the content to the protected file.
+
+To append instead of overwrite:
+
+```bash
+echo "Example configuration" | sudo tee -a /etc/example.conf
+```
+
+**Important:** The `tee` command writes to the destination file with the permissions of the process executing it. When used with `sudo`, it can overwrite important system files. Always verify the destination path before running privileged commands.
+
+**Important Options**
+
+| Option | Description |
+|---|---|
+| `-a` | Append to files instead of overwriting |
+| `-i` | Ignore interrupt signals |
+| `-p` | Diagnose errors when writing to pipes (GNU coreutils) |
+
+**Practical Examples**
+
+Save command output while displaying it:
+
+```bash
+df -h | tee disk-usage.txt
+```
+
+Append system information to a log:
+
+```bash
+uname -a | tee -a system-info.txt
+date | tee -a system-info.txt
+```
+
+Save output to multiple files:
+
+```bash
+who | tee users1.txt users2.txt
+```
+
+Save filtered log entries and continue processing:
+
+```bash
+grep -i "error" application.log | tee errors.txt | sort
+```
+
+Write to a protected configuration file:
+
+```bash
+echo "Example configuration" | sudo tee /etc/example.conf
+```
+
+**Important Notes**
+
+- `tee` reads from standard input.
+- It writes the received data to standard output and one or more files.
+- By default, it overwrites existing destination files.
+- Use `-a` to append data.
+- It is particularly useful for inspecting intermediate pipeline results.
+- `sudo tee` is useful when writing to protected files.
+- `tee` does not automatically capture standard error. Redirect standard error into standard output before passing it to `tee` if you need to save both.
+
+**Summary**
+
+Pipes and `tee` are essential tools for connecting commands and managing data streams in Linux.
+
+| Feature | Main Purpose |
+|---|---|
+| `\|` | Connect the standard output of one command to the standard input of another |
+| `set -o pipefail` | Detect failures in pipeline commands |
+| `PIPESTATUS` | Inspect individual pipeline exit statuses in Bash |
+| `tee` | Display and save data simultaneously |
+| `tee -a` | Append data to files |
+| `sudo tee` | Write to protected files with elevated privileges |
+
+**Useful Resources**
+
+- [GNU Bash Manual — Pipelines](https://www.gnu.org/software/bash/manual/html_node/Pipelines.html)
+- [GNU Bash Manual — Redirections](https://www.gnu.org/software/bash/manual/html_node/Redirections.html)
+- [GNU Coreutils Manual — tee](https://www.gnu.org/software/coreutils/manual/html_node/tee-invocation.html)
 
 ---
 
