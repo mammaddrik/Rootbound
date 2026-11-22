@@ -33,7 +33,47 @@
     - [Working with tee](#working-with-tee)
   - [Searching and Processing Text](#searching-and-processing-text)
     - [Working with grep](#working-with-grep)
+      - [Introduction to grep](#introduction-to-grep)
+      - [Basic Syntax](#basic-syntax)
+      - [Searching for Text Patterns](#searching-for-text-patterns)
+      - [Case-Insensitive Searches](#case-insensitive-searches)
+      - [Searching Multiple Files](#searching-multiple-files)
+      - [Recursive Searching](#recursive-searching)
+      - [Displaying Matching Line Numbers](#displaying-matching-line-numbers)
+      - [Matching Whole Words and Lines](#matching-whole-words-and-lines)
+      - [Inverting Search Results](#inverting-search-results)
+      - [Counting Matches](#counting-matches)
+      - [Displaying Context Around Matches](#displaying-context-around-matches)
+      - [Using Regular Expressions](#using-regular-expressions)
+      - [Extended Regular Expressions](#extended-regular-expressions)
+      - [Searching with Character Classes and Quantifiers](#searching-with-character-classes-and-quantifiers)
+      - [Combining grep with Pipes](#combining-grep-with-pipes)
+      - [Useful grep Options](#useful-grep-options)
+      - [Practical Examples](#practical-examples)
+      - [Understanding grep Exit Status](#understanding-grep-exit-status)
     - [Working with awk](#working-with-awk)
+      - [Introduction to awk](#introduction-to-awk)
+      - [Basic Syntax](#basic-syntax-1)
+      - [Understanding Records and Fields](#understanding-records-and-fields)
+      - [Built-in Variables](#built-in-variables)
+      - [Printing Fields and Records](#printing-fields-and-records)
+      - [Using Field Separators](#using-field-separators)
+      - [Filtering Records with Patterns](#filtering-records-with-patterns)
+      - [Using Comparison and Logical Operators](#using-comparison-and-logical-operators)
+      - [Working with Regular Expressions](#working-with-regular-expressions)
+      - [Using BEGIN and END Blocks](#using-begin-and-end-blocks)
+      - [Performing Calculations](#performing-calculations)
+      - [Built-in Functions](#built-in-functions)
+      - [Using Conditional Statements](#using-conditional-statements)
+      - [Working with Loops](#working-with-loops)
+      - [Modifying Fields and Records](#modifying-fields-and-records)
+      - [Formatting Output with printf](#formatting-output-with-printf)
+      - [Combining awk with Other Commands](#combining-awk-with-other-commands)
+      - [Practical Examples](#practical-examples-1)
+      - [Common awk Use Cases](#common-awk-use-cases)
+      - [Understanding the Difference Between grep and awk](#understanding-the-difference-between-grep-and-awk)
+    - [Summary](#summary)
+    - [Additional Resources](#additional-resources)
   - [Practical Exercises](#practical-exercises)
 
 ---
@@ -4035,9 +4075,1917 @@ Pipes and `tee` are essential tools for connecting commands and managing data st
 
 ## Searching and Processing Text
 
+Text searching and processing are essential skills when working with Linux systems. System administrators and developers frequently need to search configuration files, inspect log files, filter command output, extract specific information, and analyze structured text data.
+
+Linux provides several tools for these tasks, but two of the most powerful and widely used utilities are `grep` and `awk`.
+
+- **grep:** Searches files and input streams for lines matching specified patterns. It is particularly useful for finding text, filtering command output, and searching with regular expressions.
+- **awk:** Processes text as structured records and fields. It can filter data, extract columns, perform calculations, format output, and execute more advanced text-processing operations.
+
+Although both tools can search and filter text, they serve different purposes. `grep` primarily identifies matching lines, while `awk` provides a programming language for processing and analyzing structured text.
+
+---
+
 ### Working with grep
 
+#### Introduction to grep
+
+`grep` is a command-line utility used to search for patterns in files or standard input. It examines text line by line and displays lines that match a specified pattern.
+
+The name `grep` comes from the historical `ed` editor command:
+
+```text
+g/re/p
+```
+
+This stands for **Global Regular Expression Print**.
+
+The command is particularly useful for:
+
+- Searching for specific words or phrases in files.
+- Finding errors and warnings in system logs.
+- Filtering command output.
+- Searching multiple files and directories.
+- Matching patterns using regular expressions.
+- Finding configuration entries.
+- Identifying lines that do not match a specified pattern.
+
+**Basic Syntax:**
+
+```bash
+grep [OPTIONS] PATTERN [FILE...]
+```
+
+| Component | Description |
+|---|---|
+| `grep` | The command used to search text. |
+| `OPTIONS` | Optional flags that control search behavior. |
+| `PATTERN` | The text or regular expression to search for. |
+| `FILE...` | One or more files to search. |
+
+If no file is specified, `grep` reads from standard input.
+
+**Example:**
+
+```bash
+grep "error" application.log
+```
+
+This command searches `application.log` for lines containing the word `error`.
+
+#### Basic Syntax
+
+The simplest way to use `grep` is to provide a search pattern and a filename.
+
+```bash
+grep "Linux" notes.txt
+```
+
+This displays every line containing the exact case-sensitive text `Linux`.
+
+You can also search for multiple words independently:
+
+```bash
+grep "Linux" notes.txt
+grep "Ubuntu" notes.txt
+grep "Server" notes.txt
+```
+
+To search for a phrase containing spaces, enclose the pattern in quotation marks:
+
+```bash
+grep "system administration" notes.txt
+```
+
+You can search multiple files in a single command:
+
+```bash
+grep "error" app.log system.log
+```
+
+When searching multiple files, `grep` normally includes the filename before each matching line.
+
+#### Searching for Text Patterns
+
+By default, `grep` searches for a pattern anywhere within a line.
+
+For example, suppose `users.txt` contains:
+
+```text
+root
+administrator
+linuxuser
+developer
+guest
+```
+
+The following command:
+
+```bash
+grep "user" users.txt
+```
+
+Produces:
+
+```text
+linuxuser
+```
+
+The pattern does not need to match the entire line. It only needs to appear somewhere in the line.
+
+You can also search for text at the beginning or end of a line using regular expression anchors.
+
+**Matching the beginning of a line:**
+
+```bash
+grep "^root" users.txt
+```
+
+The `^` character matches the beginning of a line.
+
+**Matching the end of a line:**
+
+```bash
+grep "admin$" users.txt
+```
+
+The `$` character matches the end of a line.
+
+**Matching an entire line:**
+
+```bash
+grep "^root$" users.txt
+```
+
+This matches only a line containing exactly `root`.
+
+#### Case-Insensitive Searches
+
+By default, `grep` distinguishes between uppercase and lowercase characters.
+
+For example:
+
+```bash
+grep "linux" notes.txt
+```
+
+Does not match `Linux` or `LINUX`.
+
+To perform a case-insensitive search, use the `-i` option.
+
+```bash
+grep -i "linux" notes.txt
+```
+
+This matches all of the following:
+
+```text
+linux
+Linux
+LINUX
+LiNuX
+```
+
+Case-insensitive searching is particularly useful when searching logs and configuration files where capitalization may vary.
+
+#### Searching Multiple Files
+
+`grep` can search several files at the same time.
+
+```bash
+grep "failed" auth.log syslog application.log
+```
+
+This searches all three files for lines containing `failed`.
+
+You can also use wildcard patterns to search files with similar names.
+
+```bash
+grep "error" *.log
+```
+
+This searches all files in the current directory whose names end with `.log`.
+
+To display only the filenames containing matches, use `-l`.
+
+```bash
+grep -l "error" *.log
+```
+
+To display filenames that do not contain any matches, use `-L`.
+
+```bash
+grep -L "error" *.log
+```
+
+These options are useful when checking large collections of log or configuration files.
+
+#### Recursive Searching
+
+The `-r` or `-R` option allows `grep` to search through directories recursively.
+
+```bash
+grep -r "password" /etc/
+```
+
+This searches files under `/etc/` and its subdirectories.
+
+The difference between the two options is important:
+
+- `-r`: Recursively searches directories and generally follows symbolic links encountered on the command line.
+- `-R`: Recursively searches directories and follows symbolic links encountered during traversal.
+
+To display filenames and line numbers:
+
+```bash
+grep -rn "PermitRootLogin" /etc/ssh/
+```
+
+To search only files with a specific extension, use `--include`.
+
+```bash
+grep -rn --include="*.conf" "listen" /etc/
+```
+
+To exclude certain files:
+
+```bash
+grep -rn --exclude="*.log" "error" /var/log/
+```
+
+To exclude entire directories:
+
+```bash
+grep -rn --exclude-dir="cache" "error" /var/
+```
+
+Recursive searches may produce permission errors when accessing protected directories. You can use appropriate privileges when necessary:
+
+```bash
+sudo grep -rn "PermitRootLogin" /etc/ssh/
+```
+
+#### Displaying Matching Line Numbers
+
+The `-n` option displays the line number of each matching line.
+
+```bash
+grep -n "error" application.log
+```
+
+Example output:
+
+```text
+12:Connection error detected
+25:Database error occurred
+41:Unexpected error during startup
+```
+
+This makes it easier to locate matching content within large files.
+
+To display only the number of matching lines, use `-c`.
+
+```bash
+grep -c "error" application.log
+```
+
+**Important:** `grep -c` counts matching lines, not the total number of occurrences of a pattern within those lines.
+
+For example, if a line contains the word `error` three times, it still contributes only one to the count.
+
+#### Matching Whole Words and Lines
+
+Sometimes you need to find a complete word rather than a sequence of characters inside another word.
+
+Use `-w` to match whole words.
+
+```bash
+grep -w "root" users.txt
+```
+
+This matches `root` but does not match words such as `rootuser` or `superroot`.
+
+To match an entire line exactly, use `-x`.
+
+```bash
+grep -x "root" users.txt
+```
+
+This matches only lines whose complete content is `root`.
+
+These options are particularly useful when searching usernames, command names, configuration values, and other identifiers.
+
+#### Inverting Search Results
+
+The `-v` option reverses the matching behavior.
+
+Instead of displaying lines that match the pattern, it displays lines that do not match it.
+
+```bash
+grep -v "error" application.log
+```
+
+This displays every line that does not contain `error`.
+
+You can combine it with other options:
+
+```bash
+grep -vn "debug" application.log
+```
+
+This displays line numbers and excludes lines containing `debug`.
+
+Inverted searches are useful for removing unwanted entries from logs or filtering out irrelevant information.
+
+#### Counting Matches
+
+The `-c` option displays the number of matching lines.
+
+```bash
+grep -c "failed" auth.log
+```
+
+To count matching lines across multiple files:
+
+```bash
+grep -c "failed" *.log
+```
+
+To count the total number of matching lines across all files, use `-h` to suppress filenames and pipe the result into `awk` or another counting utility.
+
+```bash
+grep -ch "failed" *.log | awk '{sum += $1} END {print sum}'
+```
+
+To count individual occurrences rather than matching lines, use `-o` with `wc -l`.
+
+```bash
+grep -o "error" application.log | wc -l
+```
+
+The `-o` option prints each matching occurrence separately, allowing `wc -l` to count them.
+
+#### Displaying Context Around Matches
+
+When investigating logs, it is often useful to see the lines surrounding a match.
+
+`grep` provides three useful options:
+
+**1. Display lines before a match with `-B`:**
+
+```bash
+grep -B 3 "error" application.log
+```
+
+Displays three lines before each matching line.
+
+**2. Display lines after a match with `-A`:**
+
+```bash
+grep -A 3 "error" application.log
+```
+
+Displays three lines after each matching line.
+
+**3. Display lines before and after a match with `-C`:**
+
+```bash
+grep -C 3 "error" application.log
+```
+
+Displays three lines before and after each matching line.
+
+These options are especially useful when examining application errors and system events because the surrounding lines may explain what happened before or after the event.
+
+#### Using Regular Expressions
+
+Regular expressions allow `grep` to search for more complex patterns rather than only literal text.
+
+By default, `grep` uses Basic Regular Expressions (BRE).
+
+Some important regular expression characters include:
+
+| Character | Meaning | Example |
+|---|---|---|
+| `^` | Beginning of a line | `^root` |
+| `$` | End of a line | `admin$` |
+| `.` | Any single character | `l.nux` |
+| `*` | Zero or more occurrences of the preceding element | `ab*c` |
+| `[]` | Character class | `[abc]` |
+| `[^]` | Negated character class | `[^0-9]` |
+| `\` | Escapes a special character or introduces certain BRE operators | `\.` |
+| `\{n\}` | Exactly n repetitions | `a\{3\}` |
+| `\{n,m\}` | Between n and m repetitions | `a\{2,4\}` |
+
+**Examples:**
+
+```bash
+grep "^root" users.txt
+```
+
+Finds lines beginning with `root`.
+
+```bash
+grep "error$" application.log
+```
+
+Finds lines ending with `error`.
+
+```bash
+grep "l.nux" notes.txt
+```
+
+Matches patterns such as `linux`, `lanux`, and `l.nux`.
+
+```bash
+grep "^[0-9]" numbers.txt
+```
+
+Finds lines beginning with a digit.
+
+```bash
+grep "^[^0-9]" data.txt
+```
+
+Finds lines that do not begin with a digit.
+
+To search for a literal dot, escape it:
+
+```bash
+grep "192\.168\.1\.10" network.log
+```
+
+Without escaping, the dot matches any single character.
+
+#### Extended Regular Expressions
+
+The `-E` option enables Extended Regular Expressions (ERE).
+
+ERE provides additional operators that make complex patterns easier to write.
+
+Important ERE operators include:
+
+| Operator | Meaning | Example |
+|---|---|---|
+| `+` | One or more occurrences | `[0-9]+` |
+| `?` | Zero or one occurrence | `colou?r` |
+| `|` | Alternative patterns | `error|warning` |
+| `()` | Groups expressions | `(ab)+` |
+| `{n}` | Exactly n repetitions | `[0-9]{4}` |
+| `{n,m}` | Between n and m repetitions | `[0-9]{2,4}` |
+
+**Examples:**
+
+Search for either `error` or `warning`:
+
+```bash
+grep -E "error|warning" application.log
+```
+
+Search for one or more digits:
+
+```bash
+grep -E "[0-9]+" numbers.txt
+```
+
+Search for lines containing a four-digit number:
+
+```bash
+grep -E "[0-9]{4}" data.txt
+```
+
+Search for either `color` or `colour`:
+
+```bash
+grep -E "colou?r" text.txt
+```
+
+Search for IPv4-like sequences:
+
+```bash
+grep -E "[0-9]{1,3}(\.[0-9]{1,3}){3}" network.log
+```
+
+This last expression identifies strings with four dot-separated numeric groups, but it does not validate whether the address is a valid IPv4 address.
+
+**Important:** The `-E` option is useful when working with complex patterns because it avoids the need to escape many operators required by Basic Regular Expressions.
+
+#### Searching with Character Classes and Quantifiers
+
+Character classes allow you to match one character from a specified set.
+
+**Examples:**
+
+```bash
+grep "[aeiou]" words.txt
+```
+
+Matches lines containing at least one lowercase vowel.
+
+```bash
+grep "[A-Z]" words.txt
+```
+
+Matches lines containing at least one uppercase English letter.
+
+```bash
+grep "[0-9]" data.txt
+```
+
+Matches lines containing at least one digit.
+
+```bash
+grep "[^0-9]" data.txt
+```
+
+Matches lines containing at least one character that is not a digit.
+
+You can also use predefined character classes:
+
+| Character Class | Description |
+|---|---|
+| `[[:digit:]]` | Numeric digits |
+| `[[:alpha:]]` | Alphabetic characters |
+| `[[:alnum:]]` | Alphanumeric characters |
+| `[[:lower:]]` | Lowercase characters |
+| `[[:upper:]]` | Uppercase characters |
+| `[[:space:]]` | Whitespace characters |
+| `[[:blank:]]` | Space and tab characters |
+| `[[:punct:]]` | Punctuation characters |
+| `[[:xdigit:]]` | Hexadecimal digits |
+
+**Examples:**
+
+```bash
+grep "[[:digit:]]" data.txt
+grep "[[:alpha:]]" data.txt
+grep "[[:space:]]" data.txt
+```
+
+These classes are useful for searching text based on character types rather than specific characters.
+
+#### Combining grep with Pipes
+
+One of the most common uses of `grep` is filtering the output of other commands through pipes.
+
+**Searching running processes:**
+
+```bash
+ps aux | grep "nginx"
+```
+
+This searches the process listing for lines containing `nginx`.
+
+Be aware that this command may also match the `grep` process itself.
+
+An alternative is:
+
+```bash
+pgrep -a nginx
+```
+
+**Filtering system information:**
+
+```bash
+ls -l /etc | grep "\.conf$"
+```
+
+Displays entries whose names end with `.conf`.
+
+**Searching command output:**
+
+```bash
+ip address | grep "inet "
+```
+
+Displays lines containing IPv4 address information.
+
+**Finding errors in logs:**
+
+```bash
+journalctl -b | grep -i "error"
+```
+
+Searches the current boot's journal output for lines containing `error`, regardless of capitalization.
+
+**Combining multiple filters:**
+
+```bash
+cat application.log | grep -i "error" | grep -v "temporary"
+```
+
+Displays lines containing `error` but excludes lines containing `temporary`.
+
+For a single file, using `grep` directly is usually simpler than passing it through `cat`.
+
+#### Useful grep Options
+
+The following table summarizes commonly used `grep` options:
+
+| Option | Description |
+|---|---|
+| `-i` | Ignore uppercase and lowercase differences. |
+| `-v` | Display lines that do not match. |
+| `-n` | Display matching line numbers. |
+| `-c` | Count matching lines. |
+| `-l` | Display filenames containing matches. |
+| `-L` | Display filenames without matches. |
+| `-r` | Search directories recursively. |
+| `-R` | Search recursively and follow symbolic links encountered during traversal. |
+| `-w` | Match whole words. |
+| `-x` | Match entire lines. |
+| `-o` | Display only the matching parts. |
+| `-E` | Use Extended Regular Expressions. |
+| `-F` | Treat the pattern as fixed strings rather than regular expressions. |
+| `-e` | Specify a search pattern. |
+| `-f` | Read search patterns from a file. |
+| `-A N` | Display N lines after a match. |
+| `-B N` | Display N lines before a match. |
+| `-C N` | Display N lines before and after a match. |
+| `-q` | Suppress normal output and use the exit status to indicate whether a match exists. |
+| `-h` | Suppress filenames in output. |
+| `-H` | Always display filenames. |
+
+You can combine multiple options:
+
+```bash
+grep -in "error" application.log
+```
+
+This performs a case-insensitive search and displays matching line numbers.
+
+Another example:
+
+```bash
+grep -rni "password" /etc/
+```
+
+This recursively searches `/etc/`, ignores case, and displays matching line numbers.
+
+#### Practical Examples
+
+**Example 1 — Find failed login attempts:**
+
+```bash
+grep "Failed password" /var/log/auth.log
+```
+
+Searches authentication logs for failed SSH or other authentication attempts recorded in that file.
+
+The exact log location and message format depend on the Linux distribution and logging configuration.
+
+**Example 2 — Find SSH configuration settings:**
+
+```bash
+grep -n "PermitRootLogin" /etc/ssh/sshd_config
+```
+
+Displays matching SSH server configuration lines and their line numbers.
+
+**Example 3 — Find all error messages:**
+
+```bash
+grep -in "error" /var/log/syslog
+```
+
+Searches the system log for error messages without considering capitalization.
+
+**Example 4 — Exclude comments and empty lines:**
+
+```bash
+grep -Ev "^[[:space:]]*(#|$)" /etc/ssh/sshd_config
+```
+
+Displays configuration lines that are neither comments nor empty or whitespace-only lines.
+
+**Example 5 — Search for multiple patterns:**
+
+```bash
+grep -E "error|warning|critical" application.log
+```
+
+Displays lines containing any of the specified words.
+
+**Example 6 — Check whether a user exists:**
+
+```bash
+grep -w "root" /etc/passwd
+```
+
+Searches the user account database for a line containing the username `root` as a complete word.
+
+For a more precise username lookup, you can use:
+
+```bash
+awk -F: '$1 == "root" {print}' /etc/passwd
+```
+
+**Example 7 — Search for a pattern stored in another file:**
+
+Suppose `patterns.txt` contains:
+
+```text
+error
+warning
+critical
+```
+
+Run:
+
+```bash
+grep -f patterns.txt application.log
+```
+
+This searches `application.log` for any pattern listed in `patterns.txt`.
+
+**Example 8 — Search for exact text:**
+
+```bash
+grep -F "192.168.1.10" network.log
+```
+
+The `-F` option treats the search pattern literally, so special regular expression characters have no special meaning.
+
+#### Understanding grep Exit Status
+
+`grep` uses its exit status to communicate the result of a search.
+
+| Exit Status | Meaning |
+|---|---|
+| `0` | At least one matching line was found. |
+| `1` | No matching lines were found. |
+| `2` | An error occurred. |
+
+You can inspect the exit status using `$?`:
+
+```bash
+grep "error" application.log
+echo $?
+```
+
+This is useful in shell scripts and conditional statements.
+
+For example:
+
+```bash
+if grep -q "error" application.log; then
+    echo "Errors were found."
+else
+    echo "No errors were found."
+fi
+```
+
+The `-q` option suppresses normal output, making it particularly useful for checking whether a pattern exists.
+
+**Important:** A search that returns no matches is not necessarily an error. It simply means the requested pattern was not found.
+
+---
+
 ### Working with awk
+
+#### Introduction to awk
+
+`awk` is a powerful text-processing programming language designed for working with structured text data.
+
+It reads input line by line, divides each line into fields, and executes instructions based on specified patterns and actions.
+
+Unlike `grep`, which primarily searches for matching lines, `awk` can:
+
+- Extract specific columns from text files.
+- Filter records based on conditions.
+- Perform mathematical calculations.
+- Count records and summarize information.
+- Modify fields and construct new output.
+- Format data into readable reports.
+- Process structured files such as CSV-like data and system configuration files.
+- Automate repetitive text-processing tasks.
+
+The name `awk` comes from the surnames of its original creators:
+
+- Alfred Aho
+- Peter Weinberger
+- Brian Kernighan
+
+The original `awk` language was developed at Bell Labs in the 1970s.
+
+Modern Linux systems commonly provide GNU `awk`, also known as `gawk`.
+
+**Basic Syntax:**
+
+```bash
+awk 'pattern { action }' file
+```
+
+| Component | Description |
+|---|---|
+| `awk` | The text-processing utility. |
+| `pattern` | An optional condition that determines when an action runs. |
+| `{ action }` | Instructions executed when the pattern matches. |
+| `file` | The input file to process. |
+
+If no pattern is specified, the action is executed for every input record.
+
+If no action is specified, matching records are printed.
+
+#### Basic Syntax
+
+The simplest `awk` command prints every line of a file:
+
+```bash
+awk '{ print }' file.txt
+```
+
+This is equivalent to:
+
+```bash
+cat file.txt
+```
+
+You can also use:
+
+```bash
+awk '1' file.txt
+```
+
+In this example, `1` is a condition that always evaluates to true, so every record is printed.
+
+To print a specific message:
+
+```bash
+awk '{ print "Hello, Linux!" }' file.txt
+```
+
+This prints the message once for every input record.
+
+You can also execute `awk` directly on command output:
+
+```bash
+ps aux | awk '{ print $1, $2, $11 }'
+```
+
+This extracts selected fields from the process listing.
+
+#### Understanding Records and Fields
+
+Understanding records and fields is fundamental to working with `awk`.
+
+By default:
+
+- A **record** is one input line.
+- A **field** is a section of a record separated by whitespace.
+- `$0` represents the entire current record.
+- `$1` represents the first field.
+- `$2` represents the second field.
+- `$3` represents the third field.
+- `$NF` represents the last field.
+- `NF` stores the number of fields in the current record.
+- `NR` stores the total number of records read so far.
+
+Consider the following file named `employees.txt`:
+
+```text
+Alice Developer 5000
+Bob Administrator 4500
+Charlie Engineer 6000
+David Designer 4000
+```
+
+The following command:
+
+```bash
+awk '{ print $1 }' employees.txt
+```
+
+Produces:
+
+```text
+Alice
+Bob
+Charlie
+David
+```
+
+To display the second field:
+
+```bash
+awk '{ print $2 }' employees.txt
+```
+
+To display the first and third fields:
+
+```bash
+awk '{ print $1, $3 }' employees.txt
+```
+
+To display the entire record:
+
+```bash
+awk '{ print $0 }' employees.txt
+```
+
+To display the last field:
+
+```bash
+awk '{ print $NF }' employees.txt
+```
+
+To display the number of fields in each record:
+
+```bash
+awk '{ print NF }' employees.txt
+```
+
+This produces:
+
+```text
+3
+3
+3
+3
+```
+
+These features make it easy to extract information from structured text without manually splitting each line.
+
+#### Built-in Variables
+
+`awk` provides several built-in variables that help control input processing and output formatting.
+
+The most important variables include:
+
+| Variable | Description |
+|---|---|
+| `$0` | The entire current record. |
+| `$1`, `$2`, ... | Individual fields in the current record. |
+| `NF` | Number of fields in the current record. |
+| `NR` | Total number of records read across all input files. |
+| `FNR` | Record number within the current input file. |
+| `FS` | Input field separator. |
+| `OFS` | Output field separator. |
+| `RS` | Input record separator. |
+| `ORS` | Output record separator. |
+| `FILENAME` | Name of the current input file. |
+| `ARGC` | Number of command-line arguments. |
+| `ARGV` | Array containing command-line arguments. |
+
+**Examples:**
+
+Display the current record number:
+
+```bash
+awk '{ print NR, $0 }' employees.txt
+```
+
+Output:
+
+```text
+1 Alice Developer 5000
+2 Bob Administrator 4500
+3 Charlie Engineer 6000
+4 David Designer 4000
+```
+
+Display the filename and record number:
+
+```bash
+awk '{ print FILENAME, NR, $0 }' employees.txt
+```
+
+Display the number of fields in each record:
+
+```bash
+awk '{ print NF }' employees.txt
+```
+
+Display the first and last fields:
+
+```bash
+awk '{ print $1, $NF }' employees.txt
+```
+
+#### Printing Fields and Records
+
+The `print` statement is used to display data.
+
+You can print individual fields:
+
+```bash
+awk '{ print $1 }' employees.txt
+```
+
+You can print multiple fields:
+
+```bash
+awk '{ print $1, $2, $3 }' employees.txt
+```
+
+By default, `awk` separates multiple `print` arguments using a space.
+
+You can also combine text with fields:
+
+```bash
+awk '{ print "Employee:", $1, "| Role:", $2 }' employees.txt
+```
+
+To print a custom message at the beginning of each record:
+
+```bash
+awk '{ print "Record:", $0 }' employees.txt
+```
+
+To print only selected information:
+
+```bash
+awk '{ print "Name:", $1, "Salary:", $3 }' employees.txt
+```
+
+The `printf` statement, discussed later, provides more control over output formatting.
+
+#### Using Field Separators
+
+By default, `awk` separates fields using whitespace, including spaces and tabs.
+
+However, many files use different delimiters, such as colons or commas.
+
+The `-F` option allows you to specify a custom input field separator.
+
+**Example 1 — Working with `/etc/passwd`:**
+
+The `/etc/passwd` file uses colons as field separators.
+
+```text
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+```
+
+To display usernames:
+
+```bash
+awk -F: '{ print $1 }' /etc/passwd
+```
+
+To display usernames and home directories:
+
+```bash
+awk -F: '{ print $1, $6 }' /etc/passwd
+```
+
+To display usernames and login shells:
+
+```bash
+awk -F: '{ print $1, $7 }' /etc/passwd
+```
+
+**Example 2 — Working with CSV-like data:**
+
+Suppose `employees.csv` contains:
+
+```text
+Name,Department,Salary
+Alice,IT,5000
+Bob,HR,4500
+Charlie,Engineering,6000
+```
+
+Display employee names:
+
+```bash
+awk -F, '{ print $1 }' employees.csv
+```
+
+Display names and salaries:
+
+```bash
+awk -F, '{ print $1, $3 }' employees.csv
+```
+
+**Important:** Using `-F,` is suitable for simple comma-separated data, but it does not implement the full CSV format. CSV files may contain quoted fields, embedded commas, and escaped quotation marks. For complex CSV files, use a dedicated CSV parser.
+
+#### Filtering Records with Patterns
+
+One of the most powerful features of `awk` is the ability to execute actions only when records match specific conditions.
+
+For example:
+
+```bash
+awk '$3 > 5000 { print $1, $3 }' employees.txt
+```
+
+This displays employees whose third field is greater than `5000`.
+
+Output:
+
+```text
+Charlie 6000
+```
+
+You can use different comparison operators:
+
+| Operator | Meaning |
+|---|---|
+| `==` | Equal to |
+| `!=` | Not equal to |
+| `>` | Greater than |
+| `<` | Less than |
+| `>=` | Greater than or equal to |
+| `<=` | Less than or equal to |
+
+**Examples:**
+
+Display employees with a salary equal to `5000`:
+
+```bash
+awk '$3 == 5000 { print $1 }' employees.txt
+```
+
+Display employees with a salary below `5000`:
+
+```bash
+awk '$3 < 5000 { print $1, $3 }' employees.txt
+```
+
+Display employees whose role is `Developer`:
+
+```bash
+awk '$2 == "Developer" { print $1 }' employees.txt
+```
+
+Display employees whose salary is not `4500`:
+
+```bash
+awk '$3 != 4500 { print $1 }' employees.txt
+```
+
+These conditions allow you to filter large datasets without displaying every record.
+
+#### Using Comparison and Logical Operators
+
+`awk` supports logical operators that allow you to combine multiple conditions.
+
+| Operator | Meaning |
+|---|---|
+| `&&` | Logical AND |
+| `||` | Logical OR |
+| `!` | Logical NOT |
+
+**Logical AND:**
+
+```bash
+awk '$3 > 4000 && $3 < 6000 { print $1, $3 }' employees.txt
+```
+
+Displays employees whose salaries are greater than `4000` and less than `6000`.
+
+**Logical OR:**
+
+```bash
+awk '$2 == "Developer" || $2 == "Engineer" { print $1, $2 }' employees.txt
+```
+
+Displays employees whose roles are either `Developer` or `Engineer`.
+
+**Logical NOT:**
+
+```bash
+awk '!($2 == "Administrator") { print $1, $2 }' employees.txt
+```
+
+Displays all employees except administrators.
+
+You can combine several conditions to build more advanced filters.
+
+#### Working with Regular Expressions
+
+`awk` supports regular expressions for searching text patterns.
+
+A regular expression can be used directly as a pattern:
+
+```bash
+awk '/error/ { print }' application.log
+```
+
+This prints records containing `error`.
+
+You can also match a regular expression against a specific field using the `~` operator.
+
+```bash
+awk '$2 ~ /Developer/ { print $1, $2 }' employees.txt
+```
+
+This displays records where the second field contains `Developer`.
+
+To find fields that do not match a pattern, use `!~`.
+
+```bash
+awk '$2 !~ /Admin/ { print $1, $2 }' employees.txt
+```
+
+**Examples:**
+
+Find records beginning with a specific word:
+
+```bash
+awk '/^root/ { print }' users.txt
+```
+
+Find records ending with a specific value:
+
+```bash
+awk '/admin$/ { print }' users.txt
+```
+
+Find records containing digits:
+
+```bash
+awk '/[0-9]/ { print }' data.txt
+```
+
+Find records where the first field begins with an uppercase letter:
+
+```bash
+awk '$1 ~ /^[A-Z]/ { print $1 }' employees.txt
+```
+
+Regular expressions make `awk` useful for more advanced filtering tasks.
+
+#### Using BEGIN and END Blocks
+
+`awk` provides three main execution stages:
+
+1. `BEGIN`: Executes before input records are processed.
+2. Main processing block: Executes for each input record.
+3. `END`: Executes after all input records have been processed.
+
+**Basic Structure:**
+
+```bash
+awk 'BEGIN { ... } { ... } END { ... }' file.txt
+```
+
+**BEGIN Block:**
+
+The `BEGIN` block is commonly used to initialize variables or print headers.
+
+```bash
+awk 'BEGIN {
+    print "Employee Report"
+    print "---------------"
+}' employees.txt
+```
+
+**Main Processing Block:**
+
+The main block processes each record.
+
+```bash
+awk '{
+    print $1, $2, $3
+}' employees.txt
+```
+
+**END Block:**
+
+The `END` block is commonly used to display summaries or calculated results.
+
+```bash
+awk 'END {
+    print "Processing completed."
+}' employees.txt
+```
+
+**Combining All Three:**
+
+```bash
+awk '
+BEGIN {
+    print "Employee Report"
+    print "----------------"
+}
+{
+    print "Name:", $1, "| Salary:", $3
+}
+END {
+    print "----------------"
+    print "Report completed."
+}
+' employees.txt
+```
+
+This produces a formatted report containing every employee.
+
+#### Performing Calculations
+
+`awk` supports arithmetic operations and can perform calculations directly on fields.
+
+Common arithmetic operators include:
+
+| Operator | Description |
+|---|---|
+| `+` | Addition |
+| `-` | Subtraction |
+| `*` | Multiplication |
+| `/` | Division |
+| `%` | Modulus |
+| `^` | Exponentiation |
+| `++` | Increment |
+| `--` | Decrement |
+
+**Example 1 — Calculate total salary:**
+
+```bash
+awk '{ total += $3 } END { print "Total Salary:", total }' employees.txt
+```
+
+This adds the salary field from every record and displays the final result.
+
+**Example 2 — Calculate average salary:**
+
+```bash
+awk '
+{
+    total += $3
+    count++
+}
+END {
+    if (count > 0)
+        print "Average Salary:", total / count
+}
+' employees.txt
+```
+
+**Example 3 — Find the highest salary:**
+
+```bash
+awk '
+NR == 1 || $3 > max {
+    max = $3
+    employee = $1
+}
+END {
+    print "Highest Paid:", employee
+    print "Salary:", max
+}
+' employees.txt
+```
+
+**Example 4 — Find the lowest salary:**
+
+```bash
+awk '
+NR == 1 || $3 < min {
+    min = $3
+    employee = $1
+}
+END {
+    print "Lowest Paid:", employee
+    print "Salary:", min
+}
+' employees.txt
+```
+
+**Example 5 — Count records:**
+
+```bash
+awk 'END { print "Total Employees:", NR }' employees.txt
+```
+
+These operations are particularly useful for analyzing reports, log files, and structured datasets.
+
+#### Built-in Functions
+
+`awk` includes several built-in functions for working with strings, numbers, and other data.
+
+**1. String Functions**
+
+| Function | Description |
+|---|---|
+| `length(string)` | Returns the number of characters in a string. |
+| `tolower(string)` | Converts text to lowercase. |
+| `toupper(string)` | Converts text to uppercase. |
+| `substr(string, start, length)` | Extracts part of a string. |
+| `index(string, search)` | Returns the position of a substring or zero if not found. |
+| `split(string, array, separator)` | Splits a string into an array. |
+| `sub(regex, replacement, target)` | Replaces the first matching occurrence. |
+| `gsub(regex, replacement, target)` | Replaces all matching occurrences. |
+
+**Examples:**
+
+Convert names to uppercase:
+
+```bash
+awk '{ print toupper($1) }' employees.txt
+```
+
+Convert names to lowercase:
+
+```bash
+awk '{ print tolower($1) }' employees.txt
+```
+
+Display the length of each name:
+
+```bash
+awk '{ print $1, length($1) }' employees.txt
+```
+
+Extract the first three characters:
+
+```bash
+awk '{ print substr($1, 1, 3) }' employees.txt
+```
+
+Replace the word `Developer` with `Programmer`:
+
+```bash
+awk '{ gsub(/Developer/, "Programmer"); print }' employees.txt
+```
+
+**2. Numeric Functions**
+
+| Function | Description |
+|---|---|
+| `int(number)` | Returns the integer portion of a number, truncating toward zero. |
+| `sqrt(number)` | Calculates the square root. |
+| `log(number)` | Calculates the natural logarithm. |
+| `exp(number)` | Calculates e raised to the specified power. |
+| `sin(number)` | Calculates the sine. |
+| `cos(number)` | Calculates the cosine. |
+| `rand()` | Generates a pseudo-random number between 0 and 1. |
+| `srand(seed)` | Sets the random number generator seed. |
+
+**Examples:**
+
+```bash
+awk 'BEGIN { print int(12.75) }'
+awk 'BEGIN { print sqrt(64) }'
+awk 'BEGIN { print log(10) }'
+awk 'BEGIN { print rand() }'
+```
+
+The `BEGIN` block allows you to execute these calculations without requiring an input file.
+
+#### Using Conditional Statements
+
+`awk` supports conditional statements such as `if`, `else if`, and `else`.
+
+**Basic Syntax:**
+
+```awk
+if (condition) {
+    statements
+} else if (another_condition) {
+    statements
+} else {
+    statements
+}
+```
+
+**Example:**
+
+```bash
+awk '{
+    if ($3 >= 5500)
+        print $1, "High Salary"
+    else if ($3 >= 4500)
+        print $1, "Medium Salary"
+    else
+        print $1, "Low Salary"
+}' employees.txt
+```
+
+This classifies employees according to their salaries.
+
+You can also use conditional statements to validate input:
+
+```bash
+awk -F: '{
+    if ($7 == "/bin/bash")
+        print $1, "has Bash access"
+}' /etc/passwd
+```
+
+This displays users whose configured login shell is `/bin/bash`.
+
+#### Working with Loops
+
+`awk` supports several types of loops for repeating operations.
+
+**1. For Loop**
+
+A traditional `for` loop is useful when you know how many iterations are required.
+
+```bash
+awk 'BEGIN {
+    for (i = 1; i <= 5; i++)
+        print i
+}'
+```
+
+Output:
+
+```text
+1
+2
+3
+4
+5
+```
+
+**2. While Loop**
+
+A `while` loop continues while a condition remains true.
+
+```bash
+awk 'BEGIN {
+    i = 1
+
+    while (i <= 5) {
+        print i
+        i++
+    }
+}'
+```
+
+**3. For-In Loop**
+
+The `for-in` loop is used to iterate over the elements of an associative array.
+
+```bash
+awk 'BEGIN {
+    users["alice"] = 5000
+    users["bob"] = 4500
+    users["charlie"] = 6000
+
+    for (name in users)
+        print name, users[name]
+}'
+```
+
+The order of elements in an associative array is not guaranteed unless explicitly controlled.
+
+Loops are useful when processing arrays, counting occurrences, and performing repeated calculations.
+
+#### Modifying Fields and Records
+
+`awk` allows you to modify fields and rebuild records.
+
+For example, you can change a field value:
+
+```bash
+awk '{$3 = 7000; print}' employees.txt
+```
+
+This changes the third field of every record to `7000` in the output.
+
+You can also update fields conditionally:
+
+```bash
+awk '{
+    if ($2 == "Developer")
+        $3 = $3 + 500
+
+    print
+}' employees.txt
+```
+
+This increases the salary of developers by `500`.
+
+To change the output field separator, assign a value to `OFS`:
+
+```bash
+awk 'BEGIN { OFS = ":" } { print $1, $2, $3 }' employees.txt
+```
+
+The output becomes colon-separated:
+
+```text
+Alice:Developer:5000
+Bob:Administrator:4500
+Charlie:Engineer:6000
+David:Designer:4000
+```
+
+**Important:** When a field is modified, `awk` rebuilds the record. The original spacing between fields may not be preserved.
+
+#### Formatting Output with printf
+
+The `printf` statement provides precise control over output formatting.
+
+Unlike `print`, `printf` does not automatically append a newline.
+
+**Basic Syntax:**
+
+```awk
+printf "format", value1, value2
+```
+
+Common format specifiers include:
+
+| Specifier | Description |
+|---|---|
+| `%s` | String |
+| `%d` | Integer |
+| `%f` | Floating-point number |
+| `%.2f` | Floating-point number with two decimal places |
+| `%c` | Character |
+| `%x` | Hexadecimal number |
+| `%o` | Octal number |
+| `%%` | Literal percent sign |
+
+**Example 1 — Basic formatting:**
+
+```bash
+awk '{ printf "Name: %s, Salary: %d\n", $1, $3 }' employees.txt
+```
+
+**Example 2 — Display decimal values:**
+
+```bash
+awk 'BEGIN {
+    salary = 5234.567
+    printf "Salary: %.2f\n", salary
+}'
+```
+
+Output:
+
+```text
+Salary: 5234.57
+```
+
+**Example 3 — Create a formatted table:**
+
+```bash
+awk '
+BEGIN {
+    printf "%-15s %-20s %10s\n", "Name", "Role", "Salary"
+    printf "%-15s %-20s %10s\n", "---------------", "--------------------", "----------"
+}
+{
+    printf "%-15s %-20s %10d\n", $1, $2, $3
+}
+' employees.txt
+```
+
+The formatting options allow you to align columns and generate readable reports.
+
+#### Combining awk with Other Commands
+
+`awk` becomes even more powerful when combined with other Linux utilities.
+
+**Example 1 — Extract IP addresses from command output:**
+
+```bash
+ip -4 addr show | awk '/inet / { print $2 }'
+```
+
+Displays IPv4 addresses with their network prefixes.
+
+**Example 2 — Display usernames from `/etc/passwd`:**
+
+```bash
+awk -F: '{ print $1 }' /etc/passwd
+```
+
+**Example 3 — Display usernames and login shells:**
+
+```bash
+awk -F: '{ print $1, $7 }' /etc/passwd
+```
+
+**Example 4 — Count processes by user:**
+
+```bash
+ps -eo user= | awk '{ count[$1]++ } END {
+    for (user in count)
+        print user, count[user]
+}'
+```
+
+This counts the number of processes associated with each user.
+
+**Example 5 — Calculate total disk usage:**
+
+```bash
+df -h | awk 'NR > 1 { print $1, $5 }'
+```
+
+Displays filesystem names and their reported usage percentages.
+
+**Example 6 — Filter processes by memory usage:**
+
+```bash
+ps aux | awk 'NR == 1 || $4 > 10'
+```
+
+Displays the header and processes whose memory usage percentage is greater than `10`.
+
+#### Practical Examples
+
+**Example 1 — Generate an Employee Report**
+
+Suppose `employees.txt` contains:
+
+```text
+Alice Developer 5000
+Bob Administrator 4500
+Charlie Engineer 6000
+David Designer 4000
+```
+
+Generate a report with employee names and salaries:
+
+```bash
+awk '
+BEGIN {
+    print "Employee Salary Report"
+    print "----------------------"
+}
+{
+    printf "%-15s %10d\n", $1, $3
+    total += $3
+    count++
+}
+END {
+    print "----------------------"
+    printf "Total Employees: %d\n", count
+    printf "Total Salary: %d\n", total
+
+    if (count > 0)
+        printf "Average Salary: %.2f\n", total / count
+}
+' employees.txt
+```
+
+**Example 2 — Analyze Authentication Records**
+
+Display usernames and login shells:
+
+```bash
+awk -F: '{ printf "%-20s %s\n", $1, $7 }' /etc/passwd
+```
+
+Find users configured with a Bash login shell:
+
+```bash
+awk -F: '$7 == "/bin/bash" { print $1 }' /etc/passwd
+```
+
+**Example 3 — Find Large Files**
+
+Display files larger than 100 MB using `du`:
+
+```bash
+du -ah /var/log 2>/dev/null | awk '$1 ~ /M$/ || $1 ~ /G$/'
+```
+
+This is only a rough filter based on human-readable size suffixes. It does not reliably compare actual sizes because `du -h` produces human-readable values. For accurate numeric filtering, use `du -k`:
+
+```bash
+du -ak /var/log 2>/dev/null | awk '$1 > 102400'
+```
+
+This displays entries larger than approximately 100 MiB, based on the reported size in KiB.
+
+**Example 4 — Count Log Entries by Severity**
+
+Suppose `application.log` contains:
+
+```text
+INFO Application started
+ERROR Database connection failed
+WARNING High memory usage
+INFO User logged in
+ERROR Request failed
+```
+
+Count occurrences of each severity:
+
+```bash
+awk '{ count[$1]++ } END {
+    for (level in count)
+        print level, count[level]
+}' application.log
+```
+
+This produces a summary of the number of records associated with each severity level.
+
+**Example 5 — Find Users with UID Greater Than 1000**
+
+```bash
+awk -F: '$3 > 1000 { print $1, $3 }' /etc/passwd
+```
+
+This displays usernames and UIDs greater than `1000`.
+
+The meaning of UID ranges depends on the distribution and local account configuration, so this is a filtering example rather than a universal definition of regular users.
+
+**Example 6 — Extract and Sort Selected Fields**
+
+```bash
+awk '{ print $2, $3 }' employees.txt | sort
+```
+
+Extracts employee roles and salaries, then sorts the resulting output.
+
+**Example 7 — Count Lines Containing a Specific Pattern**
+
+```bash
+awk '/error/ { count++ } END { print count+0 }' application.log
+```
+
+Counts records containing `error`.
+
+The `count+0` expression ensures that the result is printed as zero when no matching records exist.
+
+#### Common awk Use Cases
+
+`awk` is frequently used in Linux administration, automation, and data analysis.
+
+| Use Case | Example |
+|---|---|
+| Extract usernames | `awk -F: '{print $1}' /etc/passwd` |
+| Extract IP information | `ip addr \| awk '/inet / {print $2}'` |
+| Filter numeric values | `awk '$3 > 5000' file.txt` |
+| Calculate totals | `awk '{sum += $3} END {print sum}' file.txt` |
+| Calculate averages | `awk '{sum += $3; n++} END {if(n) print sum/n}' file.txt` |
+| Count records | `awk 'END {print NR}' file.txt` |
+| Count occurrences | `awk '{count[$1]++} END {for (x in count) print x, count[x]}' file.txt` |
+| Format reports | `awk '{printf "%-15s %10d\n", $1, $3}' file.txt` |
+| Filter log entries | `awk '/error/ {print}' application.log` |
+| Process delimited files | `awk -F: '{print $1, $7}' /etc/passwd` |
+
+#### Understanding the Difference Between grep and awk
+
+Although both tools can search and filter text, their primary purposes are different.
+
+| Feature | grep | awk |
+|---|---|---|
+| Primary purpose | Searching for text patterns | Processing structured text |
+| Pattern matching | Yes | Yes |
+| Regular expressions | Yes | Yes |
+| Extracting columns | Limited | Yes |
+| Mathematical calculations | No built-in arithmetic language | Yes |
+| Conditional statements | Limited to search behavior | Yes |
+| Processing records and fields | No dedicated field-processing model | Yes |
+| Formatting reports | Limited | Yes |
+| Programming capabilities | Limited | Extensive |
+
+**When to use grep:**
+
+Use `grep` when you need to find matching lines quickly.
+
+```bash
+grep -i "error" application.log
+```
+
+**When to use awk:**
+
+Use `awk` when you need to extract fields, filter records based on values, or perform calculations.
+
+```bash
+awk '$3 > 5000 { print $1, $3 }' employees.txt
+```
+
+**Using both together:**
+
+```bash
+grep -i "error" application.log | awk '{ print $1, $2, $NF }'
+```
+
+This first filters lines containing `error`, then extracts selected fields from the matching records.
+
+---
+
+### Summary
+
+In this section, we explored two essential Linux text-processing utilities: `grep` and `awk`.
+
+| Command | Main Purpose |
+|---|---|
+| `grep` | Search for text patterns in files and input streams. |
+| `grep -i` | Perform case-insensitive searches. |
+| `grep -r` | Search directories recursively. |
+| `grep -n` | Display matching line numbers. |
+| `grep -v` | Exclude matching lines. |
+| `grep -E` | Search using Extended Regular Expressions. |
+| `grep -A`, `-B`, `-C` | Display context around matches. |
+| `awk` | Process text records and fields. |
+| `awk -F` | Specify a custom field separator. |
+| `awk '{print $1}'` | Extract the first field. |
+| `awk 'NR > 1'` | Skip the first record. |
+| `awk 'BEGIN {...} END {...}'` | Execute initialization and final processing instructions. |
+| `awk '{sum += $1}'` | Perform calculations on fields. |
+| `awk 'printf'` | Format output. |
+
+Understanding these tools makes it easier to investigate system logs, inspect configuration files, extract information, and automate common Linux administration tasks.
+
+### Additional Resources
+
+- [GNU grep Manual](https://www.gnu.org/software/grep/manual/grep.html)
+- [GNU awk User's Guide](https://www.gnu.org/software/gawk/manual/gawk.html)
+- [GNU awk Documentation](https://www.gnu.org/software/gawk/)
+- [Regular Expressions — GNU grep](https://www.gnu.org/software/grep/manual/html_node/Regular-Expressions.html)
+- [The Linux man-pages Project](https://man7.org/linux/man-pages/)
 
 ---
 
