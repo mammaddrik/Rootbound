@@ -65,6 +65,15 @@
   - [System Monitoring Summary](#system-monitoring-summary)
     - [Additional Resources](#additional-resources)
   - [Practical Exercises](#practical-exercises)
+    - [Exercise 1 — Checking System Uptime and Load](#exercise-1--checking-system-uptime-and-load)
+    - [Exercise 2 — Monitoring Authentication Logs](#exercise-2--monitoring-authentication-logs)
+    - [Exercise 3 — Checking Running Services](#exercise-3--checking-running-services)
+    - [Exercise 4 — Monitoring Memory Usage](#exercise-4--monitoring-memory-usage)
+    - [Exercise 5 — Monitoring Disk Space](#exercise-5--monitoring-disk-space)
+    - [Exercise 6 — System Monitoring with Command Pipelines](#exercise-6--system-monitoring-with-command-pipelines)
+    - [Exercise 7 — System Health Investigation](#exercise-7--system-health-investigation)
+    - [Exercise 8 — Final Challenge: Linux System Health Report](#exercise-8--final-challenge-linux-system-health-report)
+    - [Exercise 9 — Knowledge Check](#exercise-9--knowledge-check)
 
 ---
 
@@ -1954,8 +1963,179 @@ The following table summarizes the main commands introduced in this section.
 
 ---
 
+
 ## Practical Exercises
 
+The following exercises are designed to reinforce the system monitoring concepts and commands introduced in this section. Complete each exercise in a Linux terminal and use the appropriate commands to inspect system activity, analyze resource usage, and investigate potential issues.
+
+### Exercise 1 — Checking System Uptime and Load
+
+1. Display the current system uptime using `uptime`.
+2. Display uptime in a human-readable format using `uptime -p`.
+3. Find the date and time of the last system boot using `uptime -s`.
+4. Display the number of available CPU processing units using `nproc`.
+5. Inspect detailed CPU information using `lscpu`.
+6. Display the current load averages and identify their corresponding time intervals.
+7. Compare the load average with the number of available CPU cores.
+8. Display currently logged-in users and their activities using `w`.
+9. Monitor CPU usage and running processes using `top`.
+10. Display the ten processes consuming the most CPU resources using `ps`.
+
+### Exercise 2 — Monitoring Authentication Logs
+
+1. Identify the authentication log location used by your Linux distribution.
+2. Display the latest authentication log entries using `tail`.
+3. Search for failed password attempts using `grep`.
+4. Search for successful SSH authentication events.
+5. Find authentication attempts involving invalid usernames.
+6. Count the number of failed password attempts.
+7. Display the most recent login sessions using `last`.
+8. Check recorded failed login attempts using `lastb`, if available.
+9. Display the most recent login information for user accounts using `lastlog`.
+10. Monitor new authentication events in real time using `tail -f` or `journalctl -f`.
+
+### Exercise 3 — Checking Running Services
+
+1. List all loaded service units using `systemctl`.
+2. Display only currently running services.
+3. List installed service unit files.
+4. Check the status of the SSH service.
+5. Check whether the SSH service is currently active using `systemctl is-active`.
+6. Determine whether the SSH service is enabled at boot using `systemctl is-enabled`.
+7. Display all failed systemd units.
+8. Inspect the logs of a selected service using `journalctl`.
+9. Display the latest 20 log entries of a service.
+10. Monitor a service's logs in real time.
+
+### Exercise 4 — Monitoring Memory Usage
+
+1. Display current memory usage using `free`.
+2. Display memory information in a human-readable format using `free -h`.
+3. Identify total, free, and available memory.
+4. Inspect detailed memory information using `/proc/meminfo`.
+5. Display the current swap configuration using `swapon --show`.
+6. Monitor memory usage at two-second intervals.
+7. Display memory and swap statistics using `vmstat`.
+8. Identify the ten processes consuming the most memory.
+9. Search kernel logs for Out-Of-Memory (OOM) events.
+10. Explain the difference between free memory and available memory.
+
+### Exercise 5 — Monitoring Disk Space
+
+1. Display filesystem disk usage using `df`.
+2. Display disk usage in a human-readable format using `df -h`.
+3. Identify the filesystem type of each mounted filesystem using `df -hT`.
+4. Check the available space on the filesystem containing `/home`.
+5. Display the total size of `/var/log` using `du`.
+6. Find the largest subdirectories inside `/var`.
+7. Identify files larger than 100 MB using `find`.
+8. Display available disks and partitions using `lsblk`.
+9. Inspect filesystem information, UUIDs, and mount points using `lsblk -f`.
+10. Display currently mounted filesystems using `findmnt`.
+11. Check inode usage using `df -i`.
+12. Identify deleted files that are still occupying disk space using `lsof`, if available.
+
+### Exercise 6 — System Monitoring with Command Pipelines
+
+1. Display the ten processes consuming the most CPU resources using `ps` and `head`.
+2. Display the ten processes consuming the most memory using `ps` and `sort`.
+3. Search authentication logs for failed login attempts and display the latest entries.
+4. Count failed password attempts using `grep` and `wc`.
+5. Find the largest directories inside `/var` using `du`, `sort`, and `head`.
+6. Extract memory-related information from `/proc/meminfo` using `grep`.
+7. Display only running services and save the output to a file using `tee`.
+8. Combine `journalctl` and `grep` to find error messages generated by a selected service.
+
+### Exercise 7 — System Health Investigation
+
+Perform a basic health inspection of your Linux system.
+
+1. Check system uptime and load averages.
+2. Identify the number of available CPU cores.
+3. Inspect CPU utilization using `top`.
+4. Identify the processes consuming the most CPU and memory.
+5. Check available physical memory and swap usage.
+6. Inspect filesystem usage and identify partitions with high utilization.
+7. Check inode usage across mounted filesystems.
+8. Identify failed systemd services.
+9. Inspect authentication logs for unusual login activity.
+10. Record your findings and identify any potential system issues.
+
+### Exercise 8 — Final Challenge: Linux System Health Report
+
+Create a basic system health report using Linux monitoring commands.
+
+**Objective:** Collect important system information and generate a readable report containing system uptime, CPU load, memory usage, disk space, running services, and authentication activity.
+
+**Requirements:**
+
+1. Create a directory named `system-monitoring`.
+2. Create a script named `system-report.sh`.
+3. Collect the following information:
+   - Current date and time.
+   - System hostname.
+   - System uptime.
+   - Load averages.
+   - Number of available CPU cores.
+   - Memory and swap usage.
+   - Filesystem disk usage.
+   - Top five CPU-consuming processes.
+   - Top five memory-consuming processes.
+   - Number of failed authentication attempts, if accessible.
+   - Number of failed systemd services.
+4. Organize the collected information into clearly labeled sections.
+5. Save the generated report as `system-report.txt`.
+6. Display informative messages while the script is running.
+7. Handle missing commands, unavailable log files, and permission restrictions gracefully.
+8. Make the script executable using `chmod`.
+9. Run the script and inspect the generated report.
+10. Verify that the report contains the expected system information.
+
+**Expected Directory Structure:**
+
+```text
+system-monitoring/
+├── system-report.sh
+└── system-report.txt
+```
+
+**Additional Challenges:**
+
+- Allow the user to specify a custom report filename.
+- Include a timestamp in the report.
+- Highlight filesystems with more than 80% disk usage.
+- Display warnings when available memory becomes unusually low.
+- Include the current status of selected services.
+- Add error handling and comments to improve script readability.
+
+### Exercise 9 — Knowledge Check
+
+Answer the following questions to evaluate your understanding of Linux system monitoring.
+
+1. What information does the `uptime` command display?
+2. What are the three load average values, and what time periods do they represent?
+3. Why should load average be compared with the number of CPU cores?
+4. What is the difference between `top` and `ps`?
+5. Where are authentication logs commonly stored on Debian-based and RHEL-based distributions?
+6. What is the purpose of `journalctl`?
+7. What is the difference between `last` and `lastb`?
+8. What information does `systemctl status` provide?
+9. What is the difference between `systemctl start` and `systemctl enable`?
+10. How can you identify failed systemd services?
+11. What is the difference between free memory and available memory?
+12. What is swap space, and why does Linux use it?
+13. What information does `/proc/meminfo` provide?
+14. What is the purpose of the OOM killer?
+15. What is the difference between `df` and `du`?
+16. How can you identify files larger than 100 MB?
+17. What information does `lsblk` display?
+18. What are inodes, and why is monitoring inode usage important?
+19. Why might `df` report more disk usage than `du`?
+20. How can you identify deleted files that are still occupying disk space?
+
+---
+
+**Goal:** Develop practical skills in monitoring Linux system performance, analyzing authentication logs, inspecting running services, managing memory usage, and identifying disk space issues using essential system monitoring tools.
 
 <p align="right">
   <a href="../Day-05/README.md">← Day 05</a>
