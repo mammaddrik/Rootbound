@@ -22,6 +22,16 @@
     - [Managing User Permissions and Access](#managing-user-permissions-and-access)
     - [Switching Between Users](#switching-between-users)
   - [Practical Exercises](#practical-exercises)
+    - [Exercise 1 — Understanding Users and Groups](#exercise-1--understanding-users-and-groups)
+    - [Exercise 2 — Creating and Managing User Accounts](#exercise-2--creating-and-managing-user-accounts)
+    - [Exercise 3 — Managing Groups](#exercise-3--managing-groups)
+    - [Exercise 4 — Understanding User and Group Information](#exercise-4--understanding-user-and-group-information)
+    - [Exercise 5 — Managing User Passwords](#exercise-5--managing-user-passwords)
+    - [Exercise 6 — Managing User Permissions and Access](#exercise-6--managing-user-permissions-and-access)
+    - [Exercise 7 — Switching Between Users](#exercise-7--switching-between-users)
+    - [Exercise 8 — User Management with Shell Commands](#exercise-8--user-management-with-shell-commands)
+    - [Exercise 9 — Final Challenge: Linux User and Group Administration](#exercise-9--final-challenge-linux-user-and-group-administration)
+    - [Exercise 10 — Knowledge Check](#exercise-10--knowledge-check)
 
 ---
 
@@ -1428,9 +1438,216 @@ Remember that `$SHELL` usually indicates the user's configured login shell, not 
 
 ## Practical Exercises
 
+The following exercises are designed to reinforce the concepts and commands introduced in the User Management section. They provide hands-on experience in creating and managing user accounts, organizing groups, managing passwords, controlling permissions, and switching between users.
+
+### Exercise 1 — Understanding Users and Groups
+
+1. Display the username of the currently logged-in user using `whoami`.
+2. Display detailed user and group information using `id`.
+3. Display the UID of the current user using `id -u`.
+4. Display the primary GID using `id -g`.
+5. List all groups associated with the current user using `groups`.
+6. Display all users currently logged in using `who`.
+7. Display additional information about logged-in users using `w`.
+8. Inspect the `/etc/passwd` file.
+9. Inspect the `/etc/group` file.
+10. Use `getent passwd` to retrieve information about a specific user.
+
+### Exercise 2 — Creating and Managing User Accounts
+
+1. Create a new user named `alice` using `useradd`.
+2. Create another user named `bob` with a home directory.
+3. Set a login shell of `/bin/bash` for both users.
+4. Assign passwords to both accounts using `passwd`.
+5. Verify that both users exist using `getent passwd`.
+6. Display their UIDs and GIDs using `id`.
+7. Inspect their home directories using `ls -la`.
+8. Change `bob`'s login shell to `/bin/sh` using `usermod`.
+9. Change `alice`'s descriptive information using `usermod -c`.
+10. Delete the `bob` account using `userdel -r`.
+
+### Exercise 3 — Managing Groups
+
+1. Create a group named `developers`.
+2. Create another group named `testers`.
+3. Add `alice` to the `developers` group.
+4. Add `alice` to the `testers` group without removing existing supplementary groups.
+5. Verify the group memberships using `groups alice`.
+6. Display detailed group information using `id alice`.
+7. Create a user named `charlie` with `developers` as the primary group.
+8. Add `charlie` to the `testers` group.
+9. Remove `alice` from the `testers` group using `gpasswd`.
+10. Rename the `testers` group to `qa-team`.
+11. Inspect the `/etc/group` file to verify your changes.
+
+### Exercise 4 — Understanding User and Group Information
+
+1. Display the contents of `/etc/passwd`.
+2. Find the entry belonging to `alice` using `grep`.
+3. Identify the username, UID, GID, home directory, and login shell.
+4. Use `getent passwd alice` to retrieve the account information.
+5. Display the group information using `getent group developers`.
+6. Display the numerical UID and GID of `alice`.
+7. Inspect `/etc/shadow` using administrative privileges.
+8. Use `getent group` to retrieve information about all configured groups.
+9. Compare the output of `groups alice` and `id alice`.
+10. Explain the difference between `/etc/passwd`, `/etc/shadow`, and `/etc/group`.
+
+### Exercise 5 — Managing User Passwords
+
+1. Set a password for `alice` using `passwd`.
+2. Change the password of `alice` again.
+3. Display the password status using `passwd -S alice`.
+4. Display password aging information using `chage -l alice`.
+5. Set the minimum password age to one day.
+6. Set the maximum password age to 90 days.
+7. Configure a warning period of seven days.
+8. Force `alice` to change her password at the next login using `chage -d 0`.
+9. Lock password authentication for `alice`.
+10. Verify the password status.
+11. Unlock password authentication and verify the result.
+
+### Exercise 6 — Managing User Permissions and Access
+
+1. Create a directory named `/shared/project`.
+2. Create a file named `project.txt` inside the directory.
+3. Change the file owner to `alice`.
+4. Change the file's group ownership to `developers`.
+5. Set the file permissions to `640`.
+6. Verify the permissions using `ls -l`.
+7. Create a script named `deploy.sh`.
+8. Add execute permission for the owner using `chmod`.
+9. Create a shared directory owned by `root:developers`.
+10. Set its permissions to `2775`.
+11. Explain how the setgid bit affects group ownership of newly created files and directories.
+12. Use `getfacl` to inspect the permissions of the shared directory.
+13. Grant a specific user read and write access using `setfacl`.
+14. Verify the ACL changes using `getfacl`.
+15. Remove the additional ACL entry using `setfacl -x`.
+
+### Exercise 7 — Switching Between Users
+
+1. Switch to `alice` using `su`.
+2. Verify the current identity using `whoami`.
+3. Display the current user's UID and group memberships using `id`.
+4. Return to the original account using `exit`.
+5. Switch to `alice` using `su - alice`.
+6. Compare the working directory and environment variables with the previous session.
+7. Execute a command as `alice` using `sudo -u alice`.
+8. Start a login shell as `alice` using `sudo -iu alice`.
+9. Start a root login shell using `sudo -i`.
+10. Return to your original account and verify your identity.
+
+### Exercise 8 — User Management with Shell Commands
+
+Create a script named `user-manager.sh` that performs basic user and group information checks.
+
+The script should:
+
+1. Accept a username as a command-line argument.
+2. Check whether the username was provided.
+3. Verify that the user exists using `id`.
+4. Display the username, UID, primary GID, and supplementary groups.
+5. Display the user's home directory and login shell.
+6. Check whether the home directory exists.
+7. Display the groups associated with the user.
+8. Handle invalid usernames and missing arguments.
+9. Display clear messages for each operation.
+
+Example:
+
+```bash
+./user-manager.sh alice
+```
+
+Expected output:
+
+```text
+User Information
+----------------
+Username: alice
+UID: 1001
+Primary GID: 1001
+Groups: alice developers
+Home Directory: /home/alice
+Login Shell: /bin/bash
+
+Account Status: User exists
+Home Directory Status: Available
+```
+
+### Exercise 9 — Final Challenge: Linux User and Group Administration
+
+Create a small user and group management environment for a development team.
+
+Your task is to configure the following accounts and groups:
+
+**Users:**
+
+- `alice`
+- `bob`
+- `charlie`
+
+**Groups:**
+
+- `developers`
+- `testers`
+- `administrators`
+
+Complete the following tasks:
+
+1. Create all three groups.
+2. Create all three user accounts with home directories.
+3. Set `/bin/bash` as the login shell for each user.
+4. Assign a password to every account.
+5. Add `alice` and `bob` to the `developers` group.
+6. Add `bob` and `charlie` to the `testers` group.
+7. Configure `charlie` as a member of the `administrators` group.
+8. Create `/shared/development` and assign ownership to `root:developers`.
+9. Configure the directory permissions to `2775`.
+10. Create a file named `README.txt` inside the shared directory.
+11. Verify the ownership and permissions of the file.
+12. Configure password aging for `alice` with a maximum password age of 90 days.
+13. Verify all user and group memberships.
+14. Test access to the shared directory using the different user accounts.
+15. Document the commands used and their results.
+
+**Additional Requirements:**
+
+- Use `id` and `getent` to verify account information.
+- Use `getfacl` and `setfacl` to demonstrate additional access control.
+- Verify that new files inherit the expected group ownership.
+- Explain the difference between primary and supplementary groups.
+- Identify which users can access the shared directory and why.
+
+### Exercise 10 — Knowledge Check
+
+Answer the following questions to test your understanding of Linux user management.
+
+1. What is the difference between a regular user and the root user?
+2. What is a UID?
+3. What is a GID?
+4. What is the difference between primary and supplementary groups?
+5. Which command creates a new user account?
+6. What is the purpose of the `-m` option in `useradd`?
+7. What is the difference between `useradd` and `adduser`?
+8. Which command modifies an existing user account?
+9. What is the difference between `userdel` and `userdel -r`?
+10. Which command creates a new group?
+11. What does the `-aG` option do in `usermod`?
+12. What is the purpose of `/etc/passwd`?
+13. What information is stored in `/etc/shadow`?
+14. Which command displays a user's UID and group memberships?
+15. What is the purpose of the `chage` command?
+16. How can you lock and unlock password authentication for a user?
+17. What is the difference between `su` and `sudo`?
+18. What does the setgid bit do on a directory?
+19. What is the purpose of `getfacl` and `setfacl`?
+20. Why should administrative privileges be granted carefully?
+
 ---
 
-**Goal:**
+**Goal:** Develop practical skills in creating and managing Linux user accounts, organizing groups, controlling authentication and password policies, managing file access, and switching between users securely.
 
 <p align="right">
   <a href="../Day-07/README.md">← Day 07</a>
