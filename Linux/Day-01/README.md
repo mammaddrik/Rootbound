@@ -2,9 +2,7 @@
 <div id="top"></div>
 
 <p align="center">
-  <a href="https://github.com/mammaddrik/RootBound">
-    <img src="https://i.postimg.cc/qBxPZQM8/Root-Bound-Day-01.png" alt="RootBound-Day-01">
-  </a>
+    <img src="../../media/images/Linux/Day-01/image_01.png" alt="image_01">
 </p>
 
 # Day 01 — Linux Fundamentals
@@ -103,7 +101,7 @@ pwd
 The command prints the absolute path of the directory in which the user is currently working.
 
 <p align="center">
-    <img src="https://i.postimg.cc/43dQQqxs/pwd.png" alt="pwd">
+    <img src="../../media/images/Linux/Day-01/image_02.png" alt="image_02">
 </p>
 
 #### 2. `ls` — List Directory Contents
@@ -131,7 +129,7 @@ Desktop  Documents  Downloads  Music  Pictures  Videos
 The `ls` command displays visible files and directories. Hidden files are not included by default.
 
 <p align="center">
-    <img src="https://i.postimg.cc/RZqWsBwM/ls.png" alt="ls">
+    <img src="../../media/images/Linux/Day-01/image_03.png" alt="image_03.png">
 </p>
 
 **Common Options:**
@@ -152,7 +150,7 @@ ls -l
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/MG2z72DQ/ls-l.png" alt="Display detailed information">
+    <img src="../../media/images/Linux/Day-01/image_04.png" alt="image_04.png">
 </p>
 
 Display hidden files:
@@ -162,7 +160,7 @@ ls -a
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/DZNjGFQ3/ls-a.png" alt="hidden files">
+    <img src="../../media/images/Linux/Day-01/image_05.png" alt="image_05.png">
 </p>
 
 Combine multiple options:
@@ -172,7 +170,7 @@ ls -lah
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/25KMQ4rR/ls-lah.png" alt="multiple options">
+    <img src="../../media/images/Linux/Day-01/image_06.png" alt="image_06.png">
 </p>
 
 List the contents of a specific directory:
@@ -182,7 +180,7 @@ ls /home/user/Documents
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/MKLB8H6S/sd.png" alt="specific directory">
+    <img src="../../media/images/Linux/Day-01/image_07.png" alt="image_07.png">
 </p>
 
 #### 3. `cd` — Change Directory
@@ -206,7 +204,7 @@ cd Documents
 The command moves into the `Documents` directory, assuming it exists in the current location.
 
 <p align="center">
-    <img src="https://i.postimg.cc/h4NgWQzc/cd.png" alt="Change Directory">
+    <img src="../../media/images/Linux/Day-01/image_08.png" alt="image_08.png">
 </p>
 
 **Additional Examples:**
@@ -218,7 +216,7 @@ cd
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/7Ltd3jSC/hcd.png" alt="home directory">
+    <img src="../../media/images/Linux/Day-01/image_09.png" alt="image_09.png">
 </p>
 
 Move to the parent directory:
@@ -228,7 +226,7 @@ cd ..
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/qqs15F60/bcd.png" alt="parent directory">
+    <img src="../../media/images/Linux/Day-01/image_10.png" alt="image_10.png">
 </p>
 
 Move to the root directory:
@@ -238,7 +236,7 @@ cd /
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/zGBkCv7b/cdroot.png" alt="root directory">
+    <img src="../../media/images/Linux/Day-01/image_11.png" alt="image_11.png">
 </p>
 
 Move to a specific absolute path:
@@ -248,7 +246,7 @@ cd /home/user/Documents
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/tJBxJdL2/cdpath.png" alt="specific absolute path">
+    <img src="../../media/images/Linux/Day-01/image_12.png" alt="image_12.png">
 </p>
 
 Move to the previous working directory:
@@ -258,7 +256,7 @@ cd -
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/vBqY6PZ3/cdpwd.png" alt="previous working directory">
+    <img src="../../media/images/Linux/Day-01/image_13.png" alt="image_13.png">
 </p>
 
 #### 4. `clear` — Clear Terminal
@@ -280,11 +278,11 @@ clear
 After execution, the terminal screen is cleared, providing a clean workspace for further commands.
 
 <p align="center">
-    <img src="https://i.postimg.cc/VNtZt5sd/clear.png" alt="Before clear">
+    <img src="../../media/images/Linux/Day-01/image_14.png" alt="image_14.png">
 </p>
 
 <p align="center">
-    <img src="https://i.postimg.cc/B6chhyKj/clear-1.png" alt="After clear">
+    <img src="../../media/images/Linux/Day-01/image_15.png" alt="image_15.png">
 </p>
 
 #### 5. `whoami` — Current User
@@ -314,7 +312,7 @@ user
 The output represents the username of the current effective user.
 
 <p align="center">
-    <img src="https://i.postimg.cc/VknXBtMb/whoami.png" alt="whoami">
+    <img src="../../media/images/Linux/Day-01/image_16.png" alt="image_16.png">
 </p>
 
 #### 6. `date` — Display Date and Time
@@ -344,7 +342,7 @@ Wed Nov 18 12:30:00 UTC 2026
 The output depends on the system clock and configured timezone.
 
 <p align="center">
-    <img src="https://i.postimg.cc/zDHwX4Bx/date.png" alt="date">
+    <img src="../../media/images/Linux/Day-01/image_17.png" alt="image_17.png">
 </p>
 
 Display the date in a custom format:
@@ -360,7 +358,7 @@ Example output:
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/DzmJpb4g/fdate.png" alt="custom format date">
+    <img src="../../media/images/Linux/Day-01/image_18.png" alt="image_18.png">
 </p>
 
 #### 7. `uname` — System Information
@@ -386,7 +384,7 @@ Linux
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/G2Nb42bV/uname.png" alt="uname">
+    <img src="../../media/images/Linux/Day-01/image_19.png" alt="image_19.png">
 </p>
 
 **Common Options:**
@@ -408,7 +406,7 @@ uname -a
 This command provides a more detailed overview of the running kernel and system architecture.
 
 <p align="center">
-    <img src="https://i.postimg.cc/26BSFv9p/uname-a.png" alt="uname -a">
+    <img src="../../media/images/Linux/Day-01/image_20.png" alt="image_20.png">
 </p>
 
 #### 8. `hostname` — System Hostname
@@ -436,7 +434,7 @@ linux-machine
 The output represents the configured hostname of the system.
 
 <p align="center">
-    <img src="https://i.postimg.cc/VsDVBTMs/hostname.png" alt="hostname">
+    <img src="../../media/images/Linux/Day-01/image_21.png" alt="image_21.png">
 </p>
 
 #### 9. `history` — Command History
@@ -468,7 +466,7 @@ history
 The displayed command numbers can be used to reference commands in the shell history.
 
 <p align="center">
-    <img src="https://i.postimg.cc/FKrSZP0H/history.png" alt="history">
+    <img src="../../media/images/Linux/Day-01/image_22.png" alt="image_22.png">
 </p>
 
 #### 10. `man` — Manual Pages
@@ -492,7 +490,7 @@ man ls
 This opens the manual page for the `ls` command.
 
 <p align="center">
-    <img src="https://i.postimg.cc/KYpNwK7q/manls.png" alt="man ls">
+    <img src="../../media/images/Linux/Day-01/image_23.png" alt="image_23.png">
 </p>
 
 **Common Navigation Keys:**
@@ -530,7 +528,7 @@ Hello, Linux
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/05BTDQLf/echo.png" alt="echo">
+    <img src="../../media/images/Linux/Day-01/image_24.png" alt="image_24.png">
 </p>
 
 Display the value of an environment variable:
@@ -546,7 +544,7 @@ Example output:
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/7LP4XRXD/echohome.png" alt="echo home">
+    <img src="../../media/images/Linux/Day-01/image_25.png" alt="image_25.png">
 </p>
 
 #### 12. `which` — Locate Executables
@@ -576,7 +574,7 @@ which ls
 The output indicates the location of the executable found through the current `PATH`.
 
 <p align="center">
-    <img src="https://i.postimg.cc/L4LWYT34/which.png" alt="which">
+    <img src="../../media/images/Linux/Day-01/image_26.png" alt="image_26.png">
 </p>
 
 #### 13. `type` — Identify Commands
@@ -604,7 +602,7 @@ cd is a shell builtin
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/JnWb9bDQ/type.png" alt="type">
+    <img src="../../media/images/Linux/Day-01/image_27.png" alt="image_27.png">
 </p>
 
 ---
@@ -636,7 +634,7 @@ touch notes.txt
 This creates an empty file named `notes.txt` in the current working directory.
 
 <p align="center">
-    <img src="https://i.postimg.cc/2jqfyhV2/touch.png" alt="touch">
+    <img src="../../media/images/Linux/Day-01/image_28.png" alt="image_28.png">
 </p>
 
 
@@ -647,7 +645,7 @@ touch file1.txt file2.txt file3.txt
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/W3g6Y556/touch-multiple.png" alt="touch Multiple Files">
+    <img src="../../media/images/Linux/Day-01/image_29.png" alt="image_29.png">
 </p>
 
 This creates three empty files in the current directory.
@@ -671,7 +669,7 @@ mkdir Projects
 This creates a directory named `Projects`.
 
 <p align="center">
-    <img src="https://i.postimg.cc/yx6ghjt1/mkdir.png" alt="mkdir">
+    <img src="../../media/images/Linux/Day-01/image_30.png" alt="image_30.png">
 </p>
 
 **Create Multiple Directories:**
@@ -681,7 +679,7 @@ mkdir Documents Images Videos
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/YS3tN7HH/mkdir-multiple.png" alt="mkdir Multiple Directories">
+    <img src="../../media/images/Linux/Day-01/image_31.png" alt="image_31.png">
 </p>
 
 **Create Nested Directories:**
@@ -693,7 +691,7 @@ mkdir -p Projects/Linux/Day-01
 The `-p` option creates missing parent directories automatically.
 
 <p align="center">
-    <img src="https://i.postimg.cc/SRW4sbV3/mkdir-parent.png" alt="mkdir parent directories">
+    <img src="../../media/images/Linux/Day-01/image_32.png" alt="image_32.png">
 </p>
 
 **Common Options:**
@@ -724,7 +722,7 @@ rmdir EmptyFolder
 This removes the `EmptyFolder` directory if it is empty.
 
 <p align="center">
-    <img src="https://i.postimg.cc/Jz8Nt34G/rmdir.png" alt="rmdir">
+    <img src="../../media/images/Linux/Day-01/image_33.png" alt="image_33.png">
 </p>
 
 **Remove Nested Empty Directories:**
@@ -736,7 +734,7 @@ rmdir -p Projects/Linux/Day-01
 The `-p` option attempts to remove the specified directory and its empty parent directories.
 
 <p align="center">
-    <img src="https://i.postimg.cc/ZqGKKH4s/rmdir-p.png" alt="rmdir -p">
+    <img src="../../media/images/Linux/Day-01/image_34.png" alt="image_34.png">
 </p>
 
 ---
@@ -766,7 +764,7 @@ cp file.txt backup.txt
 This creates a copy of `file.txt` named `backup.txt` in the current directory.
 
 <p align="center">
-    <img src="https://i.postimg.cc/13TJXnT7/cp.png" alt="cp">
+    <img src="../../media/images/Linux/Day-01/image_35.png" alt="image_35.png">
 </p>
 
 **Copy a file to another directory:**
@@ -776,7 +774,7 @@ cp file.txt Documents/
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/fyGRkvx6/cpfile.png" alt="cp file">
+    <img src="../../media/images/Linux/Day-01/image_36.png" alt="image_36.png">
 </p>
 
 **Copy a directory and its contents:**
@@ -788,7 +786,7 @@ cp -r source_directory destination_directory
 The `-r` option enables recursive copying, allowing the command to copy directories and their contents.
 
 <p align="center">
-    <img src="https://i.postimg.cc/mgX2HRNj/cp-directory.png" alt="cp directory">
+    <img src="../../media/images/Linux/Day-01/image_37.png" alt="image_37.png">
 </p>
 
 **Common Options:**
@@ -821,7 +819,7 @@ mv file.txt Documents/
 This moves `file.txt` into the `Documents` directory.
 
 <p align="center">
-    <img src="https://i.postimg.cc/02KC32r2/mv.png" alt="mv">
+    <img src="../../media/images/Linux/Day-01/image_38.png" alt="image_38.png">
 </p>
 
 **Example — Rename a File:**
@@ -833,7 +831,7 @@ mv old_name.txt new_name.txt
 This renames `old_name.txt` to `new_name.txt`.
 
 <p align="center">
-    <img src="https://i.postimg.cc/cJFkRxDG/mv-rename.png" alt="mv rename">
+    <img src="../../media/images/Linux/Day-01/image_39.png" alt="image_39.png">
 </p>
 
 **Common Options:**
@@ -863,7 +861,7 @@ rm file.txt
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/WpwFXdGV/rm.png" alt="rm">
+    <img src="../../media/images/Linux/Day-01/image_40.png" alt="image_40.png">
 </p>
 
 **Remove an Empty or Non-Empty Directory Recursively:**
@@ -873,7 +871,7 @@ rm -r directory_name
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/W4mTTkbq/rm-directory.png" alt="rm directory">
+    <img src="../../media/images/Linux/Day-01/image_41.png" alt="image_41.png">
 </p>
 
 **Common Options:**
@@ -929,7 +927,7 @@ Example:
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/wTJ60Z8G/Linux-filesystem.png" alt="Linux Filesystem">
+    <img src="../../media/images/Linux/Day-01/image_42.png" alt="image_42.png">
 </p>
 
 #### Home Directory
@@ -1032,7 +1030,7 @@ cd ..
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/4db66B4c/cd-back.png" alt="back">
+    <img src="../../media/images/Linux/Day-01/image_43.png" alt="image_43.png">
 </p>
 
 Access a directory inside the current directory:
@@ -1042,7 +1040,7 @@ cd ./Documents
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/Fs1Sz9St/cd-current.png" alt="current directory">
+    <img src="../../media/images/Linux/Day-01/image_44.png" alt="image_44.png">
 </p>
 
 Move two levels upward:
@@ -1052,7 +1050,7 @@ cd ../../
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/85K5g6tZ/cd-upward.png" alt="two levels upward">
+    <img src="../../media/images/Linux/Day-01/image_45.png" alt="image_45.png">
 </p>
 
 Navigate to the user's home directory:
@@ -1062,7 +1060,7 @@ cd ~
 ```
 
 <p align="center">
-    <img src="https://i.postimg.cc/brxB2QWn/Home.png" alt="Home">
+    <img src="../../media/images/Linux/Day-01/image_46.png" alt="image_46.png">
 </p>
 
 ---
