@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="https://github.com/mammaddrik/RootBound">
-    <img src="https://i.postimg.cc/xd2pd19m/Root-Bound-Day-04.png" alt="RootBound-Day-04">
-  </a>
+  <img src="../../media/images/Linux/Day-04/image_01.png" alt="image_01">
 </p>
 
 # Day 04 — Working with Files

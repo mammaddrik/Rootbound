@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="https://github.com/mammaddrik/RootBound">
-    <img src="https://i.postimg.cc/SQ7FJNZS/Root-Bound-Day-08.png" alt="RootBound-Day-08">
-  </a>
+  <img src="../../media/images/Linux/Day-08/image_01.png" alt="image_01">
 </p>
 
 # Day 08 — User Management

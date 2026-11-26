@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="https://github.com/mammaddrik/RootBound">
-    <img src="https://i.postimg.cc/mg5Qq4wL/Root-Bound-Day-05.png" alt="RootBound-Day-05">
-  </a>
+  <img src="../../media/images/Linux/Day-05/image_01.png" alt="image_01">
 </p>
 
 # Day 05 — Text Processing

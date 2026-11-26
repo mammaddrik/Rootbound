@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="https://github.com/mammaddrik/RootBound">
-    <img src="https://i.postimg.cc/QxjGcXQd/Root-Bound-Day-06.png" alt="RootBound-Day-06">
-  </a>
+  <img src="../../media/images/Linux/Day-06/image_01.png" alt="image_01">
 </p>
 
 # Day 06 — System Monitoring

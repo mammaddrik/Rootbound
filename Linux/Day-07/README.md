@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="https://github.com/mammaddrik/RootBound">
-    <img src="https://i.postimg.cc/pVDQmRGL/Root-Bound-Day-07.png" alt="RootBound-Day-07">
-  </a>
+  <img src="../../media/images/Linux/Day-07/image_01.png" alt="image_01">
 </p>
 
 # Day 07 — Process Management

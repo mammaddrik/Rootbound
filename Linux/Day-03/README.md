@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="https://github.com/mammaddrik/RootBound">
-    <img src="https://i.postimg.cc/QtgF51nn/Root-Bound-Day-03.png" alt="RootBound-Day-03">
-  </a>
+  <img src="../../media/images/Linux/Day-03/image_01.png" alt="image_01">
 </p>
 
 # Day 03 — Shell and Other Basics
