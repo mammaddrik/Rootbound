@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://github.com/mammaddrik/Rootbound">
-    <img src="https://i.postimg.cc/pTwW14cS/Logo.png" alt="Rootbound logo">
+    <img src="./media/images/Rootbound.png" alt="Rootbound logo">
   </a>
 </p>
 
@@ -50,7 +50,7 @@ Each entry reflects a particular stage of learning, preserving both the details 
 
 | Topic | Status |
 |:------|:-------|
-| Linux | In Progress |
+| [Linux](./Linux/README.md) | In Progress |
 
 ## License
 
