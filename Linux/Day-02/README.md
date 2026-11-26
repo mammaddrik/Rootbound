@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="https://github.com/mammaddrik/RootBound">
-    <img src="https://i.postimg.cc/mrDNbCQ8/Root-Bound-Day-02.png" alt="RootBound-Day-02">
-  </a>
+  <img src="../../media/images/Linux/Day-02/image_01.png" alt="image_01">
 </p>
 
 # Day 02 — Text Editors
@@ -56,7 +54,7 @@
 ### Nano
 
 <p align="center">
-    <img src="https://i.postimg.cc/DfL7xF6F/Gnu-nano.png" alt="Gnu-nano">
+    <img src="../../media/images/Linux/Day-02/image_02.png" alt="image_02" width="300">
 </p>
 
 #### Introduction to Nano
@@ -118,7 +116,7 @@ nano --version
 This command displays the installed Nano version and build information.
 
 <p align="center">
-    <img src="https://i.postimg.cc/xCV48rzG/nano-version.png" alt="nano version">
+    <img src="../../media/images/Linux/Day-02/image_03.png" alt="image_03">
 </p>
 
 #### Understanding the Nano Interface
@@ -147,7 +145,7 @@ Therefore:
 **Important:** The exact appearance of Nano may vary depending on its version, terminal settings, and configuration.
 
 <p align="center">
-    <img src="https://i.postimg.cc/8PfMK73V/nano.png" alt="nano" width="50">
+    <img src="../../media/images/Linux/Day-02/image_04.png" alt="image_04">
 </p>
 
 #### Opening and Creating Files
@@ -169,7 +167,7 @@ nano notes.txt
 If `notes.txt` exists, Nano opens it for editing.
 
 <p align="center">
-    <img src="https://i.postimg.cc/Wzvhb7j3/open-file.png" alt="nano open">
+    <img src="../../media/images/Linux/Day-02/image_05.png" alt="image_05">
 </p>
 
 **Example — Create a New File:**
@@ -181,7 +179,7 @@ nano newfile.txt
 If the specified file does not exist, Nano opens a new editing buffer. The file is created when the changes are saved.
 
 <p align="center">
-    <img src="https://i.postimg.cc/XJ0Vw7h7/nano-Create.png" alt="nano create">
+    <img src="../../media/images/Linux/Day-02/image_06.png" alt="image_06">
 </p>
 
 **Open a File Using an Absolute Path:**
@@ -199,7 +197,7 @@ nano +10 notes.txt
 This opens `notes.txt` with the cursor positioned at line 10.
 
 <p align="center">
-    <img src="https://i.postimg.cc/MTG931gY/nano-10.png" alt="nano Specific Line">
+    <img src="../../media/images/Linux/Day-02/image_07.png" alt="image_07">
 </p>
 
 #### Editing Text
