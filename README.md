@@ -1,9 +1,7 @@
 <div id="top"></div>
 
 <p align="center">
-  <a href="https://github.com/mammaddrik/Rootbound">
-    <img src="./media/images/Rootbound.png" alt="Rootbound logo">
-  </a>
+    <img src="./media/images/Logo/Rootbound.png" alt="Rootbound logo">
 </p>
 
 <p align="center">

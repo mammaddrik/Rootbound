@@ -1,9 +1,7 @@
 <div id="top"></div>
 
 <p align="center">
-  <a href="https://github.com/mammaddrik/RootBound">
-    <img src="https://i.postimg.cc/sXLpvjHD/Root-Bound-Linux.png" alt="RootBound Linux">
-  </a>
+    <img src="../media/images/Linux/Linux_Journey.png" alt="Linux Journey">
 </p>
 
 ## About
