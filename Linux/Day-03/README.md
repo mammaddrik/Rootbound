@@ -1,6 +1,3 @@
-
-<div id="top"></div>
-
 <p align="center">
   <a href="https://github.com/mammaddrik/RootBound">
     <img src="https://i.postimg.cc/QtgF51nn/Root-Bound-Day-03.png" alt="RootBound-Day-03">
@@ -2527,5 +2524,5 @@ Answer the following questions without referring to the previous sections:
   &nbsp; | &nbsp;
   <a href="../Day-04/">Day 04 →</a>
   &nbsp; | &nbsp;
-  <a href="#top">Back to top ↑</a>
+  <a href="#day-03--shell-and-other-basics">Back to top ↑</a>
 </p>

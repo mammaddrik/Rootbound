@@ -1,6 +1,3 @@
-
-<div id="top"></div>
-
 <p align="center">
   <a href="https://github.com/mammaddrik/RootBound">
     <img src="https://i.postimg.cc/pVDQmRGL/Root-Bound-Day-07.png" alt="RootBound-Day-07">
@@ -2050,5 +2047,5 @@ Answer the following questions to evaluate your understanding of Linux process m
   &nbsp; | &nbsp;
   <a href="../Day-08/">Day 08 →</a>
   &nbsp; | &nbsp;
-  <a href="#top">Back to top ↑</a>
+  <a href="#day-07--process-management">Back to top ↑</a>
 </p>

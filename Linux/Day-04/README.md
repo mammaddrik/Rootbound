@@ -1,6 +1,3 @@
-
-<div id="top"></div>
-
 <p align="center">
   <a href="https://github.com/mammaddrik/RootBound">
     <img src="https://i.postimg.cc/xd2pd19m/Root-Bound-Day-04.png" alt="RootBound-Day-04">
@@ -3129,5 +3126,5 @@ Complete the following tasks:
   &nbsp; | &nbsp;
   <a href="../Day-05/">Day 05 →</a>
   &nbsp; | &nbsp;
-  <a href="#top">Back to top ↑</a>
+  <a href="#day-04--working-with-files">Back to top ↑</a>
 </p>

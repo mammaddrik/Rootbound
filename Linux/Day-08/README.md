@@ -1,6 +1,3 @@
-
-<div id="top"></div>
-
 <p align="center">
   <a href="https://github.com/mammaddrik/RootBound">
     <img src="https://i.postimg.cc/SQ7FJNZS/Root-Bound-Day-08.png" alt="RootBound-Day-08">
@@ -1654,5 +1651,5 @@ Answer the following questions to test your understanding of Linux user manageme
   &nbsp; | &nbsp;
   <a href="../Day-09/">Day 09 →</a>
   &nbsp; | &nbsp;
-  <a href="#top">Back to top ↑</a>
+  <a href="#day-08--user-management">Back to top ↑</a>
 </p>

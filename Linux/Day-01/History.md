@@ -1,5 +1,3 @@
-<div id="top"></div>
-
 # History
 
 ## Table of Contents
@@ -95,5 +93,5 @@ Some well-known Linux distributions include:
 <p align="right">
   <a href="./README.md">Day 01 →</a>
   &nbsp; | &nbsp;
-  <a href="#top">Back to top ↑</a>
+  <a href="#history">Back to top ↑</a>
 </p>

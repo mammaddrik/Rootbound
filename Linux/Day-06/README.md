@@ -1,6 +1,3 @@
-
-<div id="top"></div>
-
 <p align="center">
   <a href="https://github.com/mammaddrik/RootBound">
     <img src="https://i.postimg.cc/QxjGcXQd/Root-Bound-Day-06.png" alt="RootBound-Day-06">
@@ -2142,5 +2139,5 @@ Answer the following questions to evaluate your understanding of Linux system mo
   &nbsp; | &nbsp;
   <a href="../Day-07/">Day 07 →</a>
   &nbsp; | &nbsp;
-  <a href="#top">Back to top ↑</a>
+  <a href="#day-06--system-monitoring">Back to top ↑</a>
 </p>

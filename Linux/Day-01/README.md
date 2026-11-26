@@ -1,6 +1,3 @@
-
-<div id="top"></div>
-
 <p align="center">
     <img src="../../media/images/Linux/Day-01/image_01.png" alt="image_01">
 </p>
@@ -1158,5 +1155,5 @@ Complete the following tasks using only the commands introduced in this section:
   &nbsp; | &nbsp;
   <a href="../Day-02/README.md">Day 02 →</a>
   &nbsp; | &nbsp;
-  <a href="#top">Back to top ↑</a>
+  <a href="#day-01--linux-fundamentals">Back to top ↑</a>
 </p>

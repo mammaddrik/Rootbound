@@ -1,6 +1,3 @@
-
-<div id="top"></div>
-
 <p align="center">
   <a href="https://github.com/mammaddrik/RootBound">
     <img src="https://i.postimg.cc/mg5Qq4wL/Root-Bound-Day-05.png" alt="RootBound-Day-05">
@@ -6244,5 +6241,5 @@ Your solution should combine `grep`, `awk`, `sort`, `uniq`, `wc`, pipes, redirec
   &nbsp; | &nbsp;
   <a href="../Day-06/">Day 06 →</a>
   &nbsp; | &nbsp;
-  <a href="#top">Back to top ↑</a>
+  <a href="#day-05--text-processing">Back to top ↑</a>
 </p>

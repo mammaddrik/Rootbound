@@ -1,6 +1,3 @@
-
-<div id="top"></div>
-
 <p align="center">
   <a href="https://github.com/mammaddrik/RootBound">
     <img src="https://i.postimg.cc/mrDNbCQ8/Root-Bound-Day-02.png" alt="RootBound-Day-02">
@@ -1294,5 +1291,5 @@ Complete the following tasks without referring to the previous examples:
   &nbsp; | &nbsp;
   <a href="../Day-03/">Day 03 →</a>
   &nbsp; | &nbsp;
-  <a href="#top">Back to top ↑</a>
+  <a href="#day-02--text-editors">Back to top ↑</a>
 </p>
