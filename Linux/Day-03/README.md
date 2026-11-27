@@ -91,7 +91,6 @@
 
 ## Shell and Other Basics
 
-
 ### Command Path
 
 #### Introduction
@@ -135,6 +134,10 @@ You can execute a program directly using its absolute path:
 ```
 
 Absolute paths work independently of the current working directory.
+
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_02.png" alt="image_02">
+</p>
 
 **2. Relative Path**
 
@@ -240,9 +243,14 @@ Example output:
 ```text
 ls is aliased to `ls --color=auto'
 ls is /usr/bin/ls
+ls is /bin/ls
 ```
 
 The exact output depends on your shell configuration.
+
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_03.png" alt="image_03">
+</p>
 
 #### Locating Executable Files
 
@@ -259,7 +267,7 @@ command -v ls
 Example output:
 
 ```text
-/usr/bin/ls
+alias ls='ls --color=auto'
 ```
 
 It can also identify aliases, functions, and builtins.
@@ -288,6 +296,11 @@ To display all matching definitions:
 type -a python3
 ```
 
+```text
+python3 is /usr/bin/python3
+python3 is /bin/python3
+```
+
 **3. which**
 
 Displays the location of an executable by searching directories in `PATH`.
@@ -302,7 +315,7 @@ Example output:
 /usr/bin/ls
 ```
 
-Note that `which` is an external utility and may not accurately describe aliases, functions, or shell builtins. For shell-aware command inspection, prefer `type` or `command -v`.
+**Note:** that `which` is an external utility and may not accurately describe aliases, functions, or shell builtins. For shell-aware command inspection, prefer `type` or `command -v`.
 
 #### Modifying the PATH Variable
 
@@ -368,6 +381,10 @@ To display cached command locations:
 hash -l
 ```
 
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_04.png" alt="image_04">
+</p>
+
 To display the cached location of a specific command:
 
 ```bash
@@ -396,6 +413,10 @@ To inspect the permissions of a file:
 ls -l script.sh
 ```
 
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_05.png" alt="image_05">
+</p>
+
 Example output:
 
 ```text
@@ -410,6 +431,10 @@ To make the script executable for its owner:
 chmod u+x script.sh
 ```
 
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_06.png" alt="image_06">
+</p>
+
 Now it can be executed using:
 
 ```bash
@@ -423,6 +448,10 @@ bash script.sh
 ```
 
 This does not require the file itself to have execute permission, because Bash reads and executes the script.
+
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_07.png" alt="image_07">
+</p>
 
 #### Common Command Path Errors
 
@@ -501,6 +530,7 @@ ls -l ./script.sh
 - Be careful when placing writable directories at the beginning of `PATH`, because they can take priority over system commands.
 - Use `hash -r` when Bash may be using outdated command locations.
 
+---
 
 ### Environment Variables
 
@@ -564,6 +594,10 @@ Output:
 LinuxUser
 ```
 
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_08.png" alt="image_08">
+</p>
+
 **2. Environment Variables**
 
 Environment variables are variables that are exported to the environment of the current shell and passed to its child processes.
@@ -587,6 +621,10 @@ LinuxUser
 ```
 
 The main difference is that exported variables are inherited by child processes, while ordinary shell variables are not.
+
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_09.png" alt="image_09">
+</p>
 
 #### Creating and Assigning Variables
 
@@ -620,6 +658,10 @@ Alice
 Linux
 ```
 
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_10.png" alt="image_10">
+</p>
+
 **Important Rules:**
 
 - Variable names are case-sensitive.
@@ -640,6 +682,10 @@ Incorrect:
 username = "Linux User"
 ```
 
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_11.png" alt="image_11">
+</p>
+
 #### Exporting Variables
 
 The `export` command converts a shell variable into an environment variable.
@@ -653,7 +699,7 @@ export variable_name
 You can also create and export a variable in one command:
 
 ```bash
-export APP_NAME="RootBound"
+export APP_NAME="Rootbound"
 ```
 
 To verify its value:
@@ -673,14 +719,14 @@ Exported variables are available to child processes launched from the current sh
 For example:
 
 ```bash
-export PROJECT="RootBound"
+export PROJECT="Rootbound"
 bash -c 'echo "$PROJECT"'
 ```
 
 Output:
 
 ```text
-RootBound
+Rootbound
 ```
 
 The child Bash process inherits the exported variable from its parent shell.
@@ -813,6 +859,10 @@ The output will be empty if the variable is no longer defined.
 
 Removing a variable from the current shell does not automatically remove copies inherited by processes that were already running.
 
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_12.png" alt="image_12">
+</p>
+
 #### Temporary and Permanent Environment Variables
 
 Environment variables can be configured temporarily or persistently.
@@ -900,6 +950,10 @@ Output:
 Welcome to Linux
 ```
 
+<p align="center">
+  <img src="../../media/images/Linux/Day-03/image_13.png" alt="image_13">
+</p>
+
 There are two important types of quoting.
 
 **1. Double Quotes**
@@ -907,14 +961,14 @@ There are two important types of quoting.
 Double quotes allow variable expansion and command substitution.
 
 ```bash
-name="RootBound"
+name="Rootbound"
 echo "Welcome to $name"
 ```
 
 Output:
 
 ```text
-Welcome to RootBound
+Welcome to Rootbound
 ```
 
 **2. Single Quotes**
@@ -922,7 +976,7 @@ Welcome to RootBound
 Single quotes preserve the literal contents of the text.
 
 ```bash
-name="RootBound"
+name="Rootbound"
 echo 'Welcome to $name'
 ```
 
@@ -1648,7 +1702,7 @@ Example:
 
 ```bash
 cat << EOF
-Welcome to RootBound.
+Welcome to Rootbound.
 Learning Linux step by step.
 Today we are studying redirection.
 EOF
@@ -1657,7 +1711,7 @@ EOF
 Output:
 
 ```text
-Welcome to RootBound.
+Welcome to Rootbound.
 Learning Linux step by step.
 Today we are studying redirection.
 ```
@@ -1725,13 +1779,13 @@ Output:
 Another example:
 
 ```bash
-grep "Linux" <<< "Learning Linux with RootBound"
+grep "Linux" <<< "Learning Linux with Rootbound"
 ```
 
 Output:
 
 ```text
-Learning Linux with RootBound
+Learning Linux with Rootbound
 ```
 
 Here strings are supported by Bash and several other shells, but they are not part of basic POSIX shell syntax.
@@ -1821,7 +1875,7 @@ ls | tee -a files.txt
 You can also write the output to multiple files:
 
 ```bash
-echo "RootBound Linux Notes" | tee file1.txt file2.txt
+echo "Rootbound Linux Notes" | tee file1.txt file2.txt
 ```
 
 #### Practical Redirection Examples
@@ -2409,7 +2463,7 @@ The following exercises are designed to reinforce the concepts and commands intr
    - `SHELL`
    - `PATH`
    - `PWD`
-2. Create a shell variable named `PROJECT` with the value `RootBound`.
+2. Create a shell variable named `PROJECT` with the value `Rootbound`.
 3. Display its value using `echo`.
 4. Export the variable to make it available to child processes.
 5. Start a new Bash process and display the value of `PROJECT`.
@@ -2481,7 +2535,7 @@ Complete the following tasks using the concepts introduced in Day 03:
 3. Create a file named `system-info.txt`.
 4. Save the output of `uname -a` into the file.
 5. Append the current date and time to the same file.
-6. Create an environment variable named `PROJECT_NAME` with the value `RootBound`.
+6. Create an environment variable named `PROJECT_NAME` with the value `Rootbound`.
 7. Export the variable and verify that a child Bash process can access it.
 8. Display the value of `PATH`.
 9. Search for the `grep` command using the appropriate documentation tool.
