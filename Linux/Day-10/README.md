@@ -95,6 +95,19 @@
     - [Package Management Best Practices](#package-management-best-practices)
     - [Additional Resources](#additional-resources)
   - [Practical Exercises](#practical-exercises)
+    - [Exercise 1 — Identifying the Package Manager](#exercise-1--identifying-the-package-manager)
+    - [Exercise 2 — Exploring Package Managers](#exercise-2--exploring-package-managers)
+    - [Exercise 3 — Working with Package Repositories](#exercise-3--working-with-package-repositories)
+    - [Exercise 4 — Finding and Searching for Packages](#exercise-4--finding-and-searching-for-packages)
+    - [Exercise 5 — Installing Packages](#exercise-5--installing-packages)
+    - [Exercise 6 — Listing and Inspecting Installed Packages](#exercise-6--listing-and-inspecting-installed-packages)
+    - [Exercise 7 — Updating and Upgrading Packages](#exercise-7--updating-and-upgrading-packages)
+    - [Exercise 8 — Removing Packages](#exercise-8--removing-packages)
+    - [Exercise 9 — Understanding and Managing Snap Packages](#exercise-9--understanding-and-managing-snap-packages)
+    - [Exercise 10 — Managing Snap Applications](#exercise-10--managing-snap-applications)
+    - [Exercise 11 — Package Management with Shell Scripts](#exercise-11--package-management-with-shell-scripts)
+    - [Exercise 12 — Final Challenge: Linux Package Administration](#exercise-12--final-challenge-linux-package-administration)
+    - [Exercise 13 — Knowledge Check](#exercise-13--knowledge-check)
 
 ---
 
@@ -2209,11 +2222,227 @@ The following table summarizes the most important commands covered in this secti
 
 ---
 
+
 ## Practical Exercises
+
+The following exercises are designed to reinforce the concepts and practical skills introduced in the Package Management section. They focus on searching, installing, inspecting, updating, and removing software packages across different Linux package management systems.
+
+### Exercise 1 — Identifying the Package Manager
+
+1. Identify your Linux distribution using `cat /etc/os-release`.
+2. Display additional system information using `hostnamectl`.
+3. Check which package management tools are available using `command -v`.
+4. Identify the package format used by your distribution.
+5. Determine whether your system uses APT, DNF, YUM, Pacman, or another package manager.
+6. Compare the package management tools available on your system.
+
+### Exercise 2 — Exploring Package Managers
+
+1. Review the basic commands of your distribution's package manager.
+2. Display the package manager version.
+3. Display the package database information.
+4. List the installed packages on your system.
+5. Identify the differences between installing, removing, and upgrading packages.
+6. Compare the commands used by APT, DNF, and Pacman.
+7. Document the equivalent commands for common package management operations.
+
+### Exercise 3 — Working with Package Repositories
+
+1. Identify the configured package repositories on your system.
+2. Inspect the repository configuration files.
+3. Display the enabled and disabled repositories.
+4. Identify the repository providing a specific package.
+5. Refresh the local package metadata.
+6. Examine the repository information associated with an installed package.
+7. Explain the difference between official and third-party repositories.
+8. Identify potential security risks associated with untrusted repositories.
+
+### Exercise 4 — Finding and Searching for Packages
+
+1. Search for the `curl` package using your package manager.
+2. Search for the `wget` package.
+3. Display detailed information about the `git` package.
+4. Check whether `vim` is already installed.
+5. Find the package that provides the `curl` executable.
+6. Display available versions of a selected package.
+7. Compare package descriptions and versions from different repositories.
+8. Record the commands used for each operation.
+
+### Exercise 5 — Installing Packages
+
+1. Refresh your package repository metadata.
+2. Install `curl` and `wget`.
+3. Install `git` and `vim`.
+4. Install multiple packages using a single command.
+5. Verify that each package was installed successfully.
+6. Display the installed version of each application.
+7. Locate the executable files using `command -v`.
+8. Identify the dependencies installed alongside the applications.
+
+### Exercise 6 — Listing and Inspecting Installed Packages
+
+1. Display all installed packages on your system.
+2. Filter the package list to find `curl`, `wget`, and `git`.
+3. Display detailed information about an installed package.
+4. List all files installed by the `curl` package.
+5. Identify which package owns a selected executable.
+6. Display the package installation status.
+7. Inspect the package manager logs.
+8. Identify the differences between installed packages and available repository packages.
+
+### Exercise 7 — Updating and Upgrading Packages
+
+1. Refresh the package repository metadata.
+2. Check for available package updates.
+3. Identify packages that have newer versions available.
+4. Review the proposed package upgrade operations.
+5. Upgrade the installed packages using your distribution's package manager.
+6. Verify the updated package versions.
+7. Inspect the package manager logs to identify the upgrade operations.
+8. Explain the difference between updating repository metadata and upgrading installed packages.
+
+### Exercise 8 — Removing Packages
+
+1. Identify an installed package that is no longer required for your practice environment.
+2. Review its dependencies before removing it.
+3. Remove the selected package using your package manager.
+4. Verify that the package is no longer installed.
+5. Examine the difference between removing and purging packages on Debian-based systems.
+6. Identify automatically installed dependencies that are no longer required.
+7. Inspect the proposed operations before removing unnecessary packages.
+8. Explain why package removal should be performed carefully.
+
+**Note:** Do not remove essential system packages or applications required by your desktop environment. Use packages installed specifically for practice.
+
+### Exercise 9 — Understanding and Managing Snap Packages
+
+1. Check whether Snap is installed on your system.
+2. Display the installed Snap version.
+3. Search for applications using `snap find`.
+4. Display detailed information about a selected Snap package.
+5. Install a test application using Snap.
+6. List all installed Snap packages.
+7. Inspect the installed package version and tracking channel.
+8. Refresh the installed Snap package.
+9. Inspect available revisions using `snap list --all`.
+10. Explore Snap application confinement and available interfaces.
+
+**Note:** If Snap is unavailable on your distribution, install and configure `snapd` first or perform this exercise in a supported virtual machine.
+
+### Exercise 10 — Managing Snap Applications
+
+1. Install a test Snap application.
+2. Inspect its package information using `snap info`.
+3. Identify the channel followed by the application.
+4. Change the application to another available channel, if appropriate.
+5. Inspect its connected interfaces using `snap connections`.
+6. Examine available Snap services using `snap services`.
+7. Inspect application logs when available.
+8. Revert the application to a previous revision if one is available.
+9. Remove the test application.
+10. Verify that the application has been removed successfully.
+
+### Exercise 11 — Package Management with Shell Scripts
+
+Create a shell script named `package-manager.sh` that performs basic package management checks.
+
+The script should:
+
+1. Display the current date and time.
+2. Identify the Linux distribution.
+3. Detect the available package manager.
+4. Display the package manager version.
+5. List the installed packages.
+6. Check for available package updates.
+7. Search for a package provided as a command-line argument.
+8. Display information about the selected package.
+9. Handle unsupported package managers and missing commands.
+10. Display a summary of the performed operations.
+
+Additional requirements:
+
+- Use conditional statements to detect the package manager.
+- Use functions to organize the script.
+- Validate user input.
+- Handle command failures appropriately.
+- Display clear and readable output.
+- Avoid automatically installing, upgrading, or removing packages.
+
+Example execution:
+
+```bash
+chmod +x package-manager.sh
+./package-manager.sh curl
+```
+
+### Exercise 12 — Final Challenge: Linux Package Administration
+
+Perform a complete package management workflow using your Linux distribution's package manager.
+
+Your task is to manage a small collection of software packages while documenting every operation.
+
+**Requirements:**
+
+1. Identify your Linux distribution and package manager.
+2. Inspect the configured repositories.
+3. Search for `curl`, `wget`, `git`, and `vim`.
+4. Display detailed information about these packages.
+5. Install at least two packages that are not already installed.
+6. Verify their installation and identify their dependencies.
+7. List the installed packages and inspect their files.
+8. Check for available updates.
+9. Upgrade the selected packages or the system using the appropriate method.
+10. Review the package management history.
+11. Remove one test package that is no longer needed.
+12. Verify that the package has been removed.
+13. If Snap is supported, install and inspect a test Snap application.
+14. Document the commands and results of each operation.
+
+**Deliverables:**
+
+- A shell script named `package-manager.sh`.
+- A report named `package-management-report.txt`.
+- A list of installed, upgraded, and removed packages.
+- Repository information and package manager details.
+- Screenshots or terminal outputs demonstrating successful operations.
+
+**Additional Challenges:**
+
+- Compare APT, DNF, and Pacman command syntax.
+- Identify a package that has multiple available versions.
+- Investigate a package dependency relationship.
+- Find which package provides a specific executable.
+- Compare a traditional package with its Snap equivalent.
+- Identify the security implications of using third-party repositories.
+
+### Exercise 13 — Knowledge Check
+
+Answer the following questions to evaluate your understanding of Linux package management.
+
+1. What is package management in Linux?
+2. What is a software package?
+3. What information is typically stored in a package database?
+4. What are package dependencies?
+5. What is the difference between a package manager and a package repository?
+6. What are the main differences between APT, DNF, YUM, and Pacman?
+7. What is the difference between `apt update` and `apt upgrade`?
+8. Where are APT repository configurations commonly stored?
+9. Where are DNF repository configurations commonly stored?
+10. How can you search for a package using different package managers?
+11. How can you identify which package provides a specific executable?
+12. What is the difference between `apt remove` and `apt purge`?
+13. What is the purpose of `apt autoremove`?
+14. Why should Arch Linux users avoid partial system upgrades?
+15. How can you list all installed packages?
+16. What is the difference between a package version and a package revision?
+17. What is Snap and how does it differ from traditional packages?
+18. What are the different Snap confinement modes?
+19. How can you update, revert, and remove a Snap application?
+20. Why is it important to use trusted package repositories?
 
 ---
 
-**Goal:** 
+**Goal:** Develop practical skills in managing Linux software packages, working with package managers and repositories, installing and upgrading applications, removing unnecessary packages, and managing Snap applications across Linux distributions.
 
 <p align="right">
   <a href="../Day-09/README.md">← Day 09</a>
