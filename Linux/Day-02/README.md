@@ -21,7 +21,6 @@
       - [Copying, Cutting, and Pasting](#copying-cutting-and-pasting)
       - [Nano Configuration and Appearance](#nano-configuration-and-appearance)
       - [Nano Keyboard Shortcuts](#nano-keyboard-shortcuts)
-      - [Practical Example](#practical-example)
     - [Vim](#vim)
       - [Introduction to Vim](#introduction-to-vim)
       - [History of Vim](#history-of-vim)
@@ -36,7 +35,6 @@
       - [Saving and Exiting](#saving-and-exiting-1)
       - [Vim Configuration and Appearance](#vim-configuration-and-appearance)
       - [Vim Keyboard Shortcuts](#vim-keyboard-shortcuts)
-      - [Practical Example](#practical-example-1)
   - [Practical Exercises](#practical-exercises)
     - [Exercise 1 — Working with Nano](#exercise-1--working-with-nano)
     - [Exercise 2 — Nano Editing and Shortcuts](#exercise-2--nano-editing-and-shortcuts)
@@ -54,7 +52,7 @@
 ### Nano
 
 <p align="center">
-    <img src="../../media/images/Linux/Day-02/image_02.png" alt="image_02" width="300">
+    <img src="../../media/images/Linux/Day-02/image_02.png" alt="image_02" width="150">
 </p>
 
 #### Introduction to Nano
@@ -144,9 +142,6 @@ Therefore:
 
 **Important:** The exact appearance of Nano may vary depending on its version, terminal settings, and configuration.
 
-<p align="center">
-    <img src="../../media/images/Linux/Day-02/image_04.png" alt="image_04">
-</p>
 
 #### Opening and Creating Files
 
@@ -166,9 +161,6 @@ nano notes.txt
 
 If `notes.txt` exists, Nano opens it for editing.
 
-<p align="center">
-    <img src="../../media/images/Linux/Day-02/image_05.png" alt="image_05">
-</p>
 
 **Example — Create a New File:**
 
@@ -178,9 +170,6 @@ nano newfile.txt
 
 If the specified file does not exist, Nano opens a new editing buffer. The file is created when the changes are saved.
 
-<p align="center">
-    <img src="../../media/images/Linux/Day-02/image_06.png" alt="image_06">
-</p>
 
 **Open a File Using an Absolute Path:**
 
@@ -196,9 +185,6 @@ nano +10 notes.txt
 
 This opens `notes.txt` with the cursor positioned at line 10.
 
-<p align="center">
-    <img src="../../media/images/Linux/Day-02/image_07.png" alt="image_07">
-</p>
 
 #### Editing Text
 
@@ -325,7 +311,11 @@ Inserts the contents of Nano's cut buffer at the cursor position.
 **Select Text:**
 
 ```text
-Ctrl + 6
+Ctrl + Shift + 6
+```
+
+```text
+Shift + arrow keys
 ```
 
 Sets or clears the selection mark. Use the arrow keys to extend the selection.
@@ -407,7 +397,7 @@ The following table summarizes commonly used default shortcuts.
 |---|---|
 | `Ctrl + K` | Cut the current line or selected text. |
 | `Ctrl + U` | Paste text from the cut buffer. |
-| `Ctrl + 6` | Set or clear the selection mark. |
+| `Ctrl + Shift + 6` | Set or clear the selection mark. |
 | `Alt + 6` | Copy selected text. |
 | `Backspace` | Delete the character before the cursor. |
 | `Delete` | Delete the character under the cursor. |
@@ -420,10 +410,6 @@ The following table summarizes commonly used default shortcuts.
 |---|---|
 | `Ctrl + A` | Move to the beginning of the current line. |
 | `Ctrl + E` | Move to the end of the current line. |
-| `Ctrl + Y` | Move one page up. |
-| `Ctrl + V` | Move one page down. |
-| `Ctrl + _` | Go to a specific line and column. |
-| `Ctrl + C` | Display the current cursor position. |
 | `Alt + \` | Move to the beginning of the file. |
 | `Alt + /` | Move to the end of the file. |
 
@@ -453,51 +439,6 @@ The following table summarizes commonly used default shortcuts.
 - If an `Alt` shortcut does not work, pressing `Esc` followed by the corresponding key may work as an alternative.
 - Press `Ctrl + G` inside Nano to view the built-in help and check the available shortcuts.
 
-#### Practical Example
-
-Let's create a simple text file using Nano and practice some of the commands introduced above.
-
-**Step 1 — Create a File:**
-
-```bash
-nano linux-notes.txt
-```
-
-**Step 2 — Enter Some Text:**
-
-```text
-Linux is an open-source operating system.
-
-Nano is a simple terminal-based text editor.
-
-Learning Linux commands is an important step
-toward understanding system administration.
-```
-
-**Step 3 — Save the File:**
-
-Press `Ctrl + O`, then press `Enter` to confirm the filename.
-
-**Step 4 — Search for a Word:**
-
-Press `Ctrl + F`, enter `Linux`, and press `Enter`.
-
-**Step 5 — Exit Nano:**
-
-Press `Ctrl + X`.
-
-**Step 6 — Verify the File:**
-
-Back in the terminal, execute:
-
-```bash
-cat linux-notes.txt
-```
-
-The contents of the file should be displayed in the terminal.
-
----
-
 **Additional Resources:**
 
 - [GNU Nano Official Website](https://nano-editor.org/)
@@ -505,8 +446,13 @@ The contents of the file should be displayed in the terminal.
 - [GNU Nano FAQ](https://nano-editor.org/faq.html)
 - [GNU Nano Keyboard Shortcuts](https://nano-editor.org/cheatsheet.html)
 
+---
 
 ### Vim
+
+<p align="center">
+    <img src="../../media/images/Linux/Day-02/image_04.png" alt="image_04" width="150">
+</p>
 
 #### Introduction to Vim
 
@@ -516,7 +462,6 @@ Vim is an enhanced version of the original `vi` editor and provides many additio
 
 Unlike Nano, Vim uses a **modal editing system**. This means that different keys perform different actions depending on the current mode.
 
-Vim is commonly used by Linux administrators, developers, and system engineers to edit configuration files, write scripts, and manage text directly from the terminal.
 
 **Key Features:**
 
@@ -570,6 +515,10 @@ vim --version
 
 This command displays the installed Vim version and its available features.
 
+<p align="center">
+    <img src="../../media/images/Linux/Day-02/image_05.png" alt="image_05">
+</p>
+
 #### Understanding the Vim Interface
 
 When Vim starts, it opens a terminal-based editing environment.
@@ -602,6 +551,7 @@ h    Move left
 j    Move down
 k    Move up
 l    Move right
+arrow keys
 ```
 
 Press `Esc` to return to Normal Mode from other editing modes.
@@ -631,9 +581,8 @@ Visual Mode allows users to select portions of text before performing operations
 |---|---|
 | `v` | Select text character by character. |
 | `V` | Select entire lines. |
-| `Ctrl + V` | Select a rectangular block of text. |
 
-After selecting text, you can use commands such as `y` to copy or `d` to delete the selection.
+After selecting text, you can use commands such as `y` to copy and `p` to paste or `d` to delete the selection.
 
 Press `Esc` to leave Visual Mode.
 
@@ -675,7 +624,7 @@ Type the replacement text, then press `Esc` to return to Normal Mode.
 |---|---|---|
 | Normal | Navigation and editing commands. | `Esc` |
 | Insert | Enter and modify text. | `i`, `a`, `o`, etc. |
-| Visual | Select text. | `v`, `V`, `Ctrl + V` |
+| Visual | Select text. | `v`, `V` |
 | Command-Line | Execute editor commands. | `:` |
 | Replace | Overwrite existing text. | `R` |
 
@@ -1057,80 +1006,6 @@ The following tables summarize commonly used Vim commands.
 - Some commands can be combined with numbers. For example, `5dd` deletes five lines.
 - Press `:help` inside Vim to access its built-in documentation.
 
-#### Practical Example
-
-Let's create and edit a text file using Vim.
-
-**Step 1 — Create a File:**
-
-```bash
-vim linux-notes.txt
-```
-
-**Step 2 — Enter Insert Mode:**
-
-Press:
-
-```text
-i
-```
-
-**Step 3 — Enter Some Text:**
-
-```text
-Linux is an open-source operating system.
-
-Vim is a powerful terminal-based text editor.
-
-Learning Linux commands is an important step
-toward understanding system administration.
-```
-
-**Step 4 — Return to Normal Mode:**
-
-Press:
-
-```text
-Esc
-```
-
-**Step 5 — Navigate Through the Text:**
-
-Use the arrow keys or navigation commands such as:
-
-```text
-gg
-G
-w
-b
-```
-
-**Step 6 — Save the File:**
-
-Enter:
-
-```vim
-:w
-```
-
-**Step 7 — Exit Vim:**
-
-Enter:
-
-```vim
-:q
-```
-
-**Step 8 — Verify the File:**
-
-Back in the terminal, execute:
-
-```bash
-cat linux-notes.txt
-```
-
-The contents of the file should be displayed in the terminal.
-
 ---
 
 **Additional Resources:**
@@ -1159,7 +1034,7 @@ The following exercises are designed to help reinforce the concepts and commands
 
 1. Open `nano-practice.txt`.
 2. Navigate through the text using the arrow keys.
-3. Select a portion of text using `Ctrl + 6`.
+3. Select a portion of text using `Ctrl + Shift + 6`.
 4. Copy the selected text using `Alt + 6`.
 5. Cut a line using `Ctrl + K`.
 6. Paste the copied or cut text using `Ctrl + U`.
